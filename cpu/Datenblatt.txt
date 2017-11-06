@@ -1,0 +1,75 @@
+
+CPU-Datenblatt für Seminararbeit
+
+Befehlsbreite : 8 Bit
+Argument: 8 bit
+(Befehlsbreite: 16bit?)
+
+Drain: 8 bit 
+Source: 8 bit
+
+Befehle 
+
+
+
+00000000 NOP
+00000001 MOV
+00000010 IN // Wert in Register laden 
+00000011 STO
+00000100 LOD
+00000101 PUSH
+00000110 POP
+00000111 <Frei>
+00001000 PRN
+00001001 CALL // Ruft Subroutine auf TODO
+00001010 RTS // Springt zu aufrufendem Programmabschnitt zurück TODO	
+00001011 ADD
+00001100 SUB
+00001101 INC
+00001110 DEC	
+00001111 COMP
+00010000 SHIFTL
+00010001 SHIFTR
+00010010 ROTL
+00010011 ROTR
+00010100 AND
+00010101 OR
+00010110 NOR
+00010111 NAND
+00011000 XOR
+00011001 XNOR
+
+
+
+MOV 00000001
+Drain -> Zielregister
+Source -> Quellregister
+Verschiebt den Wert aus Register [Source] in Register [Drain]
+Bsp: MOV R1->R3
+01000003
+
+IN 00000010 
+Lädt 16-Bit Wert in Registersatz. Register wird über Parameter ausgewählt.
+Drain + Source bilden 16 Bit Wert.
+
+STO
+Speichert Wert aus Register im RAM an übergebener Speicheradresse.
+Bsp: STO R4->0x00fd
+
+PUSH
+Opcode 00000101
+Argument Zu speicherndes Register
+
+POP 
+Opcode 00000110
+Argument Zu speicherndes Register
+
+ALU Befehle
+Opcode -> Art der Verrechnung
+Argument -> Zielregister
+Drain & Source -> Zu verrechnende Register
+
+
+
+
+
