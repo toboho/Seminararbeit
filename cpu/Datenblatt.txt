@@ -38,6 +38,8 @@ Befehle
 00010111 NAND
 00011000 XOR
 00011001 XNOR
+00011010 JIT
+00011011 JIF
 
 
 
@@ -68,6 +70,19 @@ ALU Befehle
 Opcode -> Art der Verrechnung
 Argument -> Zielregister
 Drain & Source -> Zu verrechnende Register
+
+JIT
+Jump if True
+Spring zu gegebener Adresse wenn Flag gesetzt ist. Auswahl des Flags über Argument.
+Flags: 0001 Equal
+	   0010 Greater
+	   0100 Carry
+	   1000 Borrow
+4 Flag Bits unbelegt
+
+JIF Jump if False
+analog zu JIT, allerdings wird gesprungen wenn Flag nicht gesetzt ist.
+
 
 
 
