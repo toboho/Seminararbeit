@@ -21,7 +21,7 @@ Befehle
 00000110 POP
 00000111 <Frei>
 00001000 PRN
-00001001 CALL // Ruft Subroutine auf TODO
+00001001 CALL 
 00001010 RTS // Springt zu aufrufendem Programmabschnitt zurück TODO	
 00001011 ADD
 00001100 SUB
@@ -73,7 +73,7 @@ Argument Zu speicherndes Register
 
 CALL 
 Opcode 00001001
-Pushed PC auf Stack. PC wird mit Adresse aus Drain+Source geladen.
+Pushed PC auf Stack. PC wird mit Adresse 16-Bit aus Drain+Source geladen.
 
 ALU Befehle
 Opcode -> Art der Verrechnung
