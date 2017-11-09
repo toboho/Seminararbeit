@@ -1,7 +1,7 @@
 
 CPU-Datenblatt für Seminararbeit
 
-Befehlsbreite : 8 Bit
+Opcode : 8 Bit
 Argument: 8 bit
 (Befehlsbreite: 16bit?)
 
@@ -40,7 +40,7 @@ Befehle
 00011001 XNOR
 00011010 JIT 
 00011011 JIF
-00011100 JMP //unbedingter Sprung
+00011100 JMP //unbedingter Sprung TODO
 
 
 
