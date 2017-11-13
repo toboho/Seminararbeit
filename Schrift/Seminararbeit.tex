@@ -1,4 +1,6 @@
 \documentclass[12pt]{article}
+
+\usepackage{caption}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage{graphicx}
@@ -6,16 +8,18 @@
 \usepackage{fancyhdr}
 \usepackage[onehalfspacing]{setspace}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
+
 \graphicspath{{images/}}
+
+\captionsetup[table]{position=bottom}
+
 
 
 \pagestyle{fancy}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
 \fancyhf{}
-\fancyhead[L]{\nouppercase}{\leftmark}
-\fancyfoot[C]{\thepage}
-
+\fancyhead[L]{\rightmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{1pt}
 
 \begin{document}
 \begin{titlepage}
@@ -39,14 +43,6 @@
 \end{titlepage}
 \newpage
 
-
-
-
-%Verschönern
-\title{Aufbau und Funktion eines Prozessors}
-\author{Marco Vogel}
-\maketitle
-\newpage
 
 \tableofcontents
 \newpage
@@ -121,11 +117,126 @@ Das Statusregister(SR) werden zur Ausführung von bedingten Sprunganweisungen ge
 \subsection{Exceptions}
 \subsection{Subroutinen}
 
-
+\newpage
 
 \section{Planung und Entwurf eines Prozessors}
+Der Inhalt der bisherigen Arbeit handelte von den Komponenten einer CPU und deren Funktionsweißen. Um den dargestellten Inhalt praktischer Vermitteln zu können, wird nun mittels einer Simulationssoftware eine CPU von Grund auf erstellt. Dieser Prozessor stellt keinen Vergleich zu modernen Prozessoren her. Er soll lediglich die Funktionsweiße der essentiellsten Bauteile beschreiben und einfache Operationen wie Sprünge und Subroutinen unterstützen.
 \subsection{Befehlsbreite}
+Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbreite. Je nachdem welche Features eingebaut werden sollen kann der Befehlssatz eingeteilt werden. Logisim bietet die Möglichkeit, einen 32-Bit Bus zu nuzten. Zu Erklärungszwecken werden die 32-Bit wie folgt aufgeteilt:
+
+\begin{table}[!htb]
+\centering
+\caption{Befehlsbus}
+\label{Befehlsbus}
+\begin{tabular}{|r|l|}
+  \hline
+  8-Bit & Opcode \\
+  \hline
+  8-Bit & Argument \\ 
+  \hline
+  16-Bit & Value\\
+  \hline
+  
+\end{tabular}
+\end{table}
+
+\indent
+\textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
+\newline
+\indent
+\textbf{Argument: } Das Argument wird nicht bei jedem Befehl verwendet. Diese 8-Bit sind eine Hilfestellung für Operationen bei denen eine genauere Spezifikation der zu ausführenden Tätigkeit benötigt wird. Beispielsweise wird bei der arithmetischen Operation ADD mit Hilfe des Argumentes angegeben, in welches Register das Ergebnis gespeichert werden soll.
+\newline
+\indent
+\textbf{Value: } Die verbleibenden 16-Bit werden als Wertangabe benutzt. Durch diese 16-Bit wird gleichzeitig die Befehlsbusbreite innerhalb des Prozessors festgelegt, das heißt der Prozessor kann mit Zahlen arbeiten welche innerhalb der 16-Bit Grenze liegen (ohne Vorzeichen maximal 65536). Einige Befehle in dieser CPU benötigen allerdings drei Parameter zur Ausführung. Um mit dem Argument drei Parameter bereitzustellen können die letzten 16-Bit in zwei 8-Bit Blöcke gespalten werden. Diese werden hier Quelle und Ziel genannt. Der Befehlssatz sieht bei diesen speziellen Befehlen folgendermaßen aus: 
+\begin{table}[!htb]
+\centering
+\caption{Befehlsbus mit drei Parametern}
+\label{Befehlsbus3P}
+\begin{tabular}{|r|l|}
+  \hline
+  8-Bit & Opcode \\
+  \hline
+  8-Bit & Argument \\ 
+  \hline
+  8-Bit & Ziel\\
+  \hline
+  8-Bit & Quelle\\
+  \hline
+\end{tabular}
+\end{table}
+\newline
+Befehle, welche diese Aufteilung benötigen sind zum Beispiel ALU-Operationen oder der MOV Befehl, welcher den Wert eines Register in ein anderes schiebt.
+
 \subsection{Befehlssatz}
+
+Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
+\newpage
+\begin{table}[!htb]
+\centering
+\caption{Befehlssatz von VI-17}
+\begin{tabular}{|r|l|}
+  \hline
+  00000000 & NOP \\
+  \hline
+  00000001 & MOV\\ 
+  \hline
+  00000010 & IN\\
+  \hline
+  00000011 & STO\\
+  \hline
+  00000100 & LEA\\
+  \hline
+  00000101 & PUSH \\ 
+  \hline
+  00000110 & POP\\
+  \hline
+  00000111 & -----\\
+ \hline
+  00001000 & ----- \\
+  \hline
+  00001001 & CALL\\ 
+  \hline
+  00001010 & RETURN\\
+  \hline
+  00001011 & ADD\\
+  \hline 
+ 00001100 & SUB \\
+  \hline
+  00001101 & INC\\ 
+  \hline
+  00001110 & DEC\\
+  \hline
+  00001111 & COMP\\
+  \hline
+  00010000 & SHIFTL\\
+  \hline
+  00010001 & SHIFTR\\ 
+  \hline
+  00010010 & ROTL\\
+  \hline
+  00010011 & ROTR\\
+  \hline
+  00010100 & AND\\
+  \hline
+  00010101 & OR \\ 
+  \hline
+  00010110 & NOR\\
+  \hline
+  00010111 & NAND\\
+  \hline
+  00011000 & XOR\\
+  \hline
+  00011001 & XNOR \\
+  \hline
+  00011010 & JIT\\
+  \hline
+  00011011 & JIF\\
+  \hline
+  00011100 & JUMP\\
+  \hline
+\end{tabular}
+\end{table}
+\newpage
 \subsection{Speicher}
 \subsubsection{RAM/ROM}
 \subsubsection{Stack}
@@ -139,3 +250,22 @@ Das Statusregister(SR) werden zur Ausführung von bedingten Sprunganweisungen ge
 \bibliography{Referenzen}
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
