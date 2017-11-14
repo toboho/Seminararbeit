@@ -237,13 +237,42 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
 \end{tabular}
 \end{table}
 \newpage
+Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Die einzelnen Befehle des obigen Befehlssatzes werden nun kurz beschrieben.
+\newline
+\indent 
+\textbf{00000000 NOP: }No Operation. Es wird keine Operation ausgeführt.
+\newline
+\indent 
+\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. 
+
+
 \subsection{Speicher}
+
 \subsubsection{RAM/ROM}
 \subsubsection{Stack}
 
 \section{Implementierung einer Prozessorsimulation in Logisim}
 \subsection{Logisim}
+Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen. Ein solch einfacher Prozessor soll nun im Folgenden implementiert werden.
 \subsection{Prozessor Komponenten}
+Der Prozessor besteht aus fünf Hauptkomponenten:
+\begin{itemize}
+\item Control Unit - Steuerungseinheit
+\item ALU - Arithmetisch Logische Einheit
+\item Registersatz 
+\item RAM/Stack
+\item ROM
+\end{itemize}
+
+\textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. In Logisim wird der Befehlsbus mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird sendet Logisim die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum beschreiben freizuschalten.
+
+\begin{figure}[!htb]
+\includegraphics[scale=0.40]{circ}
+\caption{Darstellung des RegisterwerkTODO}
+\centering
+\label{fig:register}
+\end{figure}
+
 \subsection{Ausführung eines Assemblerprogrammes}
 
 \newpage
