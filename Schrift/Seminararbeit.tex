@@ -264,11 +264,20 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \item ROM
 \end{itemize}
 
-\textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. In Logisim wird der Befehlsbus mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird sendet Logisim die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum beschreiben freizuschalten.
+\textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. Der Befehlsbus wird mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird sendet die CU die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum beschreiben freizuschalten.
 
 \begin{figure}[!htb]
-\includegraphics[scale=0.40]{circ}
-\caption{Darstellung des RegisterwerkTODO}
+\includegraphics[scale=0.40]{cu}
+\caption{Darstellung des Steuerwerks}
+\centering
+\label{fig:register}
+\end{figure}
+
+\newpage
+\textbf{Registersatz: }
+\begin{figure}[!htb]
+\includegraphics[scale=0.40]{register}
+\caption{Darstellung des Registersatzes}
 \centering
 \label{fig:register}
 \end{figure}
