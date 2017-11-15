@@ -5,6 +5,7 @@
 \usepackage[german]{babel}
 \usepackage{graphicx}
 \usepackage{svg}
+\usepackage{wrapfig}
 \usepackage{fancyhdr}
 \usepackage[onehalfspacing]{setspace}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
@@ -126,7 +127,7 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
 
 \begin{table}[!htb]
 \centering
-\caption{Befehlsbus}
+\caption{Befehlsbusaufteilung}
 \label{Befehlsbus}
 \begin{tabular}{|r|l|}
   \hline
@@ -139,6 +140,10 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
   
 \end{tabular}
 \end{table}
+
+
+
+
 
 \indent
 \textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
@@ -237,13 +242,28 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
 \end{tabular}
 \end{table}
 \newpage
+
+
+\begin{wraptable}{r}{5.5cm}
+
+\end{wraptable}
+
 Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Die einzelnen Befehle des obigen Befehlssatzes werden nun kurz beschrieben.
 \newline
 \indent 
 \textbf{00000000 NOP: }No Operation. Es wird keine Operation ausgeführt.
 \newline
 \indent 
-\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. 
+\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. Beispiel: MOV R2,R3. Nach diesem Befehl steht der Wert von R2 in Register R3.
+\newline
+\indent 
+\textbf{00000010 IN: } Initialize. Dieser Befehl wird benutzt um einen 16-Bit Wert in ein angegebenes Register zu laden. Beispiel: IN R1,0x35f3. Dieser Befehl wird den Hex-Wert 0x35f3(Dezimal 13.811) in Register 1 laden. Er wird dazu benutzt, variablen zu initialisieren.Dies ist die einzige Möglichkeit, Zahlen in den Prozessor zu laden.
+\newline
+\indent 
+\textbf{00000011 STO: } Store in RAM. Mittels STO kann der Wert eines Registers in den  Arbeitsspeicher an eine bestimmte Adresse geschrieben werden. \newline Beispiel: STO R3,0x1111. Hier wird der Wert des Registers R3 in die Speicherzelle an der Stelle 0x1111 im RAM geladen.
+\newline
+\indent 
+\textbf{00000100 LEA: } Load Effective Address. LEA lädt den Wert einer Speicherzelle in ein Register. Beispiel: LEA 0xffff,R2. Der Wert der Speicherzelle mit der Adresse 0xffff steht nun in R2.
 
 
 \subsection{Speicher}
@@ -273,10 +293,11 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \label{fig:register}
 \end{figure}
 
+
 \newpage
 \textbf{Registersatz: }
 \begin{figure}[!htb]
-\includegraphics[scale=0.40]{register}
+\includegraphics[scale=0.50]{register}
 \caption{Darstellung des Registersatzes}
 \centering
 \label{fig:register}
