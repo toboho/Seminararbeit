@@ -376,9 +376,50 @@ End of assembler dump.
 \caption[Assemblercode der main Methode]{Assemblercode der main-Methode}
 \end{code}
 
-In der Zeile main +15 wird die Variable counter mit 0 initialisiert und auf dem Stack an Offset 0x8 plaziert. 
+In der Zeile main +15 wird die Variable counter mit 0 initialisiert und auf dem Stack an Offset 0x8 des Base Pointers platziert. 
 Anschließend wird die Laufvariable i der for-Schleife in Zeile main+22 mit dem Wert 1 an Offset 0x4 des Base Pointers im Stack initialisiert.
-Erster Durchlauf for-Schleife: 
+Erster Durchlauf for-Schleife: Zeile +29 Die Laufvariable i wird mit 0xffff (dezimal: 65536) verglichen. Anschließend wird mittels des Assembler-Befehls ja (jump if above) geprüft, welche Flag der vorherige Compare Befehl gesetzt hat. Wenn im Flagregister das greater Bit gesetzt wurde, springt das Programm an die Adresse $0x000000000040089c$ (main+62), also aus for-Schleife raus, da die Schleifenbedingung $(i<65536)$ nicht mehr erfüllt ist. Wenn kein Sprung auftritt, läuft das Programm weiter und ruft an Stelle main+43 die Funktion checkIfPrime auf. Diese Funktion erwartet allerdings einen Übergabeparameter, dieser wird in Register \$edi (main+41)abgelegt. 
+Der Rückgabewert der Funktion steht daraufhin, wenn die Funktion durchlaufen und beendet wurde, in Register al. Da checkIfPrime den Rückgabetyp boolean besitzt steht in Register al entweder eine 0 wenn es keine Primzahl war, oder 1 wenn es eine Primzahl war die übergeben wurde. Der Befehl test an Stelle main+48 führt ein bitweise logisches UND zwischen al und al aus. Hier Prüft der Prozessor, ob das Ergebnis ungleich null war und setzt das ZF-Bit (Zero Flag). Wenn das Flag-Bit nicht gesetzt wurde wird das Programm ganz normal weitergeführt. Die counter Variable wird inkrementiert (main+52) und die Laufvariable i wird um zwei erhöht (main+56), daraufhin wird an Stelle main+29 gesprungen und der nächste Schleifendurchgang beginnt.
+
+\begin{code}[!htb]
+\begin{lstlisting}
+Dump of assembler code for function _Z12checkIfPrimej:
+   0x0000000000400816 <+0>:	push   %rbp
+   0x0000000000400817 <+1>:	mov    %rsp,%rbp
+   0x000000000040081a <+4>:	mov    %edi,-0x14(%rbp)
+   0x000000000040081d <+7>:	cmpl   $0x1,-0x14(%rbp)
+   0x0000000000400821 <+11>:	ja     0x40082a <_Z12checkIfPrimej+20>
+   0x0000000000400823 <+13>:	mov    $0x0,%eax
+   0x0000000000400828 <+18>:	jmp    0x40085c <_Z12checkIfPrimej+70>
+   0x000000000040082a <+20>:	movl   $0x2,-0x4(%rbp)
+   0x0000000000400831 <+27>:	mov    -0x4(%rbp),%eax
+   0x0000000000400834 <+30>:	cmp    -0x14(%rbp),%eax
+   0x0000000000400837 <+33>:	jae    0x400857 <_Z12checkIfPrimej+65>
+   0x0000000000400839 <+35>:	mov    -0x14(%rbp),%eax
+   0x000000000040083c <+38>:	mov    $0x0,%edx
+   0x0000000000400841 <+43>:	divl   -0x4(%rbp)
+   0x0000000000400844 <+46>:	mov    %edx,%eax
+   0x0000000000400846 <+48>:	test   %eax,%eax
+   0x0000000000400848 <+50>:	jne    0x400851 <_Z12checkIfPrimej+59>
+   0x000000000040084a <+52>:	mov    $0x0,%eax
+   0x000000000040084f <+57>:	jmp    0x40085c <_Z12checkIfPrimej+70>
+   0x0000000000400851 <+59>:	addl   $0x1,-0x4(%rbp)
+   0x0000000000400855 <+63>:	jmp    0x400831 <_Z12checkIfPrimej+27>
+   0x0000000000400857 <+65>:	mov    $0x1,%eax
+   0x000000000040085c <+70>:	pop    %rbp
+   0x000000000040085d <+71>:	retq   
+End of assembler dump.
+
+\end{lstlisting}
+\caption[Assemblercode der checkIfPrime Methode]{Assemblercode der checkIfPrime-Methode}
+\end{code}
+\noindent
+In Code Listing 3 ist der Assemblerdump der Funktion checkIfPrime zu sehen.
+
+
+
+
+
 \newpage
 \bibliography{Referenzen}
 
