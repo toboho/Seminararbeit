@@ -7,6 +7,7 @@
 *.xref 
 *.pdx 
 *.pnd 
+*.jar
 *.bbl 
 *.bcf 
 *.auto 
