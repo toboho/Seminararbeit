@@ -4,8 +4,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage{graphicx}
-\usepackage{svg}
-\usepackage{wrapfig}
+\usepackage{svg}	
+\usepackage{url}
 \usepackage{fancyhdr}
 \usepackage[onehalfspacing]{setspace}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
@@ -52,9 +52,17 @@
 
 
 \section{Motivation}
-\section{Informationsverarbeitung}
+\section{Zahlensysteme}
+Unser geläufiges Zahlensystem ist das Dezimalsystem. Das bedeuted, dass Zahlen mit folgender Formel gebildet werden:
+$$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i$$
+Somit ergibt sich für die Dezimalzahl 245:
+$$Z=2*10^2+4*10^1+5*10^0 = 245$$
+Die Basis der Wertepotenz spiegelt das Zahlensystem wieder welches dargestellt wird, weshalb die Formel im Allgemeinen darstellbar ist als Zahl $Z$ mit Basis $B$:
+$$Z=\sum\limits_{i=0}^{n-1} a_i * B^i$$
+Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeingnet. Ein Prozessor besteht aus vielen kleinen Transistoren, diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt. AN und AUS, Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz entwickelte die Dyadik, die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren viel intuitiver, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{wiki:dual}.
+%HEX-System vllt noch
 \subsection{Binäre Darstellung von Zahlen}
-
+Zahlen im Dualsystem können vorzeichenlos und vorzeichenbehaftet dargestellt werden. Dies ist nötig um die Beschreibung von negativen Dualzahlen zu ermöglichen.
 \section{Logische Schaltglieder}
 \subsection{AND-Gatter}
 \subsection{OR-Gatter}
@@ -127,7 +135,7 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
 
 \begin{table}[!htb]
 \centering
-\caption{Befehlsbusaufteilung}
+\caption{Befehlsbus}
 \label{Befehlsbus}
 \begin{tabular}{|r|l|}
   \hline
@@ -140,10 +148,6 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
   
 \end{tabular}
 \end{table}
-
-
-
-
 
 \indent
 \textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
@@ -242,28 +246,13 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
 \end{tabular}
 \end{table}
 \newpage
-
-
-\begin{wraptable}{r}{5.5cm}
-
-\end{wraptable}
-
 Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Die einzelnen Befehle des obigen Befehlssatzes werden nun kurz beschrieben.
 \newline
 \indent 
 \textbf{00000000 NOP: }No Operation. Es wird keine Operation ausgeführt.
 \newline
 \indent 
-\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. Beispiel: MOV R2,R3. Nach diesem Befehl steht der Wert von R2 in Register R3.
-\newline
-\indent 
-\textbf{00000010 IN: } Initialize. Dieser Befehl wird benutzt um einen 16-Bit Wert in ein angegebenes Register zu laden. Beispiel: IN R1,0x35f3. Dieser Befehl wird den Hex-Wert 0x35f3(Dezimal 13.811) in Register 1 laden. Er wird dazu benutzt, variablen zu initialisieren.Dies ist die einzige Möglichkeit, Zahlen in den Prozessor zu laden.
-\newline
-\indent 
-\textbf{00000011 STO: } Store in RAM. Mittels STO kann der Wert eines Registers in den  Arbeitsspeicher an eine bestimmte Adresse geschrieben werden. \newline Beispiel: STO R3,0x1111. Hier wird der Wert des Registers R3 in die Speicherzelle an der Stelle 0x1111 im RAM geladen.
-\newline
-\indent 
-\textbf{00000100 LEA: } Load Effective Address. LEA lädt den Wert einer Speicherzelle in ein Register. Beispiel: LEA 0xffff,R2. Der Wert der Speicherzelle mit der Adresse 0xffff steht nun in R2.
+\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. 
 
 
 \subsection{Speicher}
@@ -293,11 +282,10 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \label{fig:register}
 \end{figure}
 
-
 \newpage
 \textbf{Registersatz: }
 \begin{figure}[!htb]
-\includegraphics[scale=0.50]{register}
+\includegraphics[scale=0.40]{register}
 \caption{Darstellung des Registersatzes}
 \centering
 \label{fig:register}
