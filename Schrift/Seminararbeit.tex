@@ -1,11 +1,13 @@
 \documentclass[12pt]{article}
-
+\usepackage{caption}
 \usepackage{caption}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage{graphicx}
 \usepackage{svg}	
+\usepackage{listings}
 \usepackage{url}
+\usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage[onehalfspacing]{setspace}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
@@ -14,6 +16,14 @@
 
 \captionsetup[table]{position=bottom}
 
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+
+\DeclareCaptionType{code}[Code Listing][List of Code Listings] 
 
 
 \pagestyle{fancy}
@@ -47,7 +57,9 @@
 
 \tableofcontents
 \newpage
-\listoffigures
+\listofcodes
+
+
 \bibliographystyle{plain}
 
 
@@ -291,8 +303,82 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \label{fig:register}
 \end{figure}
 
-\subsection{Ausführung eines Assemblerprogrammes}
+\newpage
+\subsection{Entwicklung und Ausführung eines Programmes}
+Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter einem aktuellen Ubuntu kompiliert.
 
+\begin{code}
+\begin{lstlisting}
+bool checkIfPrime(unsigned int x){
+	if(x<2) return false;
+	unsigned int i=2;
+	for(i;i<x;i++){
+		if(x%i == 0){
+			return false;
+		}
+	}
+	return true;
+}
+
+int main(int argc, char const *argv[])
+{
+	int counter=0;
+	for(unsigned int i=1;i<65536;i+=2){
+		if(checkIfPrime(i)){
+			counter++;
+		}
+	}
+	std::cout << counter << std::endl; //Ausgabe 6492
+	return 0;
+}
+\end{lstlisting}
+\caption[C++ Code Primzahlenzählen]{C++ Code Primzahlenzählen}
+\end{code}
+
+
+
+Um dieses Programm auf der VI-17 ausführen zu können muss es im Assembler der CPU neu geschrieben werden. Da Assembler eine sehr hardwarenahe Sprache ist erleichtern wir uns die Entwicklung und betrachten den Assemblercode des C++ Programms, um die grobe Struktur sehen zu können, welche die CPU ausführt. Der Assemblercode wird mittels GDB sichtbar.
+\newpage
+
+
+\begin{code}
+\begin{lstlisting}
+Dump of assembler code for function main:
+   0x000000000040085e <+0>:	push   %rbp
+   0x000000000040085f <+1>:	mov    %rsp,%rbp
+   0x0000000000400862 <+4>:	sub    $0x20,%rsp
+   0x0000000000400866 <+8>:	mov    %edi,-0x14(%rbp)
+   0x0000000000400869 <+11>:	mov    %rsi,-0x20(%rbp)
+   0x000000000040086d <+15>:	movl   $0x0,-0x8(%rbp)
+   0x0000000000400874 <+22>:	movl   $0x1,-0x4(%rbp)
+   0x000000000040087b <+29>:	cmpl   $0xffff,-0x4(%rbp)
+   0x0000000000400882 <+36>:	ja     0x40089c <main+62>
+   0x0000000000400884 <+38>:	mov    -0x4(%rbp),%eax
+   0x0000000000400887 <+41>:	mov    %eax,%edi
+   0x0000000000400889 <+43>:	callq  0x400816 <_Z12checkIfPrimej>
+   0x000000000040088e <+48>:	test   %al,%al
+   0x0000000000400890 <+50>:	je     0x400896 <main+56>
+   0x0000000000400892 <+52>:	addl   $0x1,-0x8(%rbp)
+   0x0000000000400896 <+56>:	addl   $0x2,-0x4(%rbp)
+   0x000000000040089a <+60>:	jmp    0x40087b <main+29>
+   0x000000000040089c <+62>:	mov    -0x8(%rbp),%eax
+   0x000000000040089f <+65>:	mov    %eax,%esi
+   0x00000000004008a1 <+67>:	mov    $0x601060,%edi
+   0x00000000004008a6 <+72>:	callq  0x4006a0 <_ZNSolsEi@plt>
+   0x00000000004008ab <+77>:	mov    $0x400700,%esi
+   0x00000000004008b0 <+82>:	mov    %rax,%rdi
+   0x00000000004008b3 <+85>:	callq  0x4006f0 <_ZNSolsEPFRSoS_E@plt>
+   0x00000000004008b8 <+90>:	mov    $0x0,%eax
+   0x00000000004008bd <+95>:	leaveq 
+   0x00000000004008be <+96>:	retq   
+End of assembler dump.
+\end{lstlisting}
+\caption[Assemblercode der main Methode]{Assemblercode der main Methode}
+\end{code}
+
+In der Zeile main +15 wird die Variable counter mit 0 initialisiert und auf dem Stack an Offset 0x8 plaziert. 
+Anschließend wird die Laufvariable i der for-Schleife in Zeile main+22 mit dem Wert 1 an Offset 0x4 des Base Pointers im Stack initialisiert.
+Erster Durchlauf for-Schleife: 
 \newpage
 \bibliography{Referenzen}
 
