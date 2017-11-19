@@ -1,0 +1,25 @@
+v2.0 raw
+02080002
+0F000800
+1A030000 //Adresse fehlt. Letzten beiden Bytes. Muss zum Ende und 1 zurückgeben.
+1F090008
+0F000905
+
+
+
+R8 = Laufvariable
+R0 = Übergabevariable
+
+IN R8,2
+COMP R8,R0
+JIT Equal oder Greater EG--> ENDE (MOV R6,R3) return 1;
+//Dividiere Übergabeparameter durch Laufvariable
+MOD R0,R8->R9
+COMP R9,R5
+JIF E --> Laufvariable inkrementieren, neuer Durchlauf
+MOV R5,R0
+JMP --> ENDE
+INC R8
+JMP -> nächster Durchlauf
+MOV R6,R3 -- return 1
+RTS
