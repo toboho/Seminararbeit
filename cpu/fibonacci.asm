@@ -1,7 +1,13 @@
 :fib
+<<<<<<< HEAD
 MOV R1,R15
 ADD R0,R1->R1
 MOV R15,R0
+=======
+MOV R1,R2
+ADD R0,R1->R1
+MOV R2,R0
+>>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
 MOV R1,R3
 JIF CF :fib
 RTS
@@ -12,6 +18,7 @@ CALL :fib
 
 
 
+<<<<<<< HEAD
 0503000
 
 02000001
@@ -22,4 +29,15 @@ CALL :fib
 01000103
 05030000
 1C000004
+=======
+
+
+02000001
+01000001
+0B010001
+01000102
+0B010001
+01000200
+01000103
+>>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
 
