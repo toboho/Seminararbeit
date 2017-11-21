@@ -16,19 +16,11 @@ bool checkIfPrime(unsigned int x){
 int main(int argc, char const *argv[])
 {
 	int counter=0;
-<<<<<<< HEAD
 	for(unsigned int i=1;i<32767;i+=2){
-=======
-	for(unsigned int i=1;i<65536;i+=2){
->>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
 		if(checkIfPrime(i)){
 			counter++;
 		}
 	}
-<<<<<<< HEAD
-=======
-	std::cout << counter << std::endl; //Ausgabe 6492
->>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
 	return 0;
 }
 /*
@@ -60,13 +52,8 @@ int main(int argc, char const *argv[])
    0x00000000004008b7 <+93>:	addl   $0x2,-0xc(%rbp)
    0x00000000004008bb <+97>:	jmp    0x400884 <main+42>
    0x00000000004008bd <+99>:	mov    $0x0,%eax
-<<<<<<< HEAD
    0x00000000004008c2 <+104>:	leaveq
    0x00000000004008c3 <+105>:	retq
-=======
-   0x00000000004008c2 <+104>:	leaveq 
-   0x00000000004008c3 <+105>:	retq   
->>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
 --------------------------------------------------------------------
 
 -----------------------------function-------------------------------
@@ -82,11 +69,7 @@ int main(int argc, char const *argv[])
    0x0000000000400834 <+30>:	cmp    -0x14(%rbp),%eax
    0x0000000000400837 <+33>:	jge    0x400853 <_Z11checkNumberi+61>
    0x0000000000400839 <+35>:	mov    -0x14(%rbp),%eax
-<<<<<<< HEAD
    0x000000000040083c <+38>:	cltd
-=======
-   0x000000000040083c <+38>:	cltd   
->>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
    0x000000000040083d <+39>:	idivl  -0x4(%rbp)
    0x0000000000400840 <+42>:	mov    %edx,%eax
    0x0000000000400842 <+44>:	test   %eax,%eax
@@ -94,18 +77,9 @@ int main(int argc, char const *argv[])
    0x0000000000400846 <+48>:	mov    $0x0,%eax
    0x000000000040084b <+53>:	jmp    0x400858 <_Z11checkNumberi+66>
    0x000000000040084d <+55>:	addl   $0x1,-0x4(%rbp)
-<<<<<<< HEAD
    0x0000000000400851 <+59>:	jmp    0x400831 <_Z11checkNumberi+27>
    0x0000000000400853 <+61>:	mov    $0x1,%eax
    0x0000000000400858 <+66>:	pop    %rbp
    0x0000000000400859 <+67>:	retq
 ----------------------------------------------------------------------
 */
-=======
-   0x0000000000400851 <+59>:	jmp    0x400831 <_Z11checkNumberi+27> 
-   0x0000000000400853 <+61>:	mov    $0x1,%eax
-   0x0000000000400858 <+66>:	pop    %rbp
-   0x0000000000400859 <+67>:	retq   
-----------------------------------------------------------------------
-*/
->>>>>>> fa6ca38a6ccdb02a06d74b00dfd94e99e181dddc
