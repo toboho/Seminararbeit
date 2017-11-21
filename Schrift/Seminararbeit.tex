@@ -74,14 +74,14 @@ Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir z
 \subsection{Binäre Darstellung von Zahlen}
 Zahlen im Dualsystem können vorzeichenlos und vorzeichenbehaftet dargestellt werden.Vorzeichenlose Binärzahlen können mittels folgender Formel gebildet werden: $$Z=\sum\limits_{i=0}^{N-1} a_i * 2^i$$ 
 Die Dezimalzahl 135 würde dann im Dualsystem dem Bitmuster $10000111$ entsprechen, dargestellt durch folgende Konvertierung:
-$$10000111b = 1*2^7+0*2^6+1*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = 128 +4+2+1 = 135d$$
+$$10000111b = 1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = 128 +4+2+1 = 135d$$
 Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen sie arbeiten können. Deshalb kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Überlauf kommen. Ein Überlauf tritt auf, wenn zum Beispiel auf einer 8-Bit CPU die Operation 255+1 ausgeführt wird, da als Ergebnis 0 geliefert wird. 
 Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d die größte darstellbare Zahl in 8-Bit ist wird die Addition von 1 einen Fehler verursachen. Das Ergebnis $256d$ benötigt zur dualen Darstellung 9 Bit($100000000b$), allerdings können nur 8 Bit gespeichert werden. Deshalb werden die ersten 8 Bit verwendet und das Ergebnis ist 0.
 
 
-\begin{table}[]
+\begin{table}[!htb]
 \centering
-\caption{My caption}
+\caption{Rechnung mit Übertrag}
 \label{my-label}
 \begin{tabular}{|c|r|r|}
 \hline
@@ -92,6 +92,26 @@ Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d 
 \multicolumn{1}{|r|}{Ergebnis:} & 00000000b                            & 0d                                     \\ \hline
 \end{tabular}
 \end{table}
+Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit) setzen um dem Programmierer darauf hinzuweißen, dass die letzte Operation keine richtigen Werte erzeugt hat. Den vorzeichenlosen Dualzahlen fehlt allerdings die Möglichkeit, negative Werte anzunehmen. Diese Eigenschaft bieten vorzeichenbehaftete Dualzahlen. Eine Dualzahl im sogenannten Zweierkomplement wird folgendermaßen gebildet:
+$$Z=-a_{N-1}*2^{N-1}+\sum\limits_{i=0}^{N-2} a_i * 2^i$$
+Die Formel kann zu Erklärungszwecken in zwei Teile gegliedert werden. Zum einen die erste Teil $-a_{N-1}*2^{N-1}$, das Vorzeichenbit. Dieser sagt aus, dass das höchstwertige Bit einer vorzeichenbehafteten Zahl negativ gewertet wird. Der hintere Teil $\sum\limits_{i=0}^{N-2} a_i * 2^i$ ist bereits aus der Erzeugung von vorzeichenlosen Dualzahlen bekannt. Die Bits werden nach ihrer Position gewichtet und ihre Wertigkeit aufaddiert. Die Zahl $10000111b$ im Zweierkomplement wird also wie folgt interpretiert:
+$$10000111b = -1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = -128+4+2+1 = -121d$$
+Bei den vorzeichenlosen Dualzahlen konnte es, wie oben beschrieben, zu einem Übertrag kommen, wenn der darstellbare Zahlenbereich überschritten wurde. Ein ähnliches Verhalten besitzen Zahlen im Zweierkomplement, allerdings kommt es zu einem Überlauf statt einem Übertrag. Zur Erklärung soll der 8-Bit Prozessor die Rechnung 127+1 durchführen. Hier wird nun nicht 128 als Ergebnis geliefert, sondern -128. Dies geschieht aufgrund der Interpretation von vorzeichenbehafteten Dualzahlen. Da das vorderste Bit nun gesetzt ist, interpretiert der Prozessor die Wertigkeit nun mit -128 statt 128, und da die restlichen sieben Bit null sind wird das Ergebnis als -128 interpretiert.
+
+\begin{table}[!htb]
+\centering
+\caption{Rechnung mit Überlauf}
+\label{my-label}
+\begin{tabular}{|c|r|r|}
+\hline
+\textbf{Überlauf}               & \multicolumn{1}{c|}{\textbf{Binär}} & \multicolumn{1}{c|}{\textbf{Dezimal}} \\ \hline
+-                               & 01111111                            & 127                                   \\ \hline
+-                               & 00000001                            & +1                                    \\ \hline
+Ja                              & 10000000                            & -128                                  \\ \hline\hline
+\multicolumn{1}{|l|}{Ergebnis:} & 10000000                            & -128                                  \\ \hline
+\end{tabular}
+\end{table}
+
 
 
 \section{Logische Schaltglieder}
@@ -104,7 +124,7 @@ Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d 
 
 \section{Prozessorarchitekturen}
 \subsection{Von-Neumann Architektur}
-\subsection{Harvard Architektur}
+\subsection{Harvard Architektur} 
 \subsection{CISC-Prozessoren}
 \subsection{RISC-Prozessoren}
 
