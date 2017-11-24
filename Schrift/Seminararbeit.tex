@@ -8,6 +8,7 @@
 \usepackage{listings}
 \usepackage{url}
 \usepackage{xcolor}
+\usepackage{textcomp}
 \usepackage{fancyhdr}
 \usepackage{comment}
 \usepackage[onehalfspacing]{setspace}
@@ -130,15 +131,22 @@ Ja                              & 10000000                            & -128    
 
 \section{Aufbau und Funktion}
 \subsection{Steuerwerk}
-Jeder Prozessor besitzt einen gewissen Umfang ihm zur Verfügung stehender Befehle. Diese Befehle werden als Bitmuster oder Mnemonic dokumentiert. 
-Das Steuerwerk analysiert das Bitmuster welches aus dem Speicher zur Ausführung übergeben wird und vergleicht es mit den bekannten Bitmustern der Opcode-Befehle. Sollte eine Übereinstimmung gefunden werden wird ein Signal, welches dem dekodierten Befehl entspricht, an die angebundenen Hardware der CPU übergeben (ALU bzw. Register). Diese benutzen dieses Signal daraufhin zur weiteren Befehlsausführung.\cite{computerarchitecture2007}
+Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zuständig. Es besteht aus drei wesentlichten Komponenten. Im Befehlsregister (Programm Counter bzw. PC) ist die Adresse des nächsten Befehls enthalten, welcher ausgeführt werden soll. Der Befehl wird von der Adresse des Befehlsregisters in den Befehlsdekodierer geladen und analysiert. Falls nötig wird der Befehl in mehrere Schritte unterteilt, die nacheinander abgearbeitet werden müssen. Ob und wie viele solcher Schritte benötigt werden um einen bestimmten Befehl auszuführen bestimmt zum einen die Architektur des Prozessors und zum anderen der Befehl an sich. Bei RISC Prozessoren 
+(\textrightarrow 4.4) ist keine weitere Unterteilung in mehrere Befehle notwendig, bei CISC Prozessoren (\textrightarrow 4.3) besitzt der Befehlssatz sehr viel kompliziertere Befehle welche nicht in einem Takt abgearbeitet werden können. Hier wird der Befehlsdekodierer den Befehl in die nötigen Teilbefehle umwandeln und nacheinander ausführen.
 
-\begin{figure}[!htb]
-\includegraphics[scale=0.40]{circ}
-\caption{Darstellung des RegisterwerkTODO}
-\centering
-\label{fig:register}
-\end{figure}
+
+
+
+Da über ein Bussystem immer nur zwei Komponenten miteinander kommunizieren können, muss das Steuerwerk die Busse für die jeweiligen Komponenten wie zum Beispiel CPU zu Speicher und CPU zu Peripherie freischalten. 
+\cite{computerarchitecture2007}
+
+%
+%\begin{figure}[!htb]
+%\includegraphics[scale=0.40]{circ}
+%\caption{Darstellung des RegisterwerkTODO}
+%\centering
+%\label{fig:register}
+%\end{figure}
 
 \subsection{Register}
 Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten bevor sie diese verarbeiten könnte. Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit.\cite{mikroprozessortechnik2011} Sie werden aus Flip-Flops aufgebaut welche jeweils genau ein Bit speichern können, das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops.\cite{mikroprozessortechnik2011} Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessordie, es werden deshalb keine großen Speichermengen zur Verfügung gestellt. (Nachteile evtl streichen)
