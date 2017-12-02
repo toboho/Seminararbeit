@@ -150,10 +150,10 @@ Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmc
 \item Instruction Fetch 
 \item Instruction Decode
 \item Fetch Operands
-\item Exceute
+\item Execute
 \item Increment Program Counter (PC)
 \end{enumerate}
-Im ersten Schritt wird aus dem Speicher der zu abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Bei einer Subtraktion bespielsweise die beiden Operanden.
+Im ersten Schritt wird aus dem Speicher der zu abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich ausgeführt. 
 \cite{unikoelnvnz}.
 %http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
