@@ -124,10 +124,39 @@ Ja                              & 10000000                            & -128    
 \subsection{Flip-Flops}
 
 \section{Prozessorarchitekturen}
+Mikroprozessoren besitzen immer einen eigenen, meist einzigartigen, Aufbau. Allerdings haben sich im Laufe der Entwicklung einige Architekturmerkmale ausgeprägt, welche die Prozessoren verbindet. 
+Ziel dieser Architekturen ist es stets, die Ausführungsgeschwindigkeit eines Programmes zu beschleunigen.
 \subsection{Von-Neumann Architektur}
+Die Von-Neumann Architektur ist nach dem ungarisch-US-amerikanischen Mathematiker John von Neumann benannt. Er hat 1945 in dem Bericht (First Draft of a Report on the EDVAC) das Prinzip erstmals beschrieben.
+Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten(siehe Abbildung \ref{fig:vonNeumann}):
+\begin{itemize}
+\item CPU 
+\item Speicherwerk 
+\item Ein-/Ausgabewerk
+\item Bus-System
+\end{itemize}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.60]{Von-Neumann_Architektur}
+\caption{Komponenten Von-Neumann Architektur}
+\centering
+%https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
+\label{fig:vonNeumann}
+\end{figure}
+Bevor John von Neumann dieses Architekturprinzip beschrieben hatte musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen programmgesteuerter Universalrechner( Stored-Program Machine )\cite{TaschenbuchMikroprozessortechnik}.
+Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vorgeben. Außerdem kann mit dieser Archtitektur nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander abgelaufen werden.
+\begin{enumerate}
+\item Instruction Fetch 
+\item Instruction Decode
+\item Fetch Operands
+\item Exceute
+\item Increment Program Counter (PC)
+\end{enumerate}
 \subsection{Harvard Architektur} 
 \subsection{CISC-Prozessoren}
 \subsection{RISC-Prozessoren}
+
 
 \section{Aufbau und Funktion}
 \subsection{Register}
