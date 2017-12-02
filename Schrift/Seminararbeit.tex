@@ -12,6 +12,7 @@
 \usepackage{fancyhdr}
 \usepackage{comment}
 \usepackage[onehalfspacing]{setspace}
+\bibliographystyle{ieeetr}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
 
 \graphicspath{{images/}}
@@ -60,7 +61,6 @@
 \listofcodes
 
 
-\bibliographystyle{plain}
 
 
 \section{Motivation}
@@ -144,8 +144,8 @@ Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten(siehe 
 %https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
 \label{fig:vonNeumann}
 \end{figure}
-Bevor John von Neumann dieses Architekturprinzip beschrieben hatte musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen programmgesteuerter Universalrechner( Stored-Program Machine )\cite{TaschenbuchMikroprozessortechnik}.
-Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vorgeben. Außerdem kann mit dieser Archtitektur nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander abgelaufen werden.
+Bevor John von Neumann dieses Architekturprinzip beschrieben hatte musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur war das nicht mehr nötig, es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen programmgesteuerter Universalrechner( Stored-Program Machine )\cite{TaschenbuchMikroprozessortechnik}.
+Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vornehmen. Außerdem kann mit dieser Archtitektur nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander abgelaufen werden.
 \begin{enumerate}
 \item Instruction Fetch 
 \item Instruction Decode
@@ -153,6 +153,9 @@ Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmc
 \item Exceute
 \item Increment Program Counter (PC)
 \end{enumerate}
+Im ersten Schritt wird aus dem Speicher der zu abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Bei einer Subtraktion bespielsweise die beiden Operanden.
+\cite{unikoelnvnz}.
+%http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
 \subsection{CISC-Prozessoren}
 \subsection{RISC-Prozessoren}
