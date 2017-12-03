@@ -51,7 +51,7 @@
 	Stefan Müller
 	\vfill
 % Bottom of the page
-	{\large \today\par}
+	{\large\today\par}
 \end{titlepage}
 \newpage
 
@@ -141,7 +141,7 @@ Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten(siehe 
 \includegraphics[scale=0.60]{Von-Neumann_Architektur}
 \caption{Komponenten Von-Neumann Architektur}
 \centering
-%https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
+%TODO vhttps://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
 \label{fig:vonNeumann}
 \end{figure}
 Bevor John von Neumann dieses Architekturprinzip beschrieben hatte musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur war das nicht mehr nötig, es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen programmgesteuerter Universalrechner( Stored-Program Machine )\cite{TaschenbuchMikroprozessortechnik}.
@@ -156,30 +156,30 @@ Ein sehr zentrales Prinzip dieser Archtitektur ist die Speicherung von Programmc
 Im ersten Schritt wird aus dem Speicher der zu abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Program Counter - PC) inkrementiert damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält.
 
 \cite{unikoelnvnz}.
-%http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
+%TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
 Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht darin, Codesegment und Datensegment in separaten Speichern zu verwalten. Diese Konzeption bringt den Vorteil, dass im Gegensatz zur Von-Neumann Architektur Befehle und Daten gleichzeitig geladen werden können. Um diesen Vorteil ausnutzen zu können benötigt ein Harvard Rechner allerdings auch getrennte Daten und Adressbusse. 
 \newline
 \newline
 In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen die modernen CPU sich dem Entwickler zwar als pure Von-Neumann Maschinen, also mit gemeinsamen Code und Datenspeicher (RAM), allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten, was der Harvard-Architektur entspricht. Die beiden Architekturen haben also jeweils Vor- und Nachteile, wobei in modernen Prozessoren die beiden Konzepte verwendet werden um die Nachteile zu minimieren.
 \subsection{CISC-Prozessoren}
-%Geschichte?
+%TODO Geschichte?
 Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Um den Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer komplexere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Um solche Befehle ausführen zu können mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Das kostet zwar mehr Platz auf dem Chip für den Befehlsdekodierer, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden, was sehr viel Zeit kostet. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (Instruction Set Architecture) wird CISC(Complex Instruction Set Computer) genannt.	
-%Struktur überarbeiten.
-%http://wiki.osdev.org/Historical_Notes_on_CISC_and_RISC
-%https://de.slideshare.net/SuvenduDash/cisc-risc-architecture
+%TODO Struktur überarbeiten.
+%TODO http://wiki.osdev.org/Historical_Notes_on_CISC_and_RISC
+%TODO https://de.slideshare.net/SuvenduDash/cisc-risc-architecture
 \subsection{RISC-Prozessoren}
-%Quelle Studie suchen 
+%TODO Quelle Studie suchen 
 Mehrere Faktoren führten dazu, dass die CISC-ISA einige Nachteile entwickelte, weshalb die RISC-ISA (Reduced Instruction Set Computer) entwickelt wurde.
 
 
-Eine von IBM durchgeführte Studie hat Anfang der 1980er Jahre herausgefunden, dass Programme, welche auf einer CPU mit CISC ISA liefen, nur einen geringen Teil der zur Verfügung stehenden Instruktionen überhaupt verwenden. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bietet, gar nicht ausnutzen sondern nur die simplen und universellen Befehle verwenden. 
+Eine von IBM durchgeführte Studie hat Anfang der 1980er Jahre ergeben, dass Programme, welche auf einer CPU mit CISC ISA liefen, nur einen geringen Teil der zur Verfügung stehenden Instruktionen überhaupt verwenden. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bietet, gar nicht ausnutzen sondern nur die simplen und universellen Befehle verwenden. 
 
 Ein weiterer Grund für die Entwicklung der RISC Computer war, dass die Zahl der Entwickler, welche in Assembler programmierten, immer weniger wurden. Mit dem Auftreten der ersten Hochsprachen, insbesondere C, und ihren Compilern, mussten Programmierer nicht mehr den Befehlssatz eines Prozessors kennen. Durch diese Abstraktionsschicht zwischen Prozessor und Programmierer ist die kompakte Struktur von Assemblerbefehlen kein Designfaktor für Prozessoren mehr, da es den Programmierer in den meisten Fällen nicht mehr interessieren musste, wie der erzeugte Assemblercode aussieht.
 
 Des weiteren ist die Latenz zwischen Prozessor und Hauptspeicher in den 1980er Jahren stetig gesunken. Es wurden also deutlich weniger Taktzyklen des Prozessors geopfert, wenn er aus dem Hauptspeicher Befehle anforderte. Dadurch entfiel der Vorteil von nur wenigen Zugriffen auf den Hauptspeicher.
 
-%Quelle unten: Taschenbuch Mikroprozessoren. Seite 85 RISC Ziele
+%TODO Quelle unten: Taschenbuch Mikroprozessoren. Seite 85 RISC Ziele
 \noindent
 Daraus hat sich dann die RISC Philosophie ergeben. Im Gegensatz zu den vorher genannten Punkten implementiert RISC folgende Eigenschaften.
 
@@ -187,7 +187,18 @@ Der Befehlssatz ist auf die wesentlichen Befehle beschränkt. Während CISC Befe
 
 Des weiteren wird auf die Mikroprogrammierung verzichtet. Es werden also nicht mehr die Befehle aus dem Befehlsspeicher intern in Mikrobefehle dekodiert. Das spart auf dem Chip Fläche, da der Dekodierer keine komplexen Aufgaben mehr hat. Alle Befehle sind also fest in dem Prozessor implementiert.
 
-Außerdem soll ein Befehl genau einen Takt zur Ausführung benötigen. Wenn bei CISC ein Befehl in mehrere Mikrobefehle dekodiert wird, benötigen diese mehrere Takte bis alle ausgeführt wurden. Dies wird bei RISC vermieden. Jeder geladene Befehl wird dekodiert und in genau einem Takt abgearbeitet. Um Ein-Zyklus-Befehle umsetzen zu können, muss der Prozessor in seinem internen Aufbau extrem vereinfacht werden.
+Außerdem soll ein Befehl genau einen Takt zur Ausführung benötigen. Wenn bei CISC ein Befehl in mehrere Mikrobefehle dekodiert wird, benötigen diese mehrere Takte bis alle ausgeführt wurden. Dies wird bei RISC vermieden. Jeder geladene Befehl wird dekodiert und spricht genau eine Hardwareeinheit an.
+
+%TODO Quelle: Wüst Seite 102 RISC
+Eine weitere Eigenschaft der RISC Philosophie ist die Kommunikation mit dem Hauptspeicher nur über Load und Store Befehle. Dadurch wird die Anzahl der Zugriffe auf den Hauptspeicher reduziert, was die Ausführungszeit senkt. Daraus folgt, dass ein ALU Befehl nur auf Register anwendbar ist, da Register auf Prozessortakt betrieben werden und somit keine Latenz zwischen den beiden Hardwareeinheiten entsteht. Der Befehl, zwei Register zu verrechnen, kann in einem Taktzyklus abgearbeitet werden. Dadurch entfällt wiederum die Notwendigkeit der Mikroprogrammierung. In einer CISC CPU ist zwar eine Speicherverrechnung zwischen Register und Speicherzelle etc. möglich, allerdings nicht skalar, also in einem Takt, sondern in mehreren Teilschritten, zum Beispiel Speicherzelle laden, verrechnen, zurückschreiben.
+%TODO Dieser Satz :D Evtl. überarbeiten 
+%TODO Auch Wüst Seite 102
+
+
+Da der Speicherzugriff auch in modernen Prozessoren eine zeitkritische Angelegenheit ist besitzen RISC Prozessoren einen sehr großen Registersatz, üblicherweise 16 oder mehr Register. Das ermöglicht einem Programm, viele seiner Variablen in den Registern zu halten um Hauptspeicherzugriffe zu vermeiden. Hier sind allerdings die Compiler der Programmiersprachen in der Pflicht, optimierten Binärcode für RISC Prozessoren zu generieren. Alle beschriebenen Vorteile erübrigen sich, wenn sie von den Compilern nicht unterstützt werden. Wenn ein für CISC Prozessoren geschriebenes Programm auf einem RISC Prozessor ausgeführt wird, funktioniert es, aber die Variablen werden zum größten Teil im Stack gespeichert, einem Teil des Hauptspeichers, und der Großteil zur Verfügung stehender Register wird nicht verwendet. 
+\par
+%TODO RISC V verlinken.
+Aktuelle Prozessoren sind meist CISC Prozessoren. Mit RISC-V existiert aber ein Projekt welches die Absicht hat wieder moderne und konkurrenzfähige RISC Prozessorendesigns zu entwickeln und als freie ISA zur Verfügung zu stellen . 
 \subsection{Klassifizierung}
 \subsubsection{Klassifizierung nach Flynn}
 \subsubsection{Erlanger Klassifizierung}
