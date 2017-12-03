@@ -170,7 +170,24 @@ Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designph
 %https://de.slideshare.net/SuvenduDash/cisc-risc-architecture
 \subsection{RISC-Prozessoren}
 %Quelle Studie suchen 
-Eine von IBM durchgeführte Studie hat Anfang der 1980er Jahre herausgefunden, dass Programme, welche auf einer CPU mit CISC ISA liefen, nur einen geringen Teil der zur Verfügung stehenden Instruktionen überhaupt verwenden.
+Mehrere Faktoren führten dazu, dass die CISC-ISA einige Nachteile entwickelte, weshalb die RISC-ISA (Reduced Instruction Set Computer) entwickelt wurde.
+
+
+Eine von IBM durchgeführte Studie hat Anfang der 1980er Jahre herausgefunden, dass Programme, welche auf einer CPU mit CISC ISA liefen, nur einen geringen Teil der zur Verfügung stehenden Instruktionen überhaupt verwenden. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bietet, gar nicht ausnutzen sondern nur die simplen und universellen Befehle verwenden. 
+
+Ein weiterer Grund für die Entwicklung der RISC Computer war, dass die Zahl der Entwickler, welche in Assembler programmierten, immer weniger wurden. Mit dem Auftreten der ersten Hochsprachen, insbesondere C, und ihren Compilern, mussten Programmierer nicht mehr den Befehlssatz eines Prozessors kennen. Durch diese Abstraktionsschicht zwischen Prozessor und Programmierer ist die kompakte Struktur von Assemblerbefehlen kein Designfaktor für Prozessoren mehr, da es den Programmierer in den meisten Fällen nicht mehr interessieren musste, wie der erzeugte Assemblercode aussieht.
+
+Des weiteren ist die Latenz zwischen Prozessor und Hauptspeicher in den 1980er Jahren stetig gesunken. Es wurden also deutlich weniger Taktzyklen des Prozessors geopfert, wenn er aus dem Hauptspeicher Befehle anforderte. Dadurch entfiel der Vorteil von nur wenigen Zugriffen auf den Hauptspeicher.
+
+%Quelle unten: Taschenbuch Mikroprozessoren. Seite 85 RISC Ziele
+\noindent
+Daraus hat sich dann die RISC Philosophie ergeben. Im Gegensatz zu den vorher genannten Punkten implementiert RISC folgende Eigenschaften.
+
+Der Befehlssatz ist auf die wesentlichen Befehle beschränkt. Während CISC Befehlssätze oft 200 oder mehr Befehle beinhalten sind in RISC Befehlssätzen oft nur 100 oder weniger Befehle vorhanden.
+
+Des weiteren wird auf die Mikroprogrammierung verzichtet. Es werden also nicht mehr die Befehle aus dem Befehlsspeicher intern in Mikrobefehle dekodiert. Das spart auf dem Chip Fläche, da der Dekodierer keine komplexen Aufgaben mehr hat. Alle Befehle sind also fest in dem Prozessor implementiert.
+
+Außerdem soll ein Befehl genau einen Takt zur Ausführung benötigen. Wenn bei CISC ein Befehl in mehrere Mikrobefehle dekodiert wird, benötigen diese mehrere Takte bis alle ausgeführt wurden. Dies wird bei RISC vermieden. Jeder geladene Befehl wird dekodiert und in genau einem Takt abgearbeitet. Um Ein-Zyklus-Befehle umsetzen zu können, muss der Prozessor in seinem internen Aufbau extrem vereinfacht werden.
 \subsection{Klassifizierung}
 \subsubsection{Klassifizierung nach Flynn}
 \subsubsection{Erlanger Klassifizierung}
