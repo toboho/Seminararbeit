@@ -237,9 +237,18 @@ Da über ein Bussystem immer nur zwei Komponenten miteinander kommunizieren kön
 %\label{fig:register}
 %\end{figure}
 \subsection{Adresswerk}
+
 \subsection{Arithmetisch Logische Einheit}
 %https://en.wikibooks.org/wiki/Microprocessor_Design/ALU#Example:_4-Bit_ALU
 %https://en.wikibooks.org/wiki/Microprocessor_Design
+Die ALU (Arithmetic Logic Unit) ist der Teil einer CPU, welcher die eigentliche Datenverarbeitung durchführt. Sie verfügt über keinen eigenen Speicher, die Ergebnisse müssen also in den Registern gespeichert werden. Die ALU ist ein Schaltwerk, welches einfache Operationen auf meist zwei Operanden ausführen kann. So kann das Rechenwerk einer CPU meistens arithmetische, logische und bitschiebende Operationen ausführen. Arithmetische Operationen umfassen Addition und Subtraktion, seltener auch Multiplikation und Division. Addierer und Subtrahierer sind als Hardwareeinheit in die ALU integriert, wohingegen Multiplikation und Division meist algorithmisch durchgeführt werden. Anstatt eine Dualzahl aufwendig durch 2 zu teilen, kann man die Bits auch um eine Stelle nach Rechts verschieben. Die ALU alleine hat wenig Wirkung, sie obliegt der Kontrolle des Steuerwerkes, welches steuert, welche Operation ausgeführt wird, mit welchen Operanden sie ausgeführt wird und in welches Register das Ergebnis gespeichert werden soll.
+
+Rechenwerke sind innerhalb eines Prozessors oft unterschiedlich aufgebaut. 
+So haben sehr einfache Prozessoren häufig ein spezielles Register, in welchem das Ergebnis einer ALU Operation automatisch gespeichert wird, den so genannten Akkumulator. Solch ein Register hat den Vorteil, das auf die Angabe eines Zieles bei der Programmierung verzichtet werden kann, da der Ausgang der ALU fest mit dem Akkumulator verbunden ist. Des weiteren ist der Ausgang des Akkumulators fest mit einem der zwei Eingänge der ALU verbunden. Man kann sich den Akkumulator also als fest vorgeschaltetes Register des Rechenwerks vorstellen, in dem auch das Ergebnis gespeichert wird. Deshalb muss bei einer Rechenoperation vom Programmierer nur ein Operand angegeben werden. 
+
+\noindent \textbf{Beispiel:} Wenn im Akkumulator der Wert 10d steht und folgender Assemblerbefehl ausgeführt wird: ADD RAX, dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
+
+Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist.  
 \subsection{Memory Management Unit(evtl)}
 \subsection{Bussysteme}
 
