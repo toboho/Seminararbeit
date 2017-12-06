@@ -161,7 +161,7 @@ Im ersten Schritt wird aus dem Speicher der zu abzuarbeitende Befehl in das Befe
 Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht darin, Codesegment und Datensegment in separaten Speichern zu verwalten. Diese Konzeption bringt den Vorteil, dass im Gegensatz zur Von-Neumann Architektur Befehle und Daten gleichzeitig geladen werden können. Um diesen Vorteil ausnutzen zu können benötigt ein Harvard Rechner allerdings auch getrennte Daten und Adressbusse. 
 \newline
 \newline
-In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen die modernen CPU sich dem Entwickler zwar als pure Von-Neumann Maschinen, also mit gemeinsamen Code und Datenspeicher (RAM), allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten, was der Harvard-Architektur entspricht. Die beiden Architekturen haben also jeweils Vor- und Nachteile, wobei in modernen Prozessoren die beiden Konzepte verwendet werden um die Nachteile zu minimieren.
+In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen die modernen CPU sich dem Entwickler zwar als pure Von-Neumann Maschinen, also mit gemeinsamen Code und Datenspeicher (RAM), allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten, was der Harvard-Architektur entspricht. Die beiden Architekturen haben also jeweils Vor- und Nachteile, wobei in modernen Prozessoren die beiden Konzepte verwendet werden um maximale Leistung zu erzielen.
 \subsection{CISC-Prozessoren}
 %TODO Geschichte?
 Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Um den Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer komplexere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Um solche Befehle ausführen zu können mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Das kostet zwar mehr Platz auf dem Chip für den Befehlsdekodierer, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden, was sehr viel Zeit kostet. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (Instruction Set Architecture) wird CISC(Complex Instruction Set Computer) genannt.	
@@ -241,31 +241,67 @@ Da über ein Bussystem immer nur zwei Komponenten miteinander kommunizieren kön
 \subsection{Arithmetisch Logische Einheit}
 %https://en.wikibooks.org/wiki/Microprocessor_Design/ALU#Example:_4-Bit_ALU
 %https://en.wikibooks.org/wiki/Microprocessor_Design
-Die ALU (Arithmetic Logic Unit) ist der Teil einer CPU, welcher die eigentliche Datenverarbeitung durchführt. Sie verfügt über keinen eigenen Speicher, die Ergebnisse müssen also in den Registern gespeichert werden. Die ALU ist ein Schaltwerk, welches einfache Operationen auf meist zwei Operanden ausführen kann. So kann das Rechenwerk einer CPU meistens arithmetische, logische und bitschiebende Operationen ausführen. Arithmetische Operationen umfassen Addition und Subtraktion, seltener auch Multiplikation und Division. Addierer und Subtrahierer sind als Hardwareeinheit in die ALU integriert, wohingegen Multiplikation und Division meist algorithmisch durchgeführt werden. Anstatt eine Dualzahl aufwendig durch 2 zu teilen, kann man die Bits auch um eine Stelle nach Rechts verschieben. Die ALU alleine hat wenig Wirkung, sie obliegt der Kontrolle des Steuerwerkes, welches steuert, welche Operation ausgeführt wird, mit welchen Operanden sie ausgeführt wird und in welches Register das Ergebnis gespeichert werden soll.
+Die ALU (Arithmetic Logic Unit) ist der Teil einer CPU, welcher die eigentliche Datenverarbeitung durchführt. Sie verfügt über keinen eigenen Speicher, die Ergebnisse müssen also in den Registern gespeichert werden. Die ALU ist ein Schaltwerk, welches einfache Operationen auf meist zwei Operanden ausführen kann. So kann das Rechenwerk einer CPU meistens arithmetische, logische und bitschiebende Operationen ausführen. Arithmetische Operationen umfassen Addition und Subtraktion, seltener auch Multiplikation und Division. Addierer und Subtrahierer sind als Hardwareeinheit in die ALU integriert, wohingegen Multiplikation und Division meist algorithmisch durchgeführt werden. Die ALU alleine hat wenig Wirkung, sie obliegt der Kontrolle des Steuerwerkes, das steuert, welche Operation ausgeführt wird, mit welchen Operanden sie ausgeführt wird und in welches Register das Ergebnis gespeichert werden soll.
 
 Rechenwerke sind innerhalb eines Prozessors oft unterschiedlich aufgebaut. 
 So haben sehr einfache Prozessoren häufig ein spezielles Register, in welchem das Ergebnis einer ALU Operation automatisch gespeichert wird, den so genannten Akkumulator. Solch ein Register hat den Vorteil, das auf die Angabe eines Zieles bei der Programmierung verzichtet werden kann, da der Ausgang der ALU fest mit dem Akkumulator verbunden ist. Des weiteren ist der Ausgang des Akkumulators fest mit einem der zwei Eingänge der ALU verbunden. Man kann sich den Akkumulator also als fest vorgeschaltetes Register des Rechenwerks vorstellen, in dem auch das Ergebnis gespeichert wird. Deshalb muss bei einer Rechenoperation vom Programmierer nur ein Operand angegeben werden. 
 
-\noindent \textbf{Beispiel:} Wenn im Akkumulator der Wert 10d steht und folgender Assemblerbefehl ausgeführt wird: ADD RAX, dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
+\noindent \textbf{Beispiel:} Wenn im Akkumulator der Wert 10d steht und der Assemblerbefehl ADD RAX ausgeführt wird, dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
 
-Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist.  
-\subsection{Memory Management Unit(evtl)}
+Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist. Eine Rechenwerksoperation muss also immer zwei Quellregister und ein Zielregister angeben. Diese Konfiguration ist zwar sehr flexibel in der Übergabe der Speicherorte, allerdings benötigt sie zusätzliche Schaltungslogik auf dem Chip und die Codekomplexität nimmt zu.
+
+
+\noindent \textbf{Beispiel:} Bei der Ausführung des Befehls ADD RAX,RBX,RCX werden die Werte der beiden Register RAX und RBX addiert und das Ergebnis in RCX gespeichert.
+
+Die ALU speichert zwar das Ergebnis in dem ihr zugewiesenen Register, allerdings kann der Prozessor keine Eigenschaften der letzten Operation unterscheiden. Diese Fähigkeit wird aber benötigt, wenn der Programmierer beispielsweiße anfordert, dass das Programm an eine andere Adresse springt, sollte das letzte Rechenergebnis 0 ergeben haben. Damit der Prozessor diesen Verlauf der letzten Rechenoperation speichern kann ist den meisten Prozessoren ein Statusregister integriert. Das Statusregister speichert nicht wie die Universalregister einen Wert in mehreren Bits ab, sondern jedes Bit steht im Register für eine bestimmte Eigenschaft der vorhergehenden Rechenoperation. Diese Bits werden Flags genannt. Eine 1 bedeutet dass die letzte Operation diese Bedingung erfüllt hat, eine 0 das Gegenteil. Welche Flags ein Prozessor unterstützt und wie diese angeordnet sind unterscheidet sich von Prozessor zu Prozessor. Allerdings sind die fünf grundlegensten Flags in fast allen Prozessoren implementiert.
+
+
+\noindent \textbf{Zero-Flag:} Das Zero-Flag ist sehr simpel aufgebaut. Wenn das letzte Ergebnis der ALU gleich Null war wird das Bit auf 1 gesetzt, ansonsten auf 0. Mit diesem Flag lässt sich eine Abbruchbedingung für eine Schleife leicht prüfen. Die Anweisung: $$for(int \ i=5;i \ > \ 0;i--)\{\}$$ wird solange durchlaufen bis das Ergebnis der ALU Operation ($i--$) gleich Null ist und damit das Zero-Flag gesetzt wird. Dann wird die Schleife abgebrochen und der Programmablauf fortgesetzt.
+
+\begin{table}[!htb]
+\centering
+\caption{Schritte der for-Schleife}
+\label{forschleife}
+\begin{tabular}{|c|c|c|}
+\hline
+
+i & Zero-Flag & Nächster Schritt \\ \hline
+5 & 0         & Weiter           \\ \hline
+4 & 0         & Weiter           \\ \hline
+3 & 0         & Weiter           \\ \hline
+2 & 0         & Weiter           \\ \hline
+1 & 0         & Weiter           \\ \hline
+0 & 1         & Abbruch          \\ \hline
+\end{tabular}
+\end{table}
+
+Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung von Abbildung TODO.
+
+
+\noindent \textbf{Carry-Flag:} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Abbildung TODO(Übertrag) bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
+
+
+\subsection{Memory Management Unit}
+%Adressierungsarten
+
 \subsection{Bussysteme}
 
 \section{Speicher}
+\subsection{Geschichte}
 %https://de.wikipedia.org/wiki/Speicherhierarchie
-
+\subsection{Speicherhierarchie}
 \subsection{RAM/ROM}
 \subsection{Stack}
 
 \section{Befehlsausführung}
 \subsection{Befehlszyklus}
 \subsection{Schleifen}
+\subsection{Subroutinen}
 
 \section{Besondere Ausführungsarten}
 \subsection{Interrupts}
 \subsection{Exceptions}
-\subsection{Subroutinen}
+
 
 \newpage
 
@@ -457,7 +493,7 @@ int main(int argc, char const *argv[])
 	for(unsigned int i=1;i<65536;i+=2){
 		if(checkIfPrime(i)){
 			counter++;
-		}
+		}s
 	}
 	std::cout << counter << std::endl; //Ausgabe 6492
 	return 0;
@@ -503,7 +539,7 @@ Dump of assembler code for function main:
    0x00000000004008bd <+95>:	leaveq 
    0x00000000004008be <+96>:	retq   
 End of assembler dump.
-\end{lstlisting}
+\end{lstlisting}s
 \caption[Assemblercode der main Methode]{Assemblercode der main-Methode}
 \end{code}
 
