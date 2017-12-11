@@ -43,7 +43,7 @@
 	\vspace{1cm}
 	{\scshape\Large Seminararbeit\par}
 	\vspace{1.5cm}
-	{\huge\bfseries Aufbau und Funktionsweiße eines Prozessors\par}
+	{\huge\bfseries Aufbau und Funktionsweise eines Prozessors\par}
 	\vspace{2cm}
 	{\Large\itshape Marco Vogel\par}
 	\vfill
@@ -256,7 +256,7 @@ Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den
 Die ALU speichert zwar das Ergebnis in dem ihr zugewiesenen Register, allerdings kann der Prozessor keine Eigenschaften der letzten Operation unterscheiden. Diese Fähigkeit wird aber benötigt, wenn der Programmierer beispielsweiße anfordert, dass das Programm an eine andere Adresse springt, sollte das letzte Rechenergebnis 0 ergeben haben. Damit der Prozessor diesen Verlauf der letzten Rechenoperation speichern kann ist den meisten Prozessoren ein Statusregister integriert. Das Statusregister speichert nicht wie die Universalregister einen Wert in mehreren Bits ab, sondern jedes Bit steht im Register für eine bestimmte Eigenschaft der vorhergehenden Rechenoperation. Diese Bits werden Flags genannt. Eine 1 bedeutet dass die letzte Operation diese Bedingung erfüllt hat, eine 0 das Gegenteil. Welche Flags ein Prozessor unterstützt und wie diese angeordnet sind unterscheidet sich von Prozessor zu Prozessor. Allerdings sind die fünf grundlegensten Flags in fast allen Prozessoren implementiert.
 
 
-\noindent \textbf{Zero-Flag:} Das Zero-Flag ist sehr simpel aufgebaut. Wenn das letzte Ergebnis der ALU gleich Null war wird das Bit auf 1 gesetzt, ansonsten auf 0. Mit diesem Flag lässt sich eine Abbruchbedingung für eine Schleife leicht prüfen. Die Anweisung: $$for(int \ i=5;i \ > \ 0;i--)\{\}$$ wird solange durchlaufen bis das Ergebnis der ALU Operation ($i--$) gleich Null ist und damit das Zero-Flag gesetzt wird. Dann wird die Schleife abgebrochen und der Programmablauf fortgesetzt.
+\noindent \textbf{Zero-Flag (Nullbit):} Das Zero-Flag ist sehr simpel aufgebaut. Wenn das letzte Ergebnis der ALU gleich Null war wird das Bit auf 1 gesetzt, ansonsten auf 0. Mit diesem Flag lässt sich eine Abbruchbedingung für eine Schleife leicht prüfen. Die Anweisung: $$for(int \ i=5;i \ > \ 0;i--)\{\}$$ wird solange durchlaufen bis das Ergebnis der ALU Operation ($i--$) gleich Null ist und damit das Zero-Flag gesetzt wird. Dann wird die Schleife abgebrochen und der Programmablauf fortgesetzt.
 
 \begin{table}[!htb]
 \centering
@@ -278,7 +278,42 @@ i & Zero-Flag & Nächster Schritt \\ \hline
 Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung von Abbildung TODO.
 
 
-\noindent \textbf{Carry-Flag:} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Abbildung TODO(Übertrag) bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
+\noindent \textbf{Carry-Flag (Übertragsbit):} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Abbildung TODO(Übertrag) bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
+
+\begin{table}[!htb]
+\centering
+\label{carry}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
+253+2    & 255          & 11111111     & 0          \\ \hline \hline
+253+3    & 256          & 00000000     & 1          \\ \hline
+\end{tabular}
+\caption{Beispiele Carry-Flag}
+\end{table}
+In Abbildung \ref{carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null, gespeichert. Um diese Fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
+Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wird das Carry Flag dazu verwendet den Wert des herausgeschobenen Bits anzuzeigen.
+
+
+\noindent \textbf{Sign-Flag (Vorzeichenbit):} Das Vorzeichenbit entspricht dem MSB (most significant bit) des Ergebnisses. Das MSB ist das höchstwertige Bit einer Dualzahl und representiert im Zweierkomplement das Vorzeichen der Zahl.
+
+\noindent \textbf{Overflow-Flag (Überlauf-Bit):} Diese Flag wird beim Rechnen mit Zahlen im Zweierkomplement benötigt. Es wird gesetzt, wenn bei einer Addition oder Subtraktion ein Übertrag auf das MSB stattfindet, also das höchstwertige Bit verändert wird. 
+\begin{table}[!htb]
+\centering
+\label{overflow}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Bit \\ \hline \hline
+122+5        & 127                         & 01111111     & 0            \\ \hline \hline
+122+6        & -128                        & 10000000      & 1            \\ \hline
+\end{tabular}
+\caption{Rechnen im Zweierkomplement mit 8-Bit Zahlen}
+\end{table}
+
+In Abbildung \ref{overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
+$${-2}^{n-1}+ ... +2^{n-1}-1$$
+In Tabelle \ref{overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der darstellbare Zahlenbereich für das Beispiel von $-128$ bis $+127$. Die erste Rechnung ergibt 127, die höchste positive darstellbare Zahl im Zweierkomplement mit 8-Bit. Es kommt zu keinem Übertrag auf das MSB, also wird das Overflow Bit nicht gesetzt. In der zweiten Zeile kommt es zu einem Übertrag auf das MSB und das Ergebnis wird verfälscht, da +128 nicht mehr im darstellbaren Zahlenbereich für diese Rechnung liegt. Um das falsche Ergebnis anzuzeigen wird die ALU das Overflow Bit auf 1 setzen. 
+%TODO Overflow Flag wird mit XOR aus Carry in und Carry Out berechnet ... Noch nicht ganz verstanden.
 
 
 \subsection{Memory Management Unit}
