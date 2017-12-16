@@ -323,6 +323,13 @@ Moderne Prozessoren wie zum Beispiel der AMD R7 1700x takten mit bis zu 3.60 GHz
 \section{Befehlsausführung}
 \subsection{Befehlszyklus}
 \subsection{Schleifen}
+Programmschleifen sind für jedes Programm von essentieller Bedeutung und in jeder modernen Programmiersprache implementiert. Ohne sie wäre kein effizienter und kompakter Programmaufbau möglich. In Hochsprachen sind zwei Grundlegende Arten von Schleifen geläufig. Zum einen die Schleifen mit festgelegter Anzahl an Durchläufen: 
+$$for(int \ i=0; i<100; i++)\{...\}$$
+Diese Schleife wird genau 100 mal durchlaufen bis sie abbricht. Es gibt aber auch Szenarien in den die benötigte Zahl an Durchläufen nicht bekannt ist:
+$$while(''Bedingung'')\{...\}$$
+Diese Schleifen werden solange durchlaufen bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
+Prozessoren durchlaufen besitzen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. 
+Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Wenn eine Schleife 
 \subsection{Subroutinen}
 
 \section{Besondere Ausführungsarten}
@@ -336,8 +343,12 @@ Das Konzept von Interrupts ist für moderne Prozessoren von enormer Bedeutung, w
 
 \noindent Im Unterschied zu Subroutinen können Interrupts jederzeit auftreten, sie sind deshalb asnychron. Das ist problematisch, da keinerlei Vorbereitungen auf die Verzweigung im Programmfluss getroffen werden können. Die ISR (''Interrupt Service Routine''), also der Programmcode welcher bei einem bestimmten Interrupt ausgeführt wird, muss aber Register- und Flagwerte verändern. Um einen reibungslosen Übergang in das unterbrochene Programm zu gewährleisten, sichern die ISR die Register- und Flagwerte zu Beginn ihrer Ausführung auf dem Stack. Sobald der Interrupt abgearbeitet ist, werden die Werte aus dem Stack wieder geladen und das Unterprogramm wird beendet. Somit kann das unterbrochene Hauptprogramm sofort weiter ausgeführt werden.
  
-\noindent Ein Prozessor ist an mehrere externe Schnittstellen angebunden welche Interrupts auslösen können. Um die Priorität der Interrupts zu verwalten und den Prozessor zu entlasten besitzen die meisten Interruptfähigen Prozessoren einen Interrupt-Controller auf ihrem Chip. 
+\noindent Ein Prozessor ist an mehrere externe Schnittstellen angebunden welche Interrupts auslösen können. Um die Priorität der Interrupts zu verwalten und den Prozessor zu entlasten besitzen die meisten Interruptfähigen Prozessoren einen Interrupt-Controller. Der Aufbau und die Funktionsweise des Controllers wird im Folgenden nur oberflächlich beschrieben. Die Vektorisierung, Kaskadierung und das Daisy-Chaining von Interrupts wird hier nicht behandelt.
+Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Priorisierung von Interrupts. Das Interrupt-Masken-Register (IMR) ist dafür zuständig, die einzelnen Interrupteingänge für Interrupts freizuschalten oder zu sperren. Nur wenn im IMR das Interrupt-Freigabe-Bit für den jeweiligen Interrupt gesetzt ist wird der Interrupt weiterverarbeitet. Das Interrupt-Request-Register (IRR) enthält die Interrupts, welche vom IMR freigeschaltet  und von den externen Interruptquellen angefordert wurden. Vereinfacht kann man sich die Werte des IRR als UND-Verknüpfung zwischen den Werten der Interrupteingänge und den Werten des IMR vorstellen. Da es möglich ist, dass mehrere Interrupts gleichzeitig auftreten muss der Interrupt-Controller entscheiden welche Unterbrechung Vorrang hat. Die Entscheidung trifft der Controller auf der Basis der Werte des Prioritätenregisters. In ihm ist die Reihenfolge der Interruptabarbeitung hinterlegt. Das Prioritätenschaltnetz (PSN) wird nun die Reihenfolge der Abarbeitung bestimmmen indem es die Werte des IRR und des Prioritätenregisters beschreibt. Die als erstes abzuarbeitende Unterbrechung wird in das Interrupt-Service-Register (ISR) geschrieben. Das ISR zeigt also an welcher Interrupt zur Verarbeitung an den Prozessor weitergegeben wird.
 
+
+Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle externen Schnittstellen sind interruptfähig. Dieses Konzept ist sehr effizient und die Probleme die es mitbringt werden durch den Interruptcontroller eliminiert.
+%TODO https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 %Beispiel ausm Buch 
 \subsection{Exceptions}
 
