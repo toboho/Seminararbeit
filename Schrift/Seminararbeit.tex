@@ -330,8 +330,42 @@ $$while(''Bedingung'')\{...\}$$
 Diese Schleifen werden solange durchlaufen bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
 Prozessoren durchlaufen besitzen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Program Counter mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
 
+\begin{code}[!htb]
+\begin{lstlisting}
+int main(int argc, char const *argv[])
+{
+	unsigned int counter = 0;
+	while(counter<100){
+		counter++;
+	}
+	return 0;
+}
+\end{lstlisting}
+\caption[C Code einfache Schleife]{C-Code für eine einfache Schleife}
+\end{code}
 
- 
+\noindent Dieses Programm initialisiert eine Variable counter mit dem Wert 0 und inkrementiert diesen in einer Schleife so lange bis er den Wert 100 erreicht. Der Assemblercode für dieses Programm ist folgendermaßen aufgebaut:
+
+
+\begin{code}[!htb]
+\begin{lstlisting}
+   0x00000000000005fa <+0>:	push   rbp
+   0x00000000000005fb <+1>:	mov    rbp,rsp
+   0x00000000000005fe <+4>:	mov    DWORD PTR [rbp-0x14],edi
+   0x0000000000000601 <+7>:	mov    QWORD PTR [rbp-0x20],rsi
+   0x0000000000000605 <+11>:	mov    DWORD PTR [rbp-0x4],0x0
+   0x000000000000060c <+18>:	jmp    0x612 <main+24>
+   0x000000000000060e <+20>:	add    DWORD PTR [rbp-0x4],0x1
+   0x0000000000000612 <+24>:	cmp    DWORD PTR [rbp-0x4],0x63
+   0x0000000000000616 <+28>:	jbe    0x60e <main+20>
+   0x0000000000000618 <+30>:	mov    eax,0x0
+   0x000000000000061d <+35>:	pop    rbp
+   0x000000000000061e <+36>:	ret    
+\end{lstlisting}
+\caption[Assembler Code einfache Schleife]{Assembler-Code für eine einfache Schleife}
+\end{code}
+
+Die erste Zeile (''push rbp'') und die letzten beiden Zeilen (''pop rbp \& ret'') sind bei jeder Funktion gleich und dienen dazu, einen Bereich im Stack für das Programm zur Verfügung zu stellen und diesen nach Programmende wieder freizugeben. In Zeile 11 wird im Stack an der Adresse mit Offset 0x4 der Wert 0 gespeichert. Das entspricht der Initialisierung der Variable counter im C-Programm. Danach kommt es zu einem unbedingten Sprung. Der Program Counter wird mit dem angegebenen Wert geladen und zeigt nun auf Adresse 0x612. Im nächsten Ausführungszyklus wird nun das Programm an Adresse 0x612 weiter ausgeführt. Mit diesem Sprung wird genau eine Zeile übersprungen. Diese Zeile (main+20) inkrementiert den Wert im Stack an der Adresse mit Offset 0x4, welche die Variable counter enthält. Diese Zeile wird zum Beginn des Programmes genau einmal übersprungen, da die Abbruchbedingung beim ersten Durchlauf noch nicht kontrolliert wurde. Das Programm wird also in Zeile 24 weiter ausgeführt. Der Befehl cmp (''Compare'') vergleicht nun den Wert der Variablen counter (''rbp-0x4'') mit der Konstante 0x63 (99d). Da cmp eine ALU Operation ist wird dieser Befehl die entsprechenden Flags im Statusregister setzen, je nachdem ob ''counter'' kleiner oder gleich 0x63 ist. Wenn der Befehl abgearbeitet ist wird die Zeile 28 geladen. Der Befehl jbe (''Jump if below or equal'') ist ein bedingter Sprung. Das heißt es wird nur gesprungen wenn die Bedingung erfüllt ist. Daraufhin wird das Statusregister geprüft ob das Carry-Flag (CF) oder das Zero-Flag (ZF) gesetzt ist. Wenn die ODER-Verknüpfung dieser beiden Werte 1 ergibt, wird der PC mit der angegebenen Adresse geladen, wenn sie eine 0 ergibt, wird mit dem nächsten Befehl weitergearbeitet. Die Zeile 28 entspricht also der Abbruchprüfung der Schleife  ($counter < 100$). Wenn der Wert kleiner 100 ist wird in Zeile 20 gesprungen und damit die Variable inkrementiert, wenn der Wert größer oder gleich 100 ist wird das Programm weiter ausgeführt. Da die Schleife dann beendet ist wird das Programm beendet.
 \subsection{Subroutinen}
 
 \section{Besondere Ausführungsarten}
