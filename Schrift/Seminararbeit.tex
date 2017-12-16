@@ -366,8 +366,67 @@ int main(int argc, char const *argv[])
 \end{code}
 
 Die erste Zeile (''push rbp'') und die letzten beiden Zeilen (''pop rbp \& ret'') sind bei jeder Funktion gleich und dienen dazu, einen Bereich im Stack für das Programm zur Verfügung zu stellen und diesen nach Programmende wieder freizugeben. In Zeile 11 wird im Stack an der Adresse mit Offset 0x4 der Wert 0 gespeichert. Das entspricht der Initialisierung der Variable counter im C-Programm. Danach kommt es zu einem unbedingten Sprung. Der Program Counter wird mit dem angegebenen Wert geladen und zeigt nun auf Adresse 0x612. Im nächsten Ausführungszyklus wird nun das Programm an Adresse 0x612 weiter ausgeführt. Mit diesem Sprung wird genau eine Zeile übersprungen. Diese Zeile (main+20) inkrementiert den Wert im Stack an der Adresse mit Offset 0x4, welche die Variable counter enthält. Diese Zeile wird zum Beginn des Programmes genau einmal übersprungen, da die Abbruchbedingung beim ersten Durchlauf noch nicht kontrolliert wurde. Das Programm wird also in Zeile 24 weiter ausgeführt. Der Befehl cmp (''Compare'') vergleicht nun den Wert der Variablen counter (''rbp-0x4'') mit der Konstante 0x63 (99d). Da cmp eine ALU Operation ist wird dieser Befehl die entsprechenden Flags im Statusregister setzen, je nachdem ob ''counter'' kleiner oder gleich 0x63 ist. Wenn der Befehl abgearbeitet ist wird die Zeile 28 geladen. Der Befehl jbe (''Jump if below or equal'') ist ein bedingter Sprung. Das heißt es wird nur gesprungen wenn die Bedingung erfüllt ist. Daraufhin wird das Statusregister geprüft ob das Carry-Flag (CF) oder das Zero-Flag (ZF) gesetzt ist. Wenn die ODER-Verknüpfung dieser beiden Werte 1 ergibt, wird der PC mit der angegebenen Adresse geladen, wenn sie eine 0 ergibt, wird mit dem nächsten Befehl weitergearbeitet. Die Zeile 28 entspricht also der Abbruchprüfung der Schleife  ($counter < 100$). Wenn der Wert kleiner 100 ist wird in Zeile 20 gesprungen und damit die Variable inkrementiert, wenn der Wert größer oder gleich 100 ist wird das Programm weiter ausgeführt. Da die Schleife dann beendet ist wird das Programm beendet.
-\subsection{Subroutinen}
 
+\subsection{Subroutinen}
+Subroutinen sind neben den Schleifen eine der wichtigsten und elementarsten Konstrollstrukturen in der Softwareentwicklung. Den meisten Programmierern sind Subroutinen eher als Funktionen bekannt. Sie sind wie die Schleifen in jeder modernen Programmiersprache enthalten. Funktionen ermöglichen es Programmcode übersichtlich zu gestalten und zu kapseln. Wenn eine bestimmter Algorithmus häufiger ausgeführt werden soll kann er in eine Funktion ausgelagert werden. Dann muss der gesamte Algorithmus nicht mehrfach implementiert werden sondern kann als Funktion aufgerufen werden. Der Prozessor hat für die verzweigung des Programmflussen einen eigenen Befehl, die sogenannte Call-Anweißung. Nach einem Call Befehl wird eine Adresse angegeben und mit dieser Adresse wird der Program Counter geladen. Zur Veranschaulichung wieder ein kleines Beispiel in der Sprache C.  
+
+\begin{code}[!htb]
+\begin{lstlisting}
+int add(int a, int b){
+	return a+b;
+}
+
+int main(int argc, char const *argv[])
+{
+	int a = 3;
+	int b = 5;
+	int c = add(a,b); 
+	return 0;
+}
+\end{lstlisting}
+\caption[C Code Funktionen]{C-Code mit Funktionsaufruf}
+\end{code}
+
+Dieses kleine Programm initialisiert zwei Variablen, a und b, mit int Werten. Eine dritte Variable erhält den Rückgabewert der Funktion $add$. Der Assemblercode für dieses Programm ist folgender: 
+ 
+
+\begin{code}[!htb]
+\begin{lstlisting}
+   ---------------------Function main------------------------
+   0x000000000000060e <+0>:	push   rbp
+   0x000000000000060f <+1>:	mov    rbp,rsp
+   0x0000000000000612 <+4>:	sub    rsp,0x20
+   0x0000000000000616 <+8>:	mov    DWORD PTR [rbp-0x14],edi
+   0x0000000000000619 <+11>:	mov    QWORD PTR [rbp-0x20],rsi
+   0x000000000000061d <+15>:	mov    DWORD PTR [rbp-0xc],0x3
+   0x0000000000000624 <+22>:	mov    DWORD PTR [rbp-0x8],0x5
+   0x000000000000062b <+29>:	mov    edx,DWORD PTR [rbp-0x8]
+   0x000000000000062e <+32>:	mov    eax,DWORD PTR [rbp-0xc]
+   0x0000000000000631 <+35>:	mov    esi,edx
+   0x0000000000000633 <+37>:	mov    edi,eax
+   0x0000000000000635 <+39>:	call   0x5fa <add>
+   0x000000000000063a <+44>:	mov    DWORD PTR [rbp-0x4],eax
+   0x000000000000063d <+47>:	mov    eax,0x0
+   0x0000000000000642 <+52>:	leave  
+   0x0000000000000643 <+53>:	ret   
+   ---------------------------------------------------------
+   
+   ---------------------Function Add------------------------
+   0x00000000000005fa <+0>:	push   rbp
+   0x00000000000005fb <+1>:	mov    rbp,rsp
+   0x00000000000005fe <+4>:	mov    DWORD PTR [rbp-0x4],edi
+   0x0000000000000601 <+7>:	mov    DWORD PTR [rbp-0x8],esi
+   0x0000000000000604 <+10>:	mov    edx,DWORD PTR [rbp-0x4]
+   0x0000000000000607 <+13>:	mov    eax,DWORD PTR [rbp-0x8]
+   0x000000000000060a <+16>:	add    eax,edx
+   0x000000000000060c <+18>:	pop    rbp
+   0x000000000000060d <+19>:	ret    
+   --------------------------------------------------------
+\end{lstlisting}
+\caption[Assembler Code Funktionen]{Assembler-Code mit Funktionsaufruf}
+\end{code}
+
+In der main Methode werden in Zeilen main+15 und main+22 die beiden Variablen a und b auf dem Stack initialisiert. In Zeile main+35 wird der call-Befehl vom Prozessor ausgeführt. Call ist in seiner grundlegenden Funktion dem Befehl JMP ähnlich. Beides sind unbedingte Sprungbefehle, das heißt sie laden die übergebene Adresse ohne weiter Prüfung in den PC. Der Unterschied zwischen den beiden besteht darin, dass das Programm nach dem Beenden einer Subroutine wieder an seinen Aufrufort im Hauptprogramm zurückspringt. Um an die richtige Stelle im Hauptprogramm zurückzuspringen wird der call-Befehl deshalb den Wert der Rücksprungadresse auf dem Stack speichern. Nach dem Aufruf von call wird nach Adresse 0x5fa gesprungen, wo sich der Startpunkt der Funktion $add$ befindet.  
 \section{Besondere Ausführungsarten}
 \subsection{Interrupts}
 Das Konzept von Interrupts ist für moderne Prozessoren von enormer Bedeutung, weshalb es in so gut wie jedem modernen Prozessor umgesetzt ist. Bisher wurde in dieser Arbeit nur betrachtet wie ein Prozessor intern logisch funktioniert. Allerdings muss dieser auch mit zahlreichen anderen Bausteinen auf einer Platine zusammenarbeiten um sinnvoll eingesetzt werden zu können. Eine CPU in einem Desktop PC muss beispielsweise auf Tastatureingaben und Mausbewegungen reagieren, oder auf eine Netzwerkschnittstelle welche Daten empfängt. Solche Service-Anforderungen sind von hoher Priorität, da sonst kein reibungsloser Ablauf gewährleistet werden kann. Auswirkungen können zum Beispiel sein, dass die Maus nicht auf Bewegung reagiert oder die Netzwerkschnittstelle keine Daten verarbeiten kann. Ein Problem bei solchen Anforderungen an die CPU ist, dass sie nicht vorhersehbar sind. Eine Mausbewegung kann zu jeder Zeit kommen genau so wie der Datenempfang an einer Netzwerkschnittstelle.
