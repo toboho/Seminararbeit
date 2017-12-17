@@ -19,7 +19,6 @@
 \graphicspath{{images/}}
 
 \captionsetup[table]{position=bottom}
-
 \lstset { %
     language=C++,
     backgroundcolor=\color{black!5}, % set backgroundcolor
@@ -325,9 +324,23 @@ Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltu
 
 \subsubsection{Paging}
 %1024k Hauptspeicher 4096k Programm-> Page à 1024k Byte
-Ein Beispiel: Ein Programmierer hat ein Programm geschrieben welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System auf dem das Programm ausgeführt werden soll besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt wird es folgendermaßen vorgehen. Dem Programmierer wird ausreichende Hauptspeicherkapazität angezeigt. Das Betriebssytem teilt daraufhin den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet. Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalischen Speicher liegt wird die Ausnahme Seitenfehler (''Pagefault Exception'') ausgelöst. Wie in Kapitel \nameref{chap:Exceptions} ausgeführt wird bei einer Exception eine Behandlungsroutine angestoßen. Im Falle der Seitenfehler Ausnahme wird die Routine die Seite (''Page Frame''), welche die benötigte Adresse enthält, aus dem Massenspeicher in den Hauptspeicher laden.
+Ein Beispiel: Ein Programmierer hat ein Programm geschrieben welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System auf dem das Programm ausgeführt werden soll besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt wird es folgendermaßen vorgehen. Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet. 
+
+
+\begin{figure}[!htb]
+\includegraphics[scale=0.7]{Paging}
+\caption{Paging}
+\centering
+\label{fig:register}
+\end{figure}
+
+
+
+Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalischen Speicher liegt wird die Ausnahme Seitenfehler (''Pagefault Exception'') ausgelöst. Wie in Kapitel \nameref{chap:Exceptions} ausgeführt wird bei einer Exception eine Behandlungsroutine angestoßen. Im Falle der Seitenfehler Ausnahme wird die Routine die Seite (''Page Frame''), welche die benötigte Adresse enthält, aus dem Massenspeicher in den Hauptspeicher laden. Paging ist ein kompliziertes Verfahren um das Zusammenspiel von virtuellen und physischen Speicher zu verwalten. Dieses Konzept in Software zu realisieren würde wie die Overlays zu viel Leistung kosten. Deshalb besitzen die meisten modernen Prozessoren einen Controller für solche Speicherverwaltungsaufgaben, die so genannte MMU (''Memory Management Unit''). 
 %TODO Zitat Wüst Seite 177ff
 %https://de.wikipedia.org/wiki/Speicherhierarchie
+\subsubsection{Speichersegmentierung}
+
 
 \subsection{Virtueller Speicher}
 \subsection{Caches}
@@ -459,6 +472,7 @@ Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle ext
 %TODO https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 %Beispiel ausm Buch 
 \subsection{Exceptions}
+Im Gegensatz zu den Interrupts, deren Ursprung ausßerhalb des Prozessors liegt, werden Ausnahmen (''Exceptions'') vom Prozessor selbst ausgelöst.
 
 
 \newpage
