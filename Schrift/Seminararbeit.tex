@@ -492,7 +492,7 @@ In einfachen Prozessoren benötigt jede Stufe einen Takt. Die Ausführung eines 
 
 \begin{table}[!htb]
 \centering
-\caption{Befehlsausführung ohne Pipelining}
+\caption{Befehlsausführung ohne Pipelining \protect\cite{mikroprozessortechnik2011}}
 \label{noPipeline}
 \begin{tabular}{|c|l|l|l|l|l|}
 \hline
@@ -507,15 +507,33 @@ Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{ta
 8    &                                                                                  &                                 & 2. Befehl                                                                       &                                &                                                                                            \\ \hline
 9    &                                                                                  &                                 &                                                                                 & 2. Befehl                      &                                                                                            \\ \hline
 10   &                                                                                  &                                 &                                                                                 &                                & 2. Befehl                                                                                  \\ \hline
+
+
 \end{tabular}
 \end{table}
 
-Wie in Abbildung \ref{noPipeline} dargestellt ist, wird die 
+Wie in Abbildung \ref{noPipeline} dargestellt ist, wird während der erste Befehl dekodiert wird keine weitere Verarbeitung innerhalb der CPU vorgenommen. Um diesen Flaschenhals zu beseitigen wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden.
 
-Um diesen Flaschenhals zu beseitigen wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden (Abbildung).
+\begin{table}[!htb]
+\centering
+\caption{Befehlsausführung mit Pipelining \protect\cite{mikroprozessortechnik2011}}
+\label{pipeline}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren & \begin{tabular}[c]{@{}c@{}}Operanden \\ lesen\end{tabular} & Ausführen & \begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular} \\ \hline
+1    & 1. Befehl                                                   &            &                                                            &           &                                                                 \\ \hline
+2    & 2. Befehl                                                   & 1. Befehl  &                                                            &           &                                                                 \\ \hline
+3    & 3. Befehl                                                   & 2. Befehl  & 1. Befehl                                                  &           &                                                                 \\ \hline
+4    & 4. Befehl                                                   & 3. Befehl  & 2. Befehl                                                  & 1. Befehl &                                                                 \\ \hline
+5    & 5. Befehl                                                   & 4. Befehl  & 3. Befehl                                                  & 2. Befehl & 1. Befehl                                                       \\ \hline
+6    & 6. Befehl                                                   & 5. Befehl  & 4. Befehl                                                  & 3. Befehl & 2. Befehl                                                       \\ \hline
+7    & 7. Befehl                                                   & 6. Befehl  & 5. Befehl                                                  & 4. Befehl & 3. Befehl                                                       \\ \hline
+8    & 8. Befehl                                                   & 7. Befehl  & 6. Befehl                                                  & 5. Befehl & 4. Befehl                                                       \\ \hline
+\end{tabular}
+\end{table}
 
 
-
+In Abbildung \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
 
 
 
