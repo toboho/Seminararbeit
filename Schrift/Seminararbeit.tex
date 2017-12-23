@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 %\usepackage[german]{babel}
 \usepackage{nameref}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{graphicx}
 \usepackage{svg}	
 \usepackage{listings}
@@ -535,9 +536,73 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 
 In Abbildung \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
 
+\noindent\textbf{Datenflusskonflikte:} Zur Veranschaulichung dieses Problems folgendes Beispiel:
+
+\begin{table}[!htb]
+\centering
+\label{confliktProgramm}
+\begin{tabular}{l}
+SUB R1,R5 \\
+ADD R1,R4
+\end{tabular}
+\end{table}
+
+\noindent Dieses kleine Assemblerprogramm führt bei der Ausführung auf einem Prozessor mit z.B fünfstufiger Pipeline zu Problemen. Die Aufgabe des Programms ist es die Inhalte der Register R1 und R5 zu subtrahieren und das Ergebnis wieder in R1 zu speichern. Daraufhin soll das Register R1 mit R5 addiert werden und das Resultat wiederum in R1 speichern. Auf einem Prozessor ohne Pipelining wird dieses Programm wie erwartet durchlaufen und am Ende steht das richtige Ergebnis in Register R1. Wird es aber innerhalb einer Pipeline ausgeführt, so ergibt sich folgendes Problem.
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!htb]
+\centering
+\caption{Datenflusskonflikt Ablauf}
+\label{tabDatenflusskonflikt}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular} & \begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular} & Ausführen                                 & \begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular} \\ \hline
+1    & 1. Befehl                                                  &                                                              &                                                               &                                           &                                                                 \\ \hline
+2    & 2. Befehl                                                  & 1. Befehl                                                    &                                                               &                                           &                                                                 \\ \hline
+3    &                                                            & 2. Befehl                                                    & 1. Befehl                                                     &                                           &                                                                 \\ \hline
+4    &                                                            &                                                              & 2. Befehl                                                     & 1. Befehl                                 &                                                                 \\ \hline
+5    &                                                            &                                                              &                                                               & {\color[HTML]{FE0000} \textbf{2. Befehl}} & {\color[HTML]{FE0000} \textbf{1. Befehl}}                       \\ \hline
+6    &                                                            &                                                              &                                                               &                                           & 2. Befehl                                                       \\ \hline
+\end{tabular}
+\end{table}
+
+\noindent In Tabelle \ref{tabDatenflusskonflikt} ist der Programmablauf für die beiden Befehle abgebildet. Das Programm wird bis zum fünften Takt wie zu erwarten fehlerfrei ausgeführt. Im fünften Takt allerdings kommt es zu einem Problem. Die Logik des Programms erwartet, dass das Ergebnis der ersten Rechnung in Register R1 steht bevor die zweite Rechnung ausgeführt wird. Hier wird aber der zweite Befehl ausgeführt und erst danach das Ergebnis der ersten Rechnung in R1 zurückgeschrieben. Die zweite Rechnung hat also R1 verwendet bevor die erste Operation abgeschlossen wurde. Deshalb befindet sich am Ende ein flasches Ergebnis in Register R1. Dieser aufgetretene Konflikt wird als Datenflusskonflikt bezeichnet. Eine einfache Lösung für solch einen Konflikt besteht darin, NOP-Befehle (''No-Operation'') zwischen abhängige Befehle einzubauen. Im oben gezeigten Beispiel würde bereits eine NOP-Operation zwischen den beiden Befehlen reichen um den Konflikt zu lösen.
+
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{l}
+SUB R1,R5 \\
+NOP       \\
+ADD R1,R4
+\end{tabular}
+\end{table}
 
 
 
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!htb]
+\centering
+\caption{Lösung Datenflusskonflikt}
+\label{tabDatenflusskonfliktloesung}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular} & \begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular} & Ausführen                                                        & \begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular}   \\ \hline
+1    & 1. Befehl                                                  &                                                              &                                                               &                                                                  &                                                                   \\ \hline
+2    & NOP                                                        & 1. Befehl                                                    &                                                               &                                                                  &                                                                   \\ \hline
+3    & 2.Befehl                                                   & NOP                                                          & 1. Befehl                                                     &                                                                  &                                                                   \\ \hline
+4    &                                                            & 2.Befehl                                                     & NOP                                                           & 1. Befehl                                                        &                                                                   \\ \hline
+5    &                                                            &                                                              & 2.Befehl                                                      & {\color[HTML]{000000} NOP}                                       & \cellcolor[HTML]{9AFF99}{\color[HTML]{333333} \textbf{1. Befehl}} \\ \hline
+6    &                                                            &                                                              &                                                               & \cellcolor[HTML]{9AFF99}{\color[HTML]{333333} \textbf{2.Befehl}} & NOP                                                               \\ \hline
+7    &                                                            &                                                              &                                                               &                                                                  & 2.Befehl                                                          \\ \hline
+\end{tabular}
+\end{table}
+
+In Tabelle \ref{tabDatenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. 
 
 \subsection{Mehrkern-Prozessoren}
 
