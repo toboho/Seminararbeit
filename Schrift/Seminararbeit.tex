@@ -324,7 +324,7 @@ Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltu
 
 \subsubsection{Paging}
 %1024k Hauptspeicher 4096k Programm-> Page à 1024k Byte
-Ein Beispiel: Ein Programmierer hat ein Programm geschrieben welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System auf dem das Programm ausgeführt werden soll besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt wird es folgendermaßen vorgehen. Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet. 
+Um dieses Prinzip zu veranschaulichen ist folgendes Beispiel hilfreich. Ein Programmierer hat ein Programm geschrieben welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System auf dem das Programm ausgeführt werden soll besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt wird es folgendermaßen vorgehen. Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet. 
 
 
 \begin{figure}[!htb]
@@ -478,14 +478,55 @@ Im Gegensatz zu den Interrupts, deren Ursprung ausßerhalb des Prozessors liegt,
 \newpage
 
 \section{Leistungsaspekte eines Prozessors}
-Um die Allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurde immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings an ihre Grenzen gestoßen,...
+Um die Allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurde immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
 \subsection{Pipelines und Skalarität}
+Um die Verarbeitungsgeschwindigkeit der Informationsverarbeitung steigern zu können wurde nach den Flaschenhälsen in den ausgeführten Programmen gesucht. Eines der gefundenen Probleme war die geringe Auslastung des Prozessors. Die Befehlsausführung ist wie bereits ausgeführt in fünf Schritte unterteilt.
+\begin{enumerate}
+\item Befehl einlesen
+\item Befehl dekodieren
+\item Operanden einlesen
+\item Befehl ausführen 
+\item Program Counter inkrementieren(PC)
+\end{enumerate}
+In einfachen Prozessoren benötigt jede Stufe einen Takt. Die Ausführung eines Befehls dauert also insgesamt fünf Takte. Während der Befehl zum Beispiel von der Control Unit dekodiert wird (2. Schritt), ist der Rest der Ausführungseinheiten nicht beschäftigt. Der Prozessor ist also nur zu 20\% ausgelastet. 
+
+\begin{table}[!htb]
+\centering
+\caption{Befehlsausführung ohne Pipelining}
+\label{noPipeline}
+\begin{tabular}{|c|l|l|l|l|l|}
+\hline
+Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular}} & \multicolumn{1}{c|}{Dekodieren} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Operanden \\ lesen\end{tabular}} & \multicolumn{1}{c|}{Ausführen} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Ergebnisse \\ zurückschreiben\end{tabular}} \\ \hline
+1    & 1. Befehl                                                                        &                                 &                                                                                 &                                &                                                                                            \\ \hline
+2    &                                                                                  & 1. Befehl                       &                                                                                 &                                &                                                                                            \\ \hline
+3    &                                                                                  &                                 & 1. Befehl                                                                       &                                &                                                                                            \\ \hline
+4    &                                                                                  &                                 &                                                                                 & 1. Befehl                      &                                                                                            \\ \hline
+5    &                                                                                  &                                 &                                                                                 &                                & 1. Befehl                                                                                  \\ \hline
+6    & 2. Befehl                                                                        &                                 &                                                                                 &                                &                                                                                            \\ \hline
+7    &                                                                                  & 2. Befehl                       &                                                                                 &                                &                                                                                            \\ \hline
+8    &                                                                                  &                                 & 2. Befehl                                                                       &                                &                                                                                            \\ \hline
+9    &                                                                                  &                                 &                                                                                 & 2. Befehl                      &                                                                                            \\ \hline
+10   &                                                                                  &                                 &                                                                                 &                                & 2. Befehl                                                                                  \\ \hline
+\end{tabular}
+\end{table}
+
+Wie in Abbildung \ref{noPipeline} dargestellt ist, wird die 
+
+Um diesen Flaschenhals zu beseitigen wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden (Abbildung).
+
+
+
+
+
+
+
+
 \subsection{Mehrkern-Prozessoren}
 
 \section{Planung und Entwurf eines Prozessors}
 Der Inhalt der bisherigen Arbeit handelte von den Komponenten einer CPU und deren Funktionsweißen. Um den dargestellten Inhalt praktischer Vermitteln zu können, wird nun mittels einer Simulationssoftware eine CPU von Grund auf erstellt. Dieser Prozessor stellt keinen Vergleich zu modernen Prozessoren her. Er soll lediglich die Funktionsweiße der essentiellsten Bauteile beschreiben und einfache Operationen wie Sprünge und Subroutinen unterstützen.
 \subsection{Befehlsbreite}
-Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbreite. Je nachdem welche Features eingebaut werden sollen kann der Befehlssatz eingeteilt werden. Logisim bietet die Möglichkeit, einen 32-Bit Bus zu nuzten. Zu Erklärungszwecken werden die 32-Bit wie folgt aufgeteilt:
+Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbreite. Je nachdem welche Features eingebaut werden sollen kann der Befehlssatz eingeteilt werden. Logisim bietet die Möglichkeit, einen maximal 32-Bit weiten Bus zu nutzen. Zu Erklärungszwecken werden die 32-Bit wie folgt aufgeteilt:
 
 \begin{table}[!htb]
 \centering
@@ -502,14 +543,11 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
   
 \end{tabular}
 \end{table}
-
-\indent
+\noindent
 \textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
 \newline
-\indent
 \textbf{Argument: } Das Argument wird nicht bei jedem Befehl verwendet. Diese 8-Bit sind eine Hilfestellung für Operationen bei denen eine genauere Spezifikation der zu ausführenden Tätigkeit benötigt wird. Beispielsweise wird bei der arithmetischen Operation ADD mit Hilfe des Argumentes angegeben, in welches Register das Ergebnis gespeichert werden soll.
 \newline
-\indent
 \textbf{Value: } Die verbleibenden 16-Bit werden als Wertangabe benutzt. Durch diese 16-Bit wird gleichzeitig die Befehlsbusbreite innerhalb des Prozessors festgelegt, das heißt der Prozessor kann mit Zahlen arbeiten welche innerhalb der 16-Bit Grenze liegen (ohne Vorzeichen maximal 65536). Einige Befehle in dieser CPU benötigen allerdings drei Parameter zur Ausführung. Um mit dem Argument drei Parameter bereitzustellen können die letzten 16-Bit in zwei 8-Bit Blöcke gespalten werden. Diese werden hier Quelle und Ziel genannt. Der Befehlssatz sieht bei diesen speziellen Befehlen folgendermaßen aus: 
 \begin{table}[!htb]
 \centering
