@@ -7,6 +7,7 @@
 \contentsline {table}{\numberline {7}{\ignorespaces Befehlsausf\IeC {\"u}hrung mit Pipelining \cite {mikroprozessortechnik2011}\relax }}{28}
 \contentsline {table}{\numberline {8}{\ignorespaces Datenflusskonflikt Ablauf\relax }}{29}
 \contentsline {table}{\numberline {9}{\ignorespaces L\IeC {\"o}sung Datenflusskonflikt\relax }}{30}
-\contentsline {table}{\numberline {10}{\ignorespaces Befehlsbus\relax }}{31}
-\contentsline {table}{\numberline {11}{\ignorespaces Befehlsbus mit drei Parametern\relax }}{32}
-\contentsline {table}{\numberline {12}{\ignorespaces Befehlssatz von VI-17\relax }}{33}
+\contentsline {table}{\numberline {10}{\ignorespaces Programmablauf Steuerflusskonflikt\relax }}{31}
+\contentsline {table}{\numberline {11}{\ignorespaces Befehlsbus\relax }}{32}
+\contentsline {table}{\numberline {12}{\ignorespaces Befehlsbus mit drei Parametern\relax }}{33}
+\contentsline {table}{\numberline {13}{\ignorespaces Befehlssatz von VI-17\relax }}{34}

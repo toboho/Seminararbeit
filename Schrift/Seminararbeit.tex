@@ -605,7 +605,44 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 
 In Tabelle \ref{tabDatenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. Pipelining birgt aber noch eine weitere Problematik.
 
-\noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel ?? dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Vorraussetzungen gelten müssen.
+\noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel ?? dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Vorraussetzungen gelten müssen. Zur Darstellung der bedingten Programmflussänderungen folgendes Beispiel:
+
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Befehle & Assembler      \\ \hline
+1.      & JBE 0xFF635ACB \\ \hline
+2.      & MOV R1,R5      \\ \hline
+3.      & ADD R5,R3      \\ \hline
+4.      & SUB R2,R5      \\ \hline
+\end{tabular}
+\end{table}
+
+
+%----------------------------------------------------------------------------------------------
+\begin{table}[!htb]
+\centering
+\caption{Programmablauf Steuerflusskonflikt}
+\label{tabSteuerflusskonflikt}
+\begin{tabular}{clllll}
+\hline
+Takt & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Befehl\\ einlesen\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular}} & \multicolumn{1}{c}{Ausführen}    & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular}} \\ \hline
+1    & \cellcolor[HTML]{9698ED}1.Befehl                                              &                                                                                  &                                                                                   &                                  &                                                                                     \\ \hline
+2    & \cellcolor[HTML]{38FFF8}2.Befehl                                              & \cellcolor[HTML]{9698ED}1.Befehl                                                 &                                                                                   &                                  &                                                                                     \\ \hline
+3    & \cellcolor[HTML]{67FD9A}3.Befehl                                              & \cellcolor[HTML]{38FFF8}2.Befehl                                                 & \cellcolor[HTML]{9698ED}1.Befehl                                                  &                                  &                                                                                     \\ \hline
+4    & \cellcolor[HTML]{FFFE65}4.Befehl                                              & \cellcolor[HTML]{67FD9A}3.Befehl                                                 & \cellcolor[HTML]{38FFF8}2.Befehl                                                  & \cellcolor[HTML]{9698ED}1.Befehl &                                                                                     \\ \hline
+5    & \cellcolor[HTML]{FE996B}5.Befehl                                              & \cellcolor[HTML]{FFFE65}4.Befehl                                                 & \cellcolor[HTML]{67FD9A}3.Befehl                                                  & \cellcolor[HTML]{38FFF8}2.Befehl & \cellcolor[HTML]{9698ED}1.Befehl                                                    \\ \hline
+6    &                                                                               & \cellcolor[HTML]{FE996B}5.Befehl                                                 & \cellcolor[HTML]{FFFE65}4.Befehl                                                  & \cellcolor[HTML]{67FD9A}3.Befehl & \cellcolor[HTML]{38FFF8}2.Befehl                                                    \\ \hline
+7    &                                                                               &                                                                                  & \cellcolor[HTML]{FE996B}5.Befehl                                                  & \cellcolor[HTML]{FFFE65}4.Befehl & \cellcolor[HTML]{67FD9A}3.Befehl                                                    \\ \hline
+\end{tabular}
+\end{table}
+%----------------------------------------------------------------------------------------------
+
+
+
+
 \subsection{Mehrkern-Prozessoren}
 
 \section{Planung und Entwurf eines Prozessors}
