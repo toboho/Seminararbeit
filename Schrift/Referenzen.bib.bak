@@ -67,4 +67,24 @@
   url       = {http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html},
 }
 
+@Book{rechnerarchitektur,
+  title     = {Rechnerarchitektur},
+  publisher = {Vieweg+Teubner Verlag},
+  year      = {2011},
+  author    = {Herrmann, Paul},
+  isbn      = {978-3-8348-1512-5},
+  date      = {2011-03-11},
+  ean       = {9783834815125},
+  url       = {http://www.ebook.de/de/product/14573310/paul_herrmann_rechnerarchitektur.html},
+}
+
+@Book{technischeInformatik2,
+  title     = {Technische Informatik 2: Grundlagen der Computertechnik (German Edition)},
+  publisher = {Springer},
+  year      = {2002},
+  author    = {Wolfram Schiffmann and Robert Schmitz},
+  isbn      = {3-540-43854-8},
+  url       = {https://www.amazon.com/Technische-Informatik-Grundlagen-Computertechnik-German/dp/3540438548?SubscriptionId=0JYN1NVW651KCA56C102&tag=techkie-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=3540438548},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
