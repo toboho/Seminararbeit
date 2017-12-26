@@ -199,6 +199,28 @@ Aktuelle Prozessoren sind meist CISC Prozessoren. Mit RISC-V existiert aber ein 
 \subsection{Register}
 Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten bevor sie diese verarbeiten könnte. Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit.\cite{mikroprozessortechnik2011} Sie werden aus Flip-Flops aufgebaut welche jeweils genau ein Bit speichern können, das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops.\cite{mikroprozessortechnik2011} Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessordie, es werden deshalb keine großen Speichermengen zur Verfügung gestellt. (Nachteile evtl streichen)
 
+\subsubsection{Aufbau}
+Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau ein Bit speichern. 
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.30]{flipflop}
+\caption{Schaltnetz D-Flip-Flop}
+\centering
+\label{fig:flipflop}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.35]{4bitreg}
+\caption{Schaltnetz 4-Bit Register}
+\centering
+\label{fig:4bitreg}
+\end{figure}
+
+
 \subsubsection{Universalregister}
 Es werden zwei Arten von Registergruppen unterschieden. In einem Universalregister kann ein Programm Werte und Variablen abspeichern. Sie sind einem Programmierer zugänglich, das heißt er kann auf jedes Universalregister direkt zugreifen und seinen Wert verändern.
 %Beispiel
@@ -343,10 +365,20 @@ Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalische
 %https://de.wikipedia.org/wiki/Speicherhierarchie
 \subsubsection{Speichersegmentierung}
 \subsection{Cache}
-Zum Beginn der Prozessorentwicklung entsprach der Speichertakt in etwas dem eines Prozessors. Allerdings zeigte sich schnell, dass der Speichertakt nicht mit dem Prozessortakt in gleichem Maße steigen kann. Der daraus entstandene Geschwindigkeitsunterschied wurde auch Speichermauer (''Memory Wall'') genannt.
+Zum Beginn der Prozessorentwicklung entsprach der Speichertakt in etwas dem eines Prozessors. Allerdings zeigte sich schnell, dass der Speichertakt nicht mit dem Prozessortakt in gleichem Maße steigen kann. Der daraus entstandene Geschwindigkeitsunterschied wurde auch Speichermauer (''Memory Wall'') genannt \cite{mckee2004reflections}.
 %Quelle PDF http://www.cs.columbia.edu/~sedwards/classes/2012/3827-spring/advanced-arch-2011.pdf
 Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunterschied zum Speicher muss der Prozessor mehrere Taktzyklen warten bis der Speicher auf eine Anforderung antwortet. Die Kommunikation mit Speicher ist allerdings ein elementarer Bestandteil der Funktionsweise eines Prozessors. Um diese Latenzzeiten zumindest verkürzen zu können wurde ein weiterer Speichermechanismus zwischen Registerwerk und Arbeitsspeicher eingeführt, der Cache. Der Cache ist im Prozessor selbst verbaut und hat überlicherweiße nur eine Größe von drei bis sechs MegaByte, da er sehr viel Platz und Strom verbraucht. Dafür ist er um ein vielfaches schneller als Arbeitsspeicher. Der Cache selbst ist wiederum in meist drei Teile unterteilt. Der sogenannte Level-1-Cache ist der schnellste Speicher im Cachesystem. Er ist meistens an den Prozessortakt angeschlossen und hat deshalb eine den Registern ähnliche Latenzzeit. Gleichzeitig ist er aber auch der kleinste Speicher in der Cacheorganisation. 
-Üblicherweiße ist der zwischen 8 und 32 KByte groß. Eine Besonderheit des Level-1-Caches ist, dass er  einen getrennten Daten und Instruktionsspeicher besitzt. Etwas mehr Speicherplatz bietet der Level-2-Cache. Er besitzt ca. 256 KByte Speicherplatz, wird aber mit geringerem Takt betrieben. Daraus folgen erhöhte Latenzzeiten im Gegensatz zum L1-Cache.
+Üblicherweiße ist der zwischen 8 und 32 KByte groß. Eine Besonderheit des Level-1-Caches ist, dass er  einen getrennten Daten und Instruktionsspeicher besitzt. Etwas mehr Speicherplatz bietet der Level-2-Cache. Er besitzt ca. 256 KByte Speicherplatz, wird aber mit geringerem Takt betrieben. Daraus folgen erhöhte Latenzzeiten im Gegensatz zum L1-Cache. Den größten Speicherplatz bietet der Level-3-Cache. Dieser besitzt eine Größe von etwa 6 MByte\footnote{Diese Größen basieren beispielhaft auf einem Intel i7-6700HQ. Serverprozessoren besitzen ein vielfaches mehr Cache}. Der L3 Cache taktet sehr viel langsamer als der Prozessor und hat deshalb auch die höchsten Latenzzeiten innerhalb der Cacheorganisation.\cite{molka2009memory}. Hier ist noch anzumerken dass bei Mehrkernprozessoren der Level-3-Cache zwischen allen Kernen geteilt wird, wohingegen der Level-1 sowie Level-2-Cache jedem Kern exklusiv zu Verfügung steht.
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{lscpu}
+\caption{Teil der Ausgabe des Befehls ''lscpu'' in Ubuntu}
+\centering
+\label{fig:lscpu}
+\end{figure}
+In Abbildung \ref{fig:lscpu} ist als Beispiel die Cache-Organisation eines Intel i7-6700HQ Notebookprozessors dargestellt. Gut zu sehen ist dass der L1 Cache in einen Datenspeicher (''L1d'') und einen Instruktionsspeicher (''L1i'') geteilt ist. 
 
 Er ist also nicht imstande einen Ersatz für den Arbeitsspeicher bereitzustellen. Durch statistische Untersuchungen von Speicherzugriffen konnten allerdings bestimmte Erkenntnisse gewonnen werden. Wenn ein Prozessor Daten aus dem Arbeitsspeicher anfordert ist die Wahrscheinlichkeit groß, dass er in kommenden Speicherzugriffen Daten anfordern wird welche in der Nähe der vorher verwendeten Adresse liegt. Diesen Umstand nennt man räumliche Lokalität. Das kann zum Beispiel passieren wenn Textdaten unfragmentiert im Arbeitsspeicher liegen. Dann wird der Prozessor mit hoher Wahrscheinlichkeit sequentiell einen ganzen Block im Arbeitsspeicher anfragen. Der Cache wird daraufhin den Datenblock aufnehmen um die Latenz der kommenden Anfragen zu verbessern. Eine weiter Eigenschaft ist die zeitliche Lokalität des Speicherzugriffs. Wenn eine Adresse aus dem Hauptspeicher angefordert wird, so ist die Wahrscheinlichtkeit höher dass sie bald wieder benötigt wird. Solch eine Situation kann zum Beispiel bei dem Überprüfen einer Laufvariablen in einer Schleife auftreten. Anstatt die Adresse bei jedem Schleifendurchlauf aus dem langsamen Hauptspeicher zu laden wird sie im Cache gespeichert. 
 Der Cache Speicher ist wie der Arbeitsspeicher ein flüchtiger Speicher, er verliert also seinen gespeicherten Inhalt bei Stromverlust. Daraus folgt auch dass er zu Beginn leer ist und sukzessive mit Einträgen gefüllt werden muss.
@@ -474,27 +506,24 @@ Dieses kleine Programm initialisiert zwei Variablen, a und b, mit int Werten. Ei
 \end{code}
 
 In der main Methode werden in Zeilen main+15 und main+22 die beiden Variablen a und b auf dem Stack initialisiert. In Zeile main+35 wird der call-Befehl vom Prozessor ausgeführt. Call ist in seiner grundlegenden Funktion dem Befehl JMP ähnlich. Beides sind unbedingte Sprungbefehle, das heißt sie laden die übergebene Adresse ohne weiter Prüfung in den PC. Der Unterschied zwischen den beiden besteht darin, dass das Programm nach dem Beenden einer Subroutine wieder an seinen Aufrufort im Hauptprogramm zurückspringt. Um an die richtige Stelle im Hauptprogramm zurückzuspringen wird der call-Befehl deshalb den Wert der Rücksprungadresse auf dem Stack speichern. Nach dem Aufruf von call wird nach Adresse 0x5fa gesprungen, wo sich der Startpunkt der Funktion $add$ befindet. Die Funktion hat nur die Funktion die beiden übergebenen Werte zu addieren und das Ergebnis zurückzugeben. In Zeile add+16 werden die beiden Register mit den Variablen addiert. Daraufhin wird das Programm beendet. Hier wird ein interresantes Detail über Funktionsaufrufe in Assembler ersichtlich. In Hochsprachen ist es ein Entwickler gewohnt, dass eine Funktion Übergabeparameter und Rückgabeparameter besitzt. Diese Übergaben sind aber in Assembler nicht explizit möglich. Die Parameter werden deshalb in Registern gespeichert welche vom Compiler verwaltet werden müssen.In den Zeilen 35 und 37 der main-Funktion werden die beiden Variablen a und b in den Registern $esi$ und $edi$ gespeichert. Diese beiden Register dienen nun als Übergabeparameter für die Funktion add. In der Funktion werden die Variablen dann erst auf dem Stack gespeichert und dann in die Register $edx$ und $eax$ verschoben. Diese werden daraufhin addiert und das Ergebnis wird in $eax$ gespeichert. Als letzter Schritt wird die Funktion mit dem Befehl $ret$ (Zeile add+19) beendet. Dieser Befehl lädt den Program Counter wieder mit dem Wert der Rücksprungadresse welche vom call-Befehl auf dem Stack gespeichert wurde.
-\section{Besondere Ausführungsarten}
-\subsection{Interrupts}
+
+\section{Interrupts}
 Das Konzept von Interrupts ist für moderne Prozessoren von enormer Bedeutung, weshalb es in so gut wie jedem modernen Prozessor implementiert ist. Bisher wurde in dieser Arbeit nur betrachtet wie ein Prozessor intern logisch funktioniert. Allerdings muss dieser auch mit zahlreichen anderen Bausteinen auf einer Platine zusammenarbeiten um sinnvoll eingesetzt werden zu können. Eine CPU in einem Desktop PC muss beispielsweise auf Tastatureingaben und Mausbewegungen reagieren, oder auf eine Netzwerkschnittstelle welche Daten empfängt. Solche Service-Anforderungen sind von hoher Priorität, da sonst kein reibungsloser Ablauf gewährleistet werden kann. Auswirkungen können zum Beispiel sein, dass die Maus nicht auf Bewegung reagiert oder die Netzwerkschnittstelle keine Daten verarbeiten kann. Ein Problem bei solchen Anforderungen an die CPU ist, dass sie nicht vorhersehbar sind, also asynchron auftreten. Eine Mausbewegung kann zu jeder Zeit kommen genau so wie der Datenempfang an einer Netzwerkschnittstelle.
 %TODO Absatz
 \par
-\noindent Ein mögliches Konzept um auf diese Anforderungen zu reagieren sind so genannte Polling-Schleifen. Wenn z.B ein Datenstrom über das Netzwerk übertragen werden soll, dann besitzt die CPU intern ein Statusregister, welches anzeigt, ob die Netzwerkschnittstelle bereit ist das nächste Paket zu verschicken. Zeigt das Register an, dass es bereit ist schickt die CPU das nächste Paket zu der Netzwerkschnittstelle. Da die externe Schnittstelle um ein vielfaches langsamer taktet als der Prozessor werden viele Abfragezyklen an das Statusregister verschwendet. Dieses Verfahren ist sehr ineffizient und wird deshalb so gut wie nie verwendet.
+\noindent Ein mögliches Konzept um auf diese Anforderungen zu reagieren sind so genannte Polling-Schleifen. Wenn z.B ein Datenstrom über das Netzwerk übertragen werden soll, dann besitzt die CPU intern ein Statusregister, welches anzeigt, ob die Netzwerkschnittstelle bereit ist das nächste Paket zu verschicken. Zeigt das Register an, dass es bereit ist schickt die CPU das nächste Paket zu der Netzwerkschnittstelle. Da die externe Schnittstelle um ein vielfaches langsamer taktet als der Prozessor werden viele Abfragezyklen an das Statusregister verschwendet. Dieses Verfahren ist sehr ineffizient und wird deshalb so gut wie nie verwendet. \cite{mikroprozessortechnik2011}
 \par 
 \noindent Um Service-Anforderungen effizienter durch den Prozessor bearbeiten zu können hat sich ein Verfahren namens Interruptkonzept etabliert. Ein Interrupt (''Unterbrechung'') ist ein Signal, welches externe Schnittstellen an den Prozessor senden können wenn sie einen Service anfordern wollen. Im Gegensatz zu Polling-Schleifen muss der Prozessor nicht ständig den Zustand der Schnittstellen abfragen sondern kann seinen internen Programmfluss ungestört abarbeiten bis ein Interrupt angefordert wird. Der Prozessor benötigt für ein solches Verfahren einen seperaten Interrupt-Eingang. Wenn zum Beispiel eine Taste auf der Tastatur gedrückt wurde schickt das Betriebssystem einen Interrupt vom Tastatur-Controller an die CPU. Der Prozessor wird daraufhin seinen Programmfluss unterbrechen und in eine spezielle Interrupt Behandlungsroutine springen.
 
 \noindent Im Unterschied zu Subroutinen können Interrupts jederzeit auftreten, sie sind deshalb asnychron. Das ist problematisch, da keinerlei Vorbereitungen auf die Verzweigung im Programmfluss getroffen werden können. Die ISR (''Interrupt Service Routine''), also der Programmcode welcher bei einem bestimmten Interrupt ausgeführt wird, muss aber Register- und Flagwerte verändern. Um einen reibungslosen Übergang in das unterbrochene Programm zu gewährleisten, sichern die ISR die Register- und Flagwerte zu Beginn ihrer Ausführung auf dem Stack. Sobald der Interrupt abgearbeitet ist, werden die Werte aus dem Stack wieder geladen und das Unterprogramm wird beendet. Somit kann das unterbrochene Hauptprogramm sofort weiter ausgeführt werden.
  
 \noindent Ein Prozessor ist an mehrere externe Schnittstellen angebunden welche Interrupts auslösen können. Um die Priorität der Interrupts zu verwalten und den Prozessor zu entlasten besitzen die meisten Interruptfähigen Prozessoren einen Interrupt-Controller. Der Aufbau und die Funktionsweise des Controllers wird im Folgenden nur oberflächlich beschrieben. Die Vektorisierung, Kaskadierung und das Daisy-Chaining von Interrupts wird hier nicht behandelt.
-Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Priorisierung von Interrupts. Das Interrupt-Masken-Register (IMR) ist dafür zuständig, die einzelnen Interrupteingänge für Interrupts freizuschalten oder zu sperren. Nur wenn im IMR das Interrupt-Freigabe-Bit für den jeweiligen Interrupt gesetzt ist wird der Interrupt weiterverarbeitet. Das Interrupt-Request-Register (IRR) enthält die Interrupts, welche vom IMR freigeschaltet  und von den externen Interruptquellen angefordert wurden. Vereinfacht kann man sich die Werte des IRR als UND-Verknüpfung zwischen den Werten der Interrupteingänge und den Werten des IMR vorstellen. Da es möglich ist, dass mehrere Interrupts gleichzeitig auftreten muss der Interrupt-Controller entscheiden welche Unterbrechung Vorrang hat. Die Entscheidung trifft der Controller auf der Basis der Werte des Prioritätenregisters. In ihm ist die Reihenfolge der Interruptabarbeitung hinterlegt. Das Prioritätenschaltnetz (PSN) wird nun die Reihenfolge der Abarbeitung bestimmmen indem es die Werte des IRR und des Prioritätenregisters beschreibt. Die als erstes abzuarbeitende Unterbrechung wird in das Interrupt-Service-Register (ISR) geschrieben. Das ISR zeigt also an welcher Interrupt zur Verarbeitung an den Prozessor weitergegeben wird.
+Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Priorisierung von Interrupts. Das Interrupt-Masken-Register (IMR) ist dafür zuständig, die einzelnen Interrupteingänge für Interrupts freizuschalten oder zu sperren. Nur wenn im IMR das Interrupt-Freigabe-Bit für den jeweiligen Interrupt gesetzt ist wird der Interrupt weiterverarbeitet. Das Interrupt-Request-Register (IRR) enthält die Interrupts, welche vom IMR freigeschaltet  und von den externen Interruptquellen angefordert wurden. Vereinfacht kann man sich die Werte des IRR als UND-Verknüpfung zwischen den Werten der Interrupteingänge und den Werten des IMR vorstellen. Da es möglich ist, dass mehrere Interrupts gleichzeitig auftreten muss der Interrupt-Controller entscheiden welche Unterbrechung Vorrang hat. Die Entscheidung trifft der Controller auf der Basis der Werte des Prioritätenregisters. In ihm ist die Reihenfolge der Interruptabarbeitung hinterlegt. Das Prioritätenschaltnetz (PSN) wird nun die Reihenfolge der Abarbeitung bestimmmen indem es die Werte des IRR und des Prioritätenregisters beschreibt. Die als erstes abzuarbeitende Unterbrechung wird in das Interrupt-Service-Register (ISR) geschrieben. Das ISR zeigt also an welcher Interrupt zur Verarbeitung an den Prozessor weitergegeben wird. \cite{mikroprozessortechnik2011}
 %TODO man dann füllwörter
 
 Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle externen Schnittstellen sind interruptfähig. Dieses Konzept ist sehr effizient und die Probleme die es mitbringt werden durch den Interruptcontroller eliminiert.
 %TODO https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 %Beispiel ausm Buch 
-\subsection{Exceptions}
-Im Gegensatz zu den Interrupts, deren Ursprung ausßerhalb des Prozessors liegt, werden Ausnahmen (''Exceptions'') vom Prozessor selbst ausgelöst.
-
 
 \newpage
 
