@@ -217,11 +217,11 @@ In Abbildung \ref{fig:flipflop} ist das Schaltnetz eines D-Flip-Flops dargestell
 \label{andnand}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Eingang 1 & Eingang 2 & AND-Ausgang & NAND-Ausgang \\ \hline
-0         & 0         & 0           & 1            \\ \hline
-0         & 1         & 0           & 1            \\ \hline
-1         & 0         & 0           & 1            \\ \hline
-1         & 1         & 1           & 0            \\ \hline
+Eingang 1 & Eingang 2 & AND & NAND \\ \hline
+0         & 0         & 0   & 1    \\ \hline
+0         & 1         & 0   & 1    \\ \hline
+1         & 0         & 0   & 1    \\ \hline
+1         & 1         & 1   & 0    \\ \hline
 \end{tabular}
 \caption{Schaltregeln AND und NAND Gatter}
 \end{table}
@@ -243,6 +243,18 @@ In Tabelle \ref{andnand} sind die Schaltregeln für ein AND und NAND Gatter darg
 \subsubsection{Universalregister}
 Es werden zwei Arten von Registergruppen unterschieden. In einem Universalregister kann ein Programm Werte und Variablen abspeichern. Sie sind einem Programmierer zugänglich, das heißt er kann auf jedes Universalregister direkt zugreifen und seinen Wert verändern.
 %Beispiel
+Der Prozessor des Computers mit dem diese Arbeit verfasst wurde besitzt folgende Register.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{inforeg}
+\caption{Ausgabe des GDB-Befehls ''info registers''}
+\centering
+\label{fig:inforeg}
+\end{figure}
+
+
+\noindent Abbildung \ref{fig:inforeg} zeigt die Register eines i7-6700HQ. Ausgenommen sind hier die Register für spezielle Befehlssatzerweiterungen wie zum Beispiel SIMD oder AVX. Diese sind in der Regel 128 bzw. 256 Bit breit. Die Universalregister sind in der Abbildung mit den Namen R8 bis R15 zu sehen. Das erste Register, RAX, ist der Akkumulator. In ihm wird das Ergebnis einer Operation der Arithmetisch Logischen Einheit gespeichert. 
 
 \subsubsection{Spezialregister}
 Spezialregister werden von einer CPU für interne Zwecke genutzt. Oft sind in Prozessoren ähnliche Spezialregister zu finden. 
@@ -315,7 +327,6 @@ Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbr
 
 \begin{table}[!htb]
 \centering
-\label{carry}
 \begin{tabular}{|c|c|c|c|}
 \hline
 Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
@@ -323,8 +334,10 @@ Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
 253+3    & 256          & 00000000     & 1          \\ \hline
 \end{tabular}
 \caption{Beispiele Carry-Flag}
+\label{tab:carry}
+
 \end{table}
-In Abbildung \ref{carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null, gespeichert. Um diese Fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
+In Tabelle \ref{tab:carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null, gespeichert. Um diese Fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
 Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wird das Carry Flag dazu verwendet den Wert des herausgeschobenen Bits anzuzeigen.
 
 
@@ -333,19 +346,21 @@ Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wir
 \noindent \textbf{Overflow-Flag (Überlauf-Bit):} Diese Flag wird beim Rechnen mit Zahlen im Zweierkomplement benötigt. Es wird gesetzt, wenn bei einer Addition oder Subtraktion ein Übertrag auf das MSB stattfindet, also das höchstwertige Bit verändert wird. 
 \begin{table}[!htb]
 \centering
-\label{overflow}
 \begin{tabular}{|c|c|c|c|}
 \hline
 Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Bit \\ \hline \hline
 122+5        & 127                         & 01111111     & 0            \\ \hline \hline
 122+6        & -128                        & 10000000      & 1            \\ \hline
+
 \end{tabular}
 \caption{Rechnen im Zweierkomplement mit 8-Bit Zahlen}
+
+\label{tab:overflow}
 \end{table}
 
-In Abbildung \ref{overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
+In Abbildung \ref{tab:overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
 $${-2}^{n-1}+ ... +2^{n-1}-1$$
-In Tabelle \ref{overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der darstellbare Zahlenbereich für das Beispiel von $-128$ bis $+127$. Die erste Rechnung ergibt 127, die höchste positive darstellbare Zahl im Zweierkomplement mit 8-Bit. Es kommt zu keinem Übertrag auf das MSB, also wird das Overflow Bit nicht gesetzt. In der zweiten Zeile kommt es zu einem Übertrag auf das MSB und das Ergebnis wird verfälscht, da +128 nicht mehr im darstellbaren Zahlenbereich für diese Rechnung liegt. Um das falsche Ergebnis anzuzeigen wird die ALU das Overflow Bit auf 1 setzen. 
+In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der darstellbare Zahlenbereich für das Beispiel von $-128$ bis $+127$. Die erste Rechnung ergibt 127, die höchste positive darstellbare Zahl im Zweierkomplement mit 8-Bit. Es kommt zu keinem Übertrag auf das MSB, also wird das Overflow Bit nicht gesetzt. In der zweiten Zeile kommt es zu einem Übertrag auf das MSB und das Ergebnis wird verfälscht, da +128 nicht mehr im darstellbaren Zahlenbereich für diese Rechnung liegt. Um das falsche Ergebnis anzuzeigen wird die ALU das Overflow Bit auf 1 setzen. 
 %TODO Overflow Flag wird mit XOR aus Carry in und Carry Out berechnet ... Noch nicht ganz verstanden.
 
 
@@ -621,7 +636,6 @@ ADD R1,R4
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[!htb]
 \centering
-\label{tabDatenflusskonflikt}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular} & \begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular} & Ausführen                                 & \begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular} \\ \hline
@@ -633,9 +647,10 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 6    &                                                            &                                                              &                                                               &                                           & 2. Befehl                                                       \\ \hline
 \end{tabular}
 \caption{Datenflusskonflikt Ablauf}
+\label{tab:Datenflusskonflikt}
 \end{table}
 
-\noindent In Tabelle \ref{tabDatenflusskonflikt} ist der Programmablauf für die beiden Befehle abgebildet. Das Programm wird bis zum fünften Takt wie zu erwarten fehlerfrei ausgeführt. Im fünften Takt allerdings kommt es zu einem Problem. Die Logik des Programms erwartet, dass das Ergebnis der ersten Rechnung in Register R1 steht bevor die zweite Rechnung ausgeführt wird. Hier wird aber der zweite Befehl ausgeführt und erst danach das Ergebnis der ersten Rechnung in R1 zurückgeschrieben. Die zweite Rechnung hat also R1 verwendet bevor die erste Operation abgeschlossen wurde. Deshalb befindet sich am Ende ein flasches Ergebnis in Register R1. Dieser aufgetretene Konflikt wird als Datenflusskonflikt bezeichnet. Eine einfache Lösung für solch einen Konflikt besteht darin, NOP-Befehle (''No-Operation'') zwischen abhängige Befehle einzubauen. Im oben gezeigten Beispiel würde bereits eine NOP-Operation zwischen den beiden Befehlen reichen um den Konflikt zu lösen.
+\noindent In Tabelle \ref{tab:Datenflusskonflikt} ist der Programmablauf für die beiden Befehle abgebildet. Das Programm wird bis zum fünften Takt wie zu erwarten fehlerfrei ausgeführt. Im fünften Takt allerdings kommt es zu einem Problem. Die Logik des Programms erwartet, dass das Ergebnis der ersten Rechnung in Register R1 steht bevor die zweite Rechnung ausgeführt wird. Hier wird aber der zweite Befehl ausgeführt und erst danach das Ergebnis der ersten Rechnung in R1 zurückgeschrieben. Die zweite Rechnung hat also R1 verwendet bevor die erste Operation abgeschlossen wurde. Deshalb befindet sich am Ende ein flasches Ergebnis in Register R1. Dieser aufgetretene Konflikt wird als Datenflusskonflikt bezeichnet. Eine einfache Lösung für solch einen Konflikt besteht darin, NOP-Befehle (''No-Operation'') zwischen abhängige Befehle einzubauen. Im oben gezeigten Beispiel würde bereits eine NOP-Operation zwischen den beiden Befehlen reichen um den Konflikt zu lösen.
 
 
 \begin{table}[!htb]
@@ -691,7 +706,6 @@ Befehle & Assembler      \\ \hline
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
-\label{tabSteuerflusskonflikt}
 \begin{tabular}{|c|l|l|l|l|l|}
 \hline
 \textbf{Takt} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Befehl\\ einlesen\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular}}} & \multicolumn{1}{c|}{\textbf{Ausführen}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular}}} \\ \hline
@@ -704,15 +718,16 @@ Befehle & Assembler      \\ \hline
 7             &                                                                                         &                                                                                            & \cellcolor[HTML]{FFFFFF}                                                                    & \cellcolor[HTML]{FFFE65}4.Befehl        & \cellcolor[HTML]{67FD9A}3.Befehl                                                              \\ \hline
 \end{tabular}
 \caption{Programmablauf Steuerflusskonflikt}
+\label{tab:Steuerflusskonflikt}
+
 \end{table}
 
-\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tabSteuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Program Counter mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl die Operanden eingelesen und der zweite Befehl ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Program Counters, falls die Sprungbedingung erfüllt wurde. 
+\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Program Counter mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl die Operanden eingelesen und der zweite Befehl ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Program Counters, falls die Sprungbedingung erfüllt wurde. 
 
 Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Programm einzubauen, bis der Sprungbefehl abgearbeitet ist. Die Anzahl der benötigten Fülloperationen wird durch die Breite der Pipeline bestimmt. In den gezeigten Beispielen mit einer fünfstufigen Pipeline werden drei NOP-Operationen benötigt um den Steuerflusskonflikt zu beseitigen.
 
 \begin{table}[!htb]
 \centering
-\label{tabStuerflusskonflikt}
 \begin{tabular}{|c|l|l|l|l|l|}
 \hline
 \textbf{Takt}           & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Befehl\\ einlesen\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular}}} & \multicolumn{1}{c|}{\textbf{Ausführen}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular}}} \\ \hline
@@ -726,8 +741,9 @@ Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Pro
 \multicolumn{1}{|l|}{8} &                                                                                         & \cellcolor[HTML]{FFFE65}4.Befehl                                                           & \cellcolor[HTML]{67FD9A}3.Befehl                                                            & \cellcolor[HTML]{38FFF8}2.Befehl        & \cellcolor[HTML]{F8A102}NOP                                                                   \\ \hline
 \end{tabular}
 \caption{Lösung Steuerflusskonflikt}
+\label{tab:Steuerflusskonflikt}
 \end{table}
-\noindent In Abbildung \ref{tabStuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Program Counters nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
+\noindent In Tabelle \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Program Counters nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
 
 \section{Planung und Entwurf eines Prozessors}
 Der Inhalt der bisherigen Arbeit handelte von den Komponenten einer CPU und deren Funktionsweißen. Um den dargestellten Inhalt praktischer Vermitteln zu können, wird nun mittels einer Simulationssoftware eine CPU von Grund auf erstellt. Dieser Prozessor stellt keinen Vergleich zu modernen Prozessoren her. Er soll lediglich die Funktionsweiße der essentiellsten Bauteile beschreiben und einfache Operationen wie Sprünge und Subroutinen unterstützen.
@@ -893,7 +909,7 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \subsection{Entwicklung und Ausführung eines Programmes}
 
 
-Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter einem aktuellen Ubuntu kompiliert.
+Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter Ubuntu 17.10 mit dem Linuxkernel 4.13 kompiliert.
 
 \begin{code}[!htb]
 \begin{lstlisting}
