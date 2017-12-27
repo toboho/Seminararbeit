@@ -1,9 +1,9 @@
 \contentsline {table}{\numberline {1}{\ignorespaces Rechnung mit \IeC {\"U}bertrag\relax }}{4}
 \contentsline {table}{\numberline {2}{\ignorespaces Rechnung mit \IeC {\"U}berlauf\relax }}{5}
 \contentsline {table}{\numberline {3}{\ignorespaces Schaltregeln AND und NAND Gatter\relax }}{12}
-\contentsline {table}{\numberline {4}{\ignorespaces Schritte der for-Schleife\relax }}{17}
-\contentsline {table}{\numberline {5}{\ignorespaces Beispiele Carry-Flag\relax }}{17}
-\contentsline {table}{\numberline {6}{\ignorespaces Rechnen im Zweierkomplement mit 8-Bit Zahlen\relax }}{18}
+\contentsline {table}{\numberline {4}{\ignorespaces Schritte der for-Schleife\relax }}{18}
+\contentsline {table}{\numberline {5}{\ignorespaces Beispiele Carry-Flag\relax }}{18}
+\contentsline {table}{\numberline {6}{\ignorespaces Rechnen im Zweierkomplement mit 8-Bit Zahlen\relax }}{19}
 \contentsline {table}{\numberline {7}{\ignorespaces Befehlsausf\IeC {\"u}hrung ohne Pipelining \cite {mikroprozessortechnik2011}\relax }}{33}
 \contentsline {table}{\numberline {8}{\ignorespaces Befehlsausf\IeC {\"u}hrung mit Pipelining \cite {mikroprozessortechnik2011}\relax }}{33}
 \contentsline {table}{\numberline {9}{\ignorespaces Datenflusskonflikt Ablauf\relax }}{34}
