@@ -202,7 +202,6 @@ Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren be
 \subsubsection{Aufbau}
 Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau ein Bit speichern. 
 
-
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.30]{flipflop}
@@ -211,14 +210,34 @@ Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau e
 \label{fig:flipflop}
 \end{figure}
 
+In Abbildung \ref{fig:flipflop} ist das Schaltnetz eines D-Flip-Flops dargestellt. Es ist aus 4 NAND Gattern aufgebaut und speichert den Wert des Eingangs (E) wenn der Takt auf 1 steht. Ein NAND Gatter ist ein UND Gatter dessen Ausgang negiert wird. Der Ausgang eines AND-Gatters ist 1 wenn alle Eingänge ebenfalls 1 sind. Umgekehrt gilt, wenn alle Eingänge eines NAND-Gatters auf 1 stehen so wird der Ausgang den Wert 0 besitzen.
 
+\begin{table}[!htb]
+\centering
+\label{andnand}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Eingang 1 & Eingang 2 & AND & NAND \\ \hline
+0         & 0         & 0   & 1    \\ \hline
+0         & 1         & 0   & 1    \\ \hline
+1         & 0         & 0   & 1    \\ \hline
+1         & 1         & 1   & 0    \\ \hline
+\end{tabular}
+\caption{Schaltregeln AND und NAND Gatter}
+\end{table}
+
+In Tabelle \ref{andnand} sind die Schaltregeln für ein AND und NAND Gatter dargestellt. Ein FlipFlop kann allerdings nur ein Bit speichern, deshalb werden für ein Register mehrere Flip-Flops zusammengeschaltet und agieren damit als gemeinsamer Speicher. In Abbildung \ref{fig:4bitreg} auf Seite \pageref{page:4bitreg} sind vier solcher D-Flip-Flops zu einem 4-Bit Register verbunden worden.  Aktuelle Prozessoren besitzen meist mindestens 64-Bit Register oder sogar mehr\footnote{Mit dem Intel AVX Befehlssatz wurde die Breite der SIMD-Register von 128 auf 256 Bit erhöht\cite{lomont2011introduction}}. Durch die hohe Anzahl an benötigten Gattern ergibt sich ein sehr hoher Stromverbrauch und eine beachtliche Wärmeentwicklung. Aus diesem Grund sind Register die kleinste, aber dafür schnellste, Speichereinheit in einem Prozessor.
+
+\newpage
+\label{page:4bitreg}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.35]{4bitreg}
 \caption{Schaltnetz 4-Bit Register}
+\includegraphics[scale=0.35]{4bitreg}
 \centering
 \label{fig:4bitreg}
 \end{figure}
+\newpage
 
 
 \subsubsection{Universalregister}

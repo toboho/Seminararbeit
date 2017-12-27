@@ -87,5 +87,40 @@
   url       = {https://www.amazon.com/Technische-Informatik-Grundlagen-Computertechnik-German/dp/3540438548?SubscriptionId=0JYN1NVW651KCA56C102&tag=techkie-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=3540438548},
 }
 
+@Article{smith1985instruction,
+  author  = {Smith, James E. and Goodman, James R.},
+  title   = {Instruction cache replacement policies and organizations},
+  journal = {IEEE Transactions on Computers},
+  year    = {1985},
+  volume  = {34},
+  number  = {3},
+  pages   = {234--241},
+}
+
+@InProceedings{mckee2004reflections,
+  author       = {McKee, Sally A},
+  title        = {Reflections on the memory wall},
+  booktitle    = {Proceedings of the 1st conference on Computing frontiers},
+  year         = {2004},
+  pages        = {162},
+  organization = {ACM},
+}
+
+@InProceedings{molka2009memory,
+  author       = {Molka, Daniel and Hackenberg, Daniel and Schone, Robert and Muller, Matthias S},
+  title        = {Memory performance and cache coherency effects on an intel nehalem multiprocessor system},
+  booktitle    = {Parallel Architectures and Compilation Techniques, 2009. PACT'09. 18th International Conference on},
+  year         = {2009},
+  pages        = {261--270},
+  organization = {IEEE},
+}
+
+@Article{lomont2011introduction,
+  author  = {Lomont, Chris},
+  title   = {Introduction to intel advanced vector extensions},
+  journal = {Intel White Paper},
+  year    = {2011},
+  pages   = {1--21},
+}
 
 @Comment{jabref-meta: databaseType:bibtex;}
