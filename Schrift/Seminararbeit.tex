@@ -274,14 +274,6 @@ Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zu
 Da über ein Bussystem immer nur zwei Komponenten miteinander kommunizieren können, muss das Steuerwerk die Busse für die jeweiligen Komponenten wie zum Beispiel CPU zu Speicher und CPU zu Peripherie freischalten. 
 \cite{computerarchitecture2007}
 
-%
-%\begin{figure}[!htb]
-%\includegraphics[scale=0.40]{circ}
-%\caption{Darstellung des RegisterwerkTODO}
-%\centering
-%\label{fig:register}
-%\end{figure}
-\subsection{Adresswerk}
 
 \subsection{Arithmetisch Logische Einheit}
 %https://en.wikibooks.org/wiki/Microprocessor_Design/ALU#Example:_4-Bit_ALU
@@ -348,8 +340,8 @@ Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wir
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
-Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Bit \\ \hline \hline
-122+5        & 127                         & 01111111     & 0            \\ \hline \hline
+Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Flag \\ \hline 
+122+5        & 127                         & 01111111     & 0            \\ \hline 
 122+6        & -128                        & 10000000      & 1            \\ \hline
 
 \end{tabular}
@@ -358,19 +350,20 @@ Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Bit \\ \hli
 \label{tab:overflow}
 \end{table}
 
-In Abbildung \ref{tab:overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
+\noindent In Abbildung \ref{tab:overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
 $${-2}^{n-1}+ ... +2^{n-1}-1$$
 In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der darstellbare Zahlenbereich für das Beispiel von $-128$ bis $+127$. Die erste Rechnung ergibt 127, die höchste positive darstellbare Zahl im Zweierkomplement mit 8-Bit. Es kommt zu keinem Übertrag auf das MSB, also wird das Overflow Bit nicht gesetzt. In der zweiten Zeile kommt es zu einem Übertrag auf das MSB und das Ergebnis wird verfälscht, da +128 nicht mehr im darstellbaren Zahlenbereich für diese Rechnung liegt. Um das falsche Ergebnis anzuzeigen wird die ALU das Overflow Bit auf 1 setzen. 
 %TODO Overflow Flag wird mit XOR aus Carry in und Carry Out berechnet ... Noch nicht ganz verstanden.
 
 
-\subsection{Memory Management Unit}
-Die Speicherverwaltungseinheit (MMU) ist ein relativ neuer Bestandteil einer CPU. Sie befindet sich am Adressbus und steuert die Adressierung zwischen der CPU und dem Speicher. Ihre Aufgabe ist die Umwandlung von virtuellen in physische Speicheradressen.  
-
-
-%Adressierungsarten
-% https://www.youtube.com/watch?v=aSSmsETQARw
 \subsection{Bussysteme}
+Bisher wurde zwar der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, allerdings nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte also jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komonenten auf diese Weise verbunden werden würden ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschliesen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Systembus angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf da es sonst zu Kollisionen auf dem entsprechenden Bus kommt. Diese Problematik zeigt sich auch bei Rechnernetzen wenn verschiedene Geräte über das gleiche Medium (z.B. Ethernet) kommunizieren wollen. Dafür wurde das Verfahren CSMA (''Carrier Sense Multiple Access'') entwickelt. Es ist die Aufgabe der Geräte, eine Kollision zu erkennen (''Collision Detection'') und den Konflikt zu lösen. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
+
+Eine wichtige Entscheidung bei der Entwicklung eines Prozessors ist die Breite des Adressbusses. Der Adressbus zum Beispiel limitiert mit der Breite $n$ den möglichen adressierbaren Speicherplatz auf $2^n$ Speicherplätze. Ein 32-Bit breiter Adressbus kann $2^{32} = 4.294.967.296$ Speicherplätze mit jeweils 8-Bit Breite ansprechen, also etwa 4 GigaByte. Diese Limitierung war der ausschlagebende Grund den Adressbus zu erweitern, da 4 Gigabyte Hauptspeicher oft nicht ausreichten. 
+
+
+
+
 
 
 \section{Speicherverwaltung}
@@ -380,7 +373,7 @@ Am Anfang der Prozessorentwicklung war Hauptspeicher nur in kleinen Kapazitäten
 
 Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltung zu entlasten, hat sich das System des virtuellen Speichers etabliert. Dabei sieht der Programmierer nur einen großen zusammenhängenden Speicherbereich und muss keine Rücksicht auf die Größe des Hauptspeichers nehmen. Sollte ein Programm mehr Hauptspeicher benötigen als physisch in dem System vorhanden ist, dann wird das Betriebsystem die Daten auf ein anderes Speichermedium auslagern. Diese Technik wird Paging genannt und muss vom Betriebssystem unterstützt werden.
 
-\subsubsection{Paging}
+\subsection{Paging}
 %1024k Hauptspeicher 4096k Programm-> Page à 1024k Byte
 Um dieses Prinzip zu veranschaulichen ist folgendes Beispiel hilfreich. Ein Programmierer hat ein Programm geschrieben welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System auf dem das Programm ausgeführt werden soll besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt wird es folgendermaßen vorgehen. Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet. 
 
@@ -394,10 +387,11 @@ Um dieses Prinzip zu veranschaulichen ist folgendes Beispiel hilfreich. Ein Prog
 
 
 
-Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalischen Speicher liegt wird die Ausnahme Seitenfehler (''Pagefault Exception'') ausgelöst. Wie in Kapitel \nameref{chap:Exceptions} ausgeführt wird bei einer Exception eine Behandlungsroutine angestoßen. Im Falle der Seitenfehler Ausnahme wird die Routine die Seite (''Page Frame''), welche die benötigte Adresse enthält, aus dem Massenspeicher in den Hauptspeicher laden. Paging ist ein kompliziertes Verfahren um das Zusammenspiel von virtuellen und physischen Speicher zu verwalten. Dieses Konzept in Software zu realisieren würde wie die Overlays zu viel Leistung kosten. Deshalb besitzen die meisten modernen Prozessoren einen Controller für solche Speicherverwaltungsaufgaben, die so genannte MMU (''Memory Management Unit''). 
+Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalischen Speicher liegt wird die Ausnahme Seitenfehler (''Pagefault Exception'') ausgelöst. Wie in Kapitel \nameref{chap:Exceptions} ausgeführt wird bei einer Exception eine Behandlungsroutine angestoßen. Im Falle der Seitenfehler Ausnahme wird die Routine die Seite (''Page Frame''), welche die benötigte Adresse enthält, aus dem Massenspeicher in den Hauptspeicher laden. Paging ist ein kompliziertes Verfahren um das Zusammenspiel von virtuellen und physischen Speicher zu verwalten. Dieses Konzept in Software zu realisieren würde wie die Overlays zu viel Leistung kosten. Deshalb besitzen die meisten modernen Prozessoren einen Controller für solche Speicherverwaltungsaufgaben, die so genannte MMU (''Memory Management Unit''). \cite[S.177ff]{mikroprozessortechnik2011}
 %TODO Zitat Wüst Seite 177ff
-%https://de.wikipedia.org/wiki/Speicherhierarchie
-\subsubsection{Speichersegmentierung}
+
+
+
 \subsection{Cache}
 Zum Beginn der Prozessorentwicklung entsprach der Speichertakt in etwas dem eines Prozessors. Allerdings zeigte sich schnell, dass der Speichertakt nicht mit dem Prozessortakt in gleichem Maße steigen kann. Der daraus entstandene Geschwindigkeitsunterschied wurde auch Speichermauer (''Memory Wall'') genannt \cite{mckee2004reflections}.
 %Quelle PDF http://www.cs.columbia.edu/~sedwards/classes/2012/3827-spring/advanced-arch-2011.pdf
