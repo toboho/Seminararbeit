@@ -30,12 +30,6 @@
 
 \DeclareCaptionType{code}[Quellcode][Quellcodeverzeichnis] 
 
-\sloppy
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\rightmark}
-\fancyhead[R]{\thepage}
-\renewcommand{\headrulewidth}{1pt}
 
 \begin{document}
 \begin{titlepage}
@@ -60,6 +54,11 @@
 
 \tableofcontents
 \newpage
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\rightmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{1pt}
 
 
 
@@ -72,22 +71,21 @@
 Unser geläufiges Zahlensystem ist das Dezimalsystem. Das bedeuted, dass Zahlen mit folgender Formel gebildet werden:
 $$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i$$
 Die Dezimalzahl 135 wird z.B. wie folgt gebildet:$$Z=1*10^2+3*10^1+5*10^0 = 135$$
-Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird, deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar ist als
+Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird, deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar als
 $$Z=\sum\limits_{i=0}^{n-1} a_i * B^i$$
-Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeingnet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{wiki:dual}.
+Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeingnet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
 %HEX-System vllt noch
 \subsection{Binäre Darstellung von Zahlen}
 Zahlen im Dualsystem können vorzeichenlos und vorzeichenbehaftet dargestellt werden.Vorzeichenlose Binärzahlen können mittels folgender Formel gebildet werden: $$Z=\sum\limits_{i=0}^{N-1} a_i * 2^i$$ 
 Die Dezimalzahl 135 würde dann im Dualsystem dem Bitmuster $10000111$ entsprechen, dargestellt durch folgende Konvertierung:
 $$10000111b = 1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = 128 +4+2+1 = 135d$$
-Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen sie arbeiten können. Deshalb kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Überlauf kommen. Ein Überlauf tritt auf, wenn zum Beispiel auf einer 8-Bit CPU die Operation 255+1 ausgeführt wird, da als Ergebnis 0 geliefert wird. 
-Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d die größte darstellbare Zahl in 8-Bit ist wird die Addition von 1 einen Fehler verursachen. Das Ergebnis $256d$ benötigt zur dualen Darstellung 9 Bit($100000000b$), allerdings können nur 8 Bit gespeichert werden. Deshalb werden die ersten 8 Bit verwendet und das Ergebnis ist 0.
+Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen sie arbeiten können. Deshalb kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Überlauf kommen. Ein Überlauf tritt auf, wenn zum Beispiel auf einer 8-Bit CPU\footnote{CPU =  Central Processing Unit = Prozessor} die Operation 255+1 ausgeführt wird, da als Ergebnis 0 geliefert wird. 
+Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d die größte darstellbare Zahl in 8-Bit ist wird die Addition von 1 einen Fehler verursachen. Das Ergebnis $256d$ benötigt zur dualen Darstellung 9 Bit($100000000b$), allerdings können nur 8 Bit gespeichert werden. Deshalb können nur die ersten 8 Bit verwendet werden und das Ergebnis ist 0.
 
 
 \begin{table}[!htb]
 \centering
 \caption{Rechnung mit Übertrag}
-\label{my-label}
 \begin{tabular}{|c|r|r|}
 \hline
 \textbf{Übertrag}               & \multicolumn{1}{c|}{\textbf{Binär}} & \multicolumn{1}{c|}{\textbf{Dezimal}} \\ \hline
@@ -96,8 +94,9 @@ Das geschieht, da die Zahl 255s die Dualdarstellung $11111111$ besitzt. Da 255d 
 \multicolumn{1}{|r|}{1}         & 00000000b                            & 256d                                   \\ \hline\hline
 \multicolumn{1}{|r|}{Ergebnis:} & 00000000b                            & 0d                                     \\ \hline
 \end{tabular}
+\label{tab:uebertrag}
 \end{table}
-Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit) setzen um dem Programmierer darauf hinzuweißen, dass die letzte Operation keine richtigen Werte erzeugt hat. Den vorzeichenlosen Dualzahlen fehlt allerdings die Möglichkeit, negative Werte anzunehmen. Diese Eigenschaft bieten vorzeichenbehaftete Dualzahlen. Eine Dualzahl im sogenannten Zweierkomplement wird folgendermaßen gebildet:
+\noindent Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit) setzen um dem Programmierer darauf hinzuweißen, dass die letzte Operation keine richtigen Werte erzeugt hat. Den vorzeichenlosen Dualzahlen fehlt allerdings die Möglichkeit, negative Werte anzunehmen. Diese Eigenschaft bieten vorzeichenbehaftete Dualzahlen. Eine Dualzahl $Z$ im sogenannten Zweierkomplement wird folgendermaßen gebildet:
 $$Z=-a_{N-1}*2^{N-1}+\sum\limits_{i=0}^{N-2} a_i * 2^i$$
 Die Formel kann zu Erklärungszwecken in zwei Teile gegliedert werden. Zum einen die erste Teil $-a_{N-1}*2^{N-1}$, das Vorzeichenbit. Dieser sagt aus, dass das höchstwertige Bit einer vorzeichenbehafteten Zahl negativ gewertet wird. Der hintere Teil $\sum\limits_{i=0}^{N-2} a_i * 2^i$ ist bereits aus der Erzeugung von vorzeichenlosen Dualzahlen bekannt. Die Bits werden nach ihrer Position gewichtet und ihre Wertigkeit aufaddiert. Die Zahl $10000111b$ im Zweierkomplement wird also wie folgt interpretiert:
 $$10000111b = -1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = -128+4+2+1 = -121d$$
@@ -122,7 +121,7 @@ Mikroprozessoren besitzen immer einen eigenen, meist einzigartigen, Aufbau. Alle
 Ziel dieser Architekturen ist es stets, die Ausführungsgeschwindigkeit eines Programmes zu beschleunigen.
 \subsection{Von-Neumann Architektur}
 Die Von-Neumann Architektur ist nach dem ungarisch-US-amerikanischen Mathematiker John von Neumann benannt. Er hat 1945 in dem Bericht ''First Draft of a Report on the EDVAC'' das Prinzip erstmals beschrieben.
-Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten (siehe Abbildung \ref{fig:vonNeumann}):
+Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten \cite{von1993first} (siehe Abbildung \ref{fig:vonNeumann}):
 \begin{itemize}
 \item CPU 
 \item Speicherwerk 
@@ -152,13 +151,13 @@ Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehls
 \cite{unikoelnvnz}.
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
-Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht darin, Codesegment und Datensegment in separaten Speichern zu verwalten. Diese Konzeption bringt den Vorteil, dass im Gegensatz zur Von-Neumann Architektur Befehle und Daten gleichzeitig geladen werden können. Um diesen Vorteil ausnutzen zu können benötigt ein Harvard Rechner allerdings auch getrennte Daten und Adressbusse. 
+Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern. Diese Konzeption hat den Vorteil, dass im Gegensatz zur Von-Neumann Architektur Befehle und Daten gleichzeitig geladen werden können. Um diesen Vorteil ausnutzen zu können benötigt ein Harvard Rechner allerdings auch getrennte Daten und Adressbusse. 
 \newline
 \newline
 In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen sich die modernen CPU dem Entwickler zwar als pure Von-Neumann Maschinen, also mit gemeinsamen Code und Datenspeicher (RAM); allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten, was der Harvard-Architektur entspricht. Die beiden Architekturen haben also jeweils Vor- und Nachteile, wobei in modernen Prozessoren die beiden Konzepte verwendet werden um maximale Leistung zu erzielen.
 \subsection{CISC-Prozessoren}
 %TODO Geschichte?
-Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Um den Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer komplexere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Um solche Befehle ausführen zu können dasss mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Der Befehlsdekodierer nimmt zwar auf einem Prozssor mehr Platz ein, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden, was viele Taktzyklen Zugriffszeit gekostet hat. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (Instruction Set Architecture) wird CISC(Complex Instruction Set Computer) genannt.	
+Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Um den Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer komplexere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Um solche Befehle ausführen zu können dasss mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Der Befehlsdekodierer nimmt zwar auf einem Prozssor mehr Platz ein, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden, was viele Taktzyklen Zugriffszeit gekostet hat. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (''Instruction Set Architecture'') wird CISC (''Complex Instruction Set Computer'') genannt.	
 %TODO Struktur überarbeiten.
 %TODO http://wiki.osdev.org/Historical_Notes_on_CISC_and_RISC
 %TODO https://de.slideshare.net/SuvenduDash/cisc-risc-architecture
@@ -171,7 +170,7 @@ Eine von IBM durchgeführte Studie hat Anfang der 1980er Jahre ergeben, dass Pro
 
 Ein weiterer Grund für die Entwicklung der RISC Computer war, dass die Zahl der Entwickler, welche in Assembler programmierten, immer weniger wurden. Mit dem Auftreten der ersten Hochsprachen, insbesondere C, und ihren Compilern, mussten Programmierer nicht mehr den Befehlssatz eines Prozessors kennen. Die Compiler wandelten den Programmcode der Hochsprache erst in Assembler und daraufhin in eine maschinenlesbare Form um. Durch diese Abstraktionsschicht zwischen Prozessor und Programmierer war die kompakte Struktur von Assemblerbefehlen kein Designfaktor für Prozessoren mehr, da die meisten Programmierer keinen Assemblercode mehr betrachten mussten.
 
-Die Latenz zwischen Prozessor und Hauptspeicher in den 1980er Jahren stetig gesunken. Es wurden also deutlich weniger Taktzyklen des Prozessors geopfert, wenn er aus dem Hauptspeicher Befehle anforderte. Dadurch entfiel der Vorteil von nur wenigen Zugriffen auf den Hauptspeicher.
+Die Latenz zwischen Prozessor und Hauptspeicher ist in den 1980er Jahren stetig gesunken. Es wurden also deutlich weniger Taktzyklen des Prozessors geopfert, wenn er aus dem Hauptspeicher Befehle anforderte. Dadurch entfiel der Vorteil von nur wenigen Zugriffen auf den Hauptspeicher.
 
 %TODO Quelle unten: Taschenbuch Mikroprozessoren. Seite 85 RISC Ziele
 \noindent
@@ -179,7 +178,7 @@ Daraus hat sich dann die RISC Philosophie ergeben. Im Gegensatz zu den vorher ge
 
 Der Befehlssatz ist auf die wesentlichen Befehle beschränkt. Während CISC Befehlssätze oft 200 oder mehr Befehle beinhalten sind in RISC Befehlssätzen oft nur 100 oder weniger Befehle vorhanden.
 %TODO
-Auf die Mikroprogrammierung wird verzichtet. Es werden also nicht mehr die Befehle aus dem Befehlsspeicher intern in Mikrobefehle dekodiert. Das spart auf dem Chip Fläche, da der Dekodierer keine komplexen Aufgaben mehr hat. Alle Befehle sind also fest in dem Prozessor implementiert.
+Außerdem wird auf die Mikroprogrammierung verzichtet. Es werden also nicht mehr die Befehle aus dem Befehlsspeicher intern in Mikrobefehle dekodiert. Das spart auf dem Chip Fläche, da der Dekodierer keine komplexen Aufgaben mehr hat. Alle Befehle sind also fest in dem Prozessor implementiert.
 
 Ein Befehl soll genau einen Takt zur Ausführung benötigen. Wenn bei CISC ein Befehl in mehrere Mikrobefehle dekodiert wird, benötigen diese mehrere Takte bis alle ausgeführt wurden. Dies wird bei RISC vermieden. Jeder geladene Befehl wird dekodiert und spricht genau eine Hardwareeinheit an.
 
@@ -264,9 +263,10 @@ Der StackPointer(SP) ist ein Register welcher auf die aktuelle Position des Stac
 Der InstructionPointer(IP) enthält die Adresse des nächsten Befehls im Programmspeicher der ausgeführt werden muss. Auch er wird nach der Abarbeitung eines Befehlszyklus als letzter Schritt inkrementiert. Dieses Register bietet allerdings die Möglichkeit einen anderen Wert zu laden. Das wird zur Realisierung von Sprüngen innerhalb des Programmcodes benötigt. 
 
 Das Statusregister (SR) wird zur Ausführung von bedingten Sprunganweisungen gebraucht. Sie werden auch Flagregister genannt da die ALU, in Abhängigkeit der zuletzt ausgeführten Rechenoperation, einzelne Bits (Flags) setzen kann. Auf die einzelnen Flags und ihre Bedeutung wird im Abschnitt der ALU näher eingegangen
+
+%TODO Unterschied IP und PC
 \subsection{Steuerwerk}
-Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zuständig. Es besteht aus zwei wesentlichten Komponenten. Im Befehlsregister (Programm Counter bzw. PC) ist die Adresse des nächsten Befehls enthalten, welcher ausgeführt werden soll. Der Befehl wird von der Adresse des Befehlsregisters in den Befehlsdekodierer geladen und analysiert. Falls nötig wird der Befehl in mehrere Schritte unterteilt, die nacheinander abgearbeitet werden müssen. Ob und wie viele solcher Schritte benötigt werden um einen bestimmten Befehl auszuführen bestimmt zum einen die Architektur des Prozessors und zum anderen der Befehl an sich. Bei RISC Prozessoren 
-(\textrightarrow 4.4) ist keine weitere Unterteilung in mehrere Befehle notwendig, bei CISC Prozessoren (\textrightarrow 4.3) besitzt der Befehlssatz sehr viel kompliziertere Befehle welche nicht in einem Takt abgearbeitet werden können. Hier wird der Befehlsdekodierer den Befehl in die nötigen Teilbefehle umwandeln und nacheinander ausführen.
+Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zuständig. Es besteht aus zwei wesentlichten Komponenten. Im Befehlsregister (Programm Counter bzw. PC) ist die Adresse des nächsten Befehls enthalten, welcher ausgeführt werden soll. Der Befehl wird von der Adresse des Befehlsregisters in den Befehlsdekodierer geladen und analysiert. Falls nötig wird der Befehl in mehrere Schritte unterteilt, die nacheinander abgearbeitet werden müssen. Ob und wie viele solcher Schritte benötigt werden um einen bestimmten Befehl auszuführen bestimmt zum einen die Architektur des Prozessors und zum anderen der Befehl an sich. Bei RISC Prozessoren ist keine weitere Unterteilung in mehrere Befehle notwendig, bei CISC Prozessoren besitzt der Befehlssatz sehr viel kompliziertere Befehle welche nicht in einem Takt abgearbeitet werden können. Hier wird der Befehlsdekodierer den Befehl in die nötigen Teilbefehle umwandeln und nacheinander ausführen.
 
 
 
@@ -285,10 +285,10 @@ So haben sehr einfache Prozessoren häufig ein spezielles Register, in welchem d
 
 \noindent \textbf{Beispiel:} Wenn im Akkumulator der Wert 10d steht und der Assemblerbefehl ADD RAX ausgeführt wird, dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
 
-Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist. Eine Rechenwerksoperation muss also immer zwei Quellregister und ein Zielregister angeben. Diese Konfiguration ist zwar sehr flexibel in der Übergabe der Speicherorte, allerdings benötigt sie zusätzliche Schaltungslogik auf dem Chip und die Codekomplexität nimmt zu.
+\noindent Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist. Eine Rechenwerksoperation muss also immer zwei Quellregister und ein Zielregister angeben. Diese Konfiguration ist zwar sehr flexibel in der Übergabe der Speicherorte, allerdings benötigt sie zusätzliche Schaltungslogik auf dem Chip und die Codekomplexität nimmt zu.
 
 
-\noindent \textbf{Beispiel:} Bei der Ausführung des Befehls ADD RAX,RBX,RCX werden die Werte der beiden Register RAX und RBX addiert und das Ergebnis in RCX gespeichert.
+\noindent \textbf{Beispiel:} Bei der Ausführung des Befehls ADD RAX, RBX, RCX werden die Werte der beiden Register RAX und RBX addiert und das Ergebnis in RCX gespeichert.
 
 Die ALU speichert zwar das Ergebnis in dem ihr zugewiesenen Register, allerdings kann der Prozessor keine Eigenschaften der letzten Operation unterscheiden. Diese Fähigkeit wird aber benötigt, wenn der Programmierer beispielsweiße anfordert, dass das Programm an eine andere Adresse springt, sollte das letzte Rechenergebnis 0 ergeben haben. Damit der Prozessor diesen Verlauf der letzten Rechenoperation speichern kann ist den meisten Prozessoren ein Statusregister integriert. Das Statusregister speichert nicht wie die Universalregister einen Wert in mehreren Bits ab, sondern jedes Bit steht im Register für eine bestimmte Eigenschaft der vorhergehenden Rechenoperation. Diese Bits werden Flags genannt. Eine 1 bedeutet dass die letzte Operation diese Bedingung erfüllt hat, eine 0 das Gegenteil. Welche Flags ein Prozessor unterstützt und wie diese angeordnet sind unterscheidet sich von Prozessor zu Prozessor. Allerdings sind die fünf grundlegensten Flags in fast allen Prozessoren implementiert.
 
@@ -312,10 +312,10 @@ i & Zero-Flag & Nächster Schritt \\ \hline
 \end{tabular}
 \end{table}
 
-Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung von Abbildung TODO.
+Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung von Abbildung 
 
 
-\noindent \textbf{Carry-Flag (Übertragsbit):} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Abbildung TODO(Übertrag) bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
+\noindent \textbf{Carry-Flag (Übertragsbit):} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Tabelle \ref{tab:uebertrag} bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
 
 \begin{table}[!htb]
 \centering
@@ -329,7 +329,7 @@ Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
 \label{tab:carry}
 
 \end{table}
-In Tabelle \ref{tab:carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null, gespeichert. Um diese Fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
+\noindent In Tabelle \ref{tab:carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null, gespeichert. Um diese Fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
 Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wird das Carry Flag dazu verwendet den Wert des herausgeschobenen Bits anzuzeigen.
 
 
@@ -350,7 +350,7 @@ Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Flag \\ \hl
 \label{tab:overflow}
 \end{table}
 
-\noindent In Abbildung \ref{tab:overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
+\noindent In Tabelle \ref{tab:overflow} sind zwei Rechnungen dargestellt. Im Zweierkomplement hat eine Zahl mit $n$ Bits folgenden darstellbaren Zahlenbereich: 
 $${-2}^{n-1}+ ... +2^{n-1}-1$$
 In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der darstellbare Zahlenbereich für das Beispiel von $-128$ bis $+127$. Die erste Rechnung ergibt 127, die höchste positive darstellbare Zahl im Zweierkomplement mit 8-Bit. Es kommt zu keinem Übertrag auf das MSB, also wird das Overflow Bit nicht gesetzt. In der zweiten Zeile kommt es zu einem Übertrag auf das MSB und das Ergebnis wird verfälscht, da +128 nicht mehr im darstellbaren Zahlenbereich für diese Rechnung liegt. Um das falsche Ergebnis anzuzeigen wird die ALU das Overflow Bit auf 1 setzen. 
 %TODO Overflow Flag wird mit XOR aus Carry in und Carry Out berechnet ... Noch nicht ganz verstanden.
@@ -425,17 +425,15 @@ Eine weitere Ersetzungsstrategie ist die LFU-Ersetzung (''Least Frequently Used'
 %--------------Random----------------------------------------
 Das Zufallsprinzip erfordert im Gegensatz zur LRU-Ersetzung keine gesonderte Logik zu Bestimmung der zu löschenden Zeile. Der neue Cache-Eintrag wird einfach über eine zufällig ausgewählte Cache-Zeile geschrieben. Diese Methode mag zwar ungewöhnlich erscheinen, aber es wurde gezeigt dass das zufällige Ersetzen von Cachezeilen mit neuen Einträgen unter Umständen bessere Ergebnisse als die anderen Strategien liefern kann.\cite{mikroprozessortechnik2011} \cite{smith1985instruction}
 
-
-\section{Befehlsausführung}
-
-\subsection{Befehlszyklus}
+\newpage
+\section{Programmablauf}
 \subsection{Schleifen}
 Programmschleifen sind für jedes Programm von essentieller Bedeutung und in jeder modernen Programmiersprache implementiert. Ohne sie wäre kein effizienter und kompakter Programmaufbau möglich. In Hochsprachen sind zwei Grundlegende Arten von Schleifen geläufig. Zum einen die Schleifen mit festgelegter Anzahl an Durchläufen: 
 $$for(int \ i=0; i<100; i++)\{...\}$$
 Diese Schleife wird genau 100 mal durchlaufen bis sie abbricht. Es gibt aber auch Szenarien in den die benötigte Zahl an Durchläufen nicht bekannt ist:
 $$while(''Bedingung'')\{...\}$$
 Diese Schleifen werden solange durchlaufen bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
-Prozessoren durchlaufen besitzen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Program Counter mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
+Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Program Counter mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
 
 \begin{code}[!htb]
 \begin{lstlisting}
@@ -556,8 +554,8 @@ Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle ext
 \newpage
 
 \section{Pipelines und Skalarität}
-Um die Allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurde immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
-Um die Verarbeitungsgeschwindigkeit der Informationsverarbeitung steigern zu können wurde nach den Flaschenhälsen in den ausgeführten Programmen gesucht. Eines der gefundenen Probleme war die geringe Auslastung des Prozessors. Die Befehlsausführung ist wie bereits ausgeführt in fünf Schritte unterteilt.
+Um die Allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurden immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
+Um die Verarbeitungsgeschwindigkeit dennoch steigern zu können wurde nach den Flaschenhälsen in den ausgeführten Programmen gesucht. Eines der  Probleme war die geringe Auslastung des Prozessors während der Ausführung eines Programms. Die Befehlsausführung ist wie bereits ausgeführt in fünf Schritte unterteilt.
 \begin{enumerate}
 \item Befehl einlesen
 \item Befehl dekodieren
@@ -663,7 +661,6 @@ ADD R1,R4
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[!htb]
 \centering
-\label{tabDatenflusskonfliktloesung}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabular}[c]{@{}c@{}}Befehl \\ dekodieren\end{tabular} & \begin{tabular}[c]{@{}c@{}}Operanden \\ einlesen\end{tabular} & Ausführen                                                        & \begin{tabular}[c]{@{}c@{}}Ergebnisse \\ speichern\end{tabular}   \\ \hline
@@ -676,9 +673,10 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 7    &                                                            &                                                              &                                                               &                                                                  & 2.Befehl                                                          \\ \hline
 \end{tabular}
 \caption{Lösung Datenflusskonflikt}
+\label{tab:Datenflusskonfliktloesung}
 \end{table}
 
-In Tabelle \ref{tabDatenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. Pipelining birgt aber noch eine weitere Problematik.
+In Tabelle \ref{tab:Datenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. Pipelining birgt aber noch eine weitere Problematik.
 
 \noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel ?? dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Vorraussetzungen gelten müssen. Zur Darstellung der bedingten Programmflussänderungen folgendes Beispiel:
 
@@ -801,7 +799,7 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
   \hline
   00000011 & STO\\
   \hline
-  00000100 & LEA\\
+  00000100 & LOAD\\
   \hline
   00000101 & PUSH \\ 
   \hline
@@ -855,23 +853,23 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann.
 \caption{Befehlssatz von VI-17}
 \end{table}
 \newpage
-Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Die einzelnen Befehle des obigen Befehlssatzes werden nun kurz beschrieben.
-\newline
-\indent 
-\textbf{00000000 NOP: }No Operation. Es wird keine Operation ausgeführt.
-\newline
-\indent 
-\textbf{00000001 MOV: } Move. Überschreibt den Wert des Zielregisters mit dem Wert des Quellregisters. 
+Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Dazu gehören Registeroperationen wie MOV und IN. MOV verschiebt den Inhalt eines Registers in ein anderes und überschreibt dessen Wert. IN initalisiert eine 16-Bit Variable in ein angegebenes Register. STO speichert den Wert eines Registers in einer Speicherzelle im Arbeitsspeicher. LOAD lädt im Gegenzug den Wert einer Speicherzelle in ein Register. PUSH und POP sind beides Stackoperationen. Der Stack ist ein Bereich im Arbeitsspeicher welcher nach dem FILO-Prinzip (''First In Last Out'') funktioniert. Er wächst von oben nach unten. PUSH schiebt den Inhalt eines Registers auf den Stack und POP lädt den untersten Wert des Stacks in ein Register. Mit dem Befehl CALL kann die CPU den Programmablauf in eine Subroutine verzweigen. Dafür wird die Rücksprungadresse auf den Stack gepushed um nach Beendigung der Subroutine den korrekten Programmpfad zu finden. Der letzte Befehl jeder Subroutine ist RETURN. Mit ihm wird der Instruction Pointer mit der Rücksprungadresse aus dem Stack geladen bei der das Programm weiterläuft. Die Befehle 11 bis 25 ($00001011b - 00011001b$) sind die Operationen welche das Rechenwerk (ALU) ausführen kann. Dazu gehören sowohl arithmetische als auch logische Operationen. Die letzten drei Befehle befassen sich mit Sprüngen. Dabei wird zwischen unbedingten und bedingten Sprüngen unterschieden. In dieser CPU sind nur einfache bedingte Sprünge mit den Befehlen JIF (''Jump Ff False'') und JIT (''Jump If True'') umgesetzt. Nach diesen Befehlen muss ein Flag mit angegeben werden. Also wird der Prozessor bei dem Befehl $JIT \ Zero \ 0x00000ffe$  in den Flags prüfen ob das Zero Bit gesetzt ist und dann, sollte es auf 1 stehen, den Instructionpointer (''Befehlszeiger'') mit der angegebenen Adresse laden. Ein anderes Beispiel ist der Befehl $JIF \ Equal \ 0x00000fff$. Im Wortlaut wird die CPU folgendes Protokoll durchlaufen. Ist nach der letzten Rechenwerksoperation das Equal Bit gesetzt worden? Wenn nicht, dann springe an Adresse $0x00000fff$, wenn ja, dann tue nichts und gehe zum nächsten Befehl\footnote{Hier wird auf nicht gesetztes Flag geprüft, da der Befehl JIF (''Jump If False '') bearbeitet wird.}. Mit JUMP wird ein unbedingter Sprung durchgeführt. Dieser Befehl wird keine Prüfung von Flags durchlaufen und die angegebene Adresse in den Befehlszeiger laden. Im Unterschied zum CALL Befehl wird bei den Sprüngen keine Rücksprungadresse gespeichert.
 
-
-\subsection{Speicher}
-
-\subsubsection{RAM/ROM}
-\subsubsection{Stack}
-
+\newpage
 \section{Implementierung einer Prozessorsimulation in Logisim}
 \subsection{Logisim}
 Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen. Ein solch einfacher Prozessor soll nun im Folgenden implementiert werden.
+
+\begin{figure}[!htb]
+\includegraphics[scale=0.40]{cpu}
+\caption{Darstellung des Prozessors}
+\centering
+\label{fig:register}
+\end{figure}
+\newpage
+
+
+
 \subsection{Prozessor Komponenten}
 Der Prozessor besteht aus fünf Hauptkomponenten:
 \begin{itemize}
@@ -885,25 +883,41 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. Der Befehlsbus wird mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird sendet die CU die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum Beschreiben freizuschalten.
 
 \begin{figure}[!htb]
-\includegraphics[scale=0.40]{cu}
+\includegraphics[scale=0.35]{cu}
 \centering
-\label{fig:register}
-\caption{Darstellung des Steuerwerks}
+\label{fig:cu}
+\caption{Steuerwerk}
 \end{figure}
-
 \newpage
-\textbf{Registersatz: }
+\newpage
+
+
 \begin{figure}[!htb]
-\includegraphics[scale=0.40]{register}
-\caption{Darstellung des Registersatzes}
+\includegraphics[scale=0.35]{alu}
 \centering
-\label{fig:register}
+\label{fig:alu}
+\caption{Rechenwerk}
 \end{figure}
 
 \newpage
+
+\begin{figure}[!htb]
+\includegraphics[scale=0.35]{register}
+\centering
+\label{fig:register}
+\caption{Registerwerk}
+\end{figure}
+
+\newpage
+
+\begin{figure}[!htb]
+\includegraphics[scale=0.35]{ram}
+\centering
+\label{fig:register}
+\caption{Speicher}
+\end{figure}
+
 \subsection{Entwicklung und Ausführung eines Programmes}
-
-
 Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter Ubuntu 17.10 mit dem Linuxkernel 4.13 kompiliert.
 
 \begin{code}[!htb]
@@ -1017,6 +1031,9 @@ End of assembler dump.
 Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF \textbf{nicht} gesetzt, also null, sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null(ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist \cite{elements2005}. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX.\cite[S.202]{technischeInformatik2}
 \newpage
 
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\listoffigures
+\newpage
 \addcontentsline{toc}{section}{Tabellenverzeichnis}
 \listoftables
 \newpage
