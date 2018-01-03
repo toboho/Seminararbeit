@@ -134,4 +134,26 @@
   publisher = {IEEE},
 }
 
+@Article{patterson1985reduced,
+  author    = {Patterson, David A},
+  title     = {Reduced instruction set computers},
+  journal   = {Communications of the ACM},
+  year      = {1985},
+  volume    = {28},
+  number    = {1},
+  pages     = {8--21},
+  publisher = {ACM},
+}
+
+@Article{jamil1995risc,
+  author    = {Jamil, Tariq},
+  title     = {Risc versus cisc},
+  journal   = {Ieee Potentials},
+  year      = {1995},
+  volume    = {14},
+  number    = {3},
+  pages     = {13--16},
+  publisher = {IEEE},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

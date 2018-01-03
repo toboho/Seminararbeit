@@ -1,11 +1,12 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Komponenten Von-Neumann Architektur\relax }}{6}
-\contentsline {figure}{\numberline {2}{\ignorespaces Schaltnetz D-Flip-Flop\relax }}{11}
-\contentsline {figure}{\numberline {3}{\ignorespaces Schaltnetz 4-Bit Register\relax }}{13}
-\contentsline {figure}{\numberline {4}{\ignorespaces Ausgabe des GDB-Befehls ''info registers''\relax }}{14}
-\contentsline {figure}{\numberline {5}{\ignorespaces Paging\relax }}{22}
-\contentsline {figure}{\numberline {6}{\ignorespaces Teil der Ausgabe des Befehls ''lscpu'' in Ubuntu\relax }}{23}
-\contentsline {figure}{\numberline {7}{\ignorespaces Darstellung des Prozessors\relax }}{45}
-\contentsline {figure}{\numberline {8}{\ignorespaces Steuerwerk\relax }}{47}
-\contentsline {figure}{\numberline {9}{\ignorespaces Rechenwerk\relax }}{48}
-\contentsline {figure}{\numberline {10}{\ignorespaces Registerwerk\relax }}{49}
-\contentsline {figure}{\numberline {11}{\ignorespaces Speicher\relax }}{50}
+\contentsline {figure}{\numberline {1}{\ignorespaces Komponenten Von-Neumann Architektur\relax }}{5}
+\contentsline {figure}{\numberline {2}{\ignorespaces Harvard-Architektur\relax }}{7}
+\contentsline {figure}{\numberline {3}{\ignorespaces Schaltnetz D-Flip-Flop\relax }}{11}
+\contentsline {figure}{\numberline {4}{\ignorespaces Schaltnetz 4-Bit Register\relax }}{13}
+\contentsline {figure}{\numberline {5}{\ignorespaces Ausgabe des GDB-Befehls ''info registers''\relax }}{14}
+\contentsline {figure}{\numberline {6}{\ignorespaces Paging\relax }}{22}
+\contentsline {figure}{\numberline {7}{\ignorespaces Teil der Ausgabe des Befehls ''lscpu'' in Ubuntu\relax }}{23}
+\contentsline {figure}{\numberline {8}{\ignorespaces Darstellung des Prozessors\relax }}{45}
+\contentsline {figure}{\numberline {9}{\ignorespaces Steuerwerk\relax }}{47}
+\contentsline {figure}{\numberline {10}{\ignorespaces Rechenwerk\relax }}{48}
+\contentsline {figure}{\numberline {11}{\ignorespaces Registerwerk\relax }}{49}
+\contentsline {figure}{\numberline {12}{\ignorespaces Speicher\relax }}{50}
