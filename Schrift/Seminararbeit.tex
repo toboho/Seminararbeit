@@ -11,6 +11,8 @@
 \usepackage{url}
 \usepackage{xcolor}
 \usepackage{textcomp}
+\usepackage{graphicx}
+\usepackage{wrapfig}
 \usepackage{german}
 \usepackage{fancyhdr}
 \usepackage{comment}
@@ -156,13 +158,13 @@ Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten \cite{
 \noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite{TaschenbuchMikroprozessortechnik}.
 Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht selbstständig unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vornehmen. Außerdem kann mit dieser Archtitektur zu jedem Takt nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander ablaufen.
 \begin{enumerate}
-\item Instruction Fetch 
-\item Instruction Decode
-\item Fetch Operands
-\item Execute
-\item Increment Program Counter (PC)
+\item Befehl laden 
+\item Befehl dekodieren
+\item Operanden laden
+\item Befehl ausführen
+\item Instruction Pointer (IP) inkrementieren
 \end{enumerate}
-Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Program Counter - PC) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
+Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
 Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern.
@@ -203,21 +205,17 @@ Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set
 \par \bigskip
 \noindent RISC-Prozessoren sollten einfach als skalare Architektur implementiert werden können. Skalar bedeutet, dass mit jedem Takt ein Befehl abgearbeitet wird. Während bei CISC-Prozessoren ein Befehl in mehrere Mikrobefehle dekodiert werden muss, wird dies bei RISC vermieden. Jeder geladene Befehl wird dekodiert und spricht genau eine Hardwareeinheit an. Komplexe Befehle wie die bereits genannte CMPXCHG Instruktion werden nicht mehr unterstützt. Stattdessen werden die einzelnen Schritte als seperate Assemblerbefehle kodiert. 
 
-%TODO Quelle: Wüst Seite 102 RISC
-Eine weitere Eigenschaft der RISC Philosophie ist die Kommunikation mit dem Hauptspeicher nur über Load und Store Befehle. Dadurch wird die Anzahl der Zugriffe auf den Hauptspeicher reduziert, was die Ausführungszeit senkt. Daraus folgt, dass ein ALU Befehl nur auf Register anwendbar ist, da Register auf Prozessortakt betrieben werden und somit keine Latenz zwischen den beiden Hardwareeinheiten entsteht. Der Befehl, zwei Register zu verrechnen, kann in einem Taktzyklus abgearbeitet werden. Dadurch entfällt wiederum die Notwendigkeit der Mikroprogrammierung. In einer CISC CPU ist zwar eine Speicherverrechnung zwischen Register und Speicherzelle etc. möglich, allerdings nicht skalar, also in einem Takt, sondern in mehreren Teilschritten, zum Beispiel Speicherzelle laden, verrechnen, zurückschreiben.
-%TODO Dieser Satz :D Evtl. überarbeiten 
-%TODO Auch Wüst Seite 102
+\noindent Eine weitere Eigenschaft der RISC Philosophie ist die Kommunikation mit dem Hauptspeicher nur über Load und Store Befehle. Wenn eine Variable aus dem Hauptspeicher benötigt wird muss diese erst mit dem LOAD-Befehl in ein Register geladen werden. Durch den großen Registersatz kann diese Varible dann lange in einem Register gespeichert werden. Dadurch wird die Anzahl der Zugriffe auf den Hauptspeicher reduziert, was die Ausführungszeit senkt. In CISC Prozessoren kann eine Variable direkt mit Adresse im Hauptspeicher ohne Registereinladung verwendet werden, aber dieser komplexe Befehl muss in Microcode umgewandelt werden und benötigt bei jeder Ausführung viele Taktzyklen.\cite[S.102]{mikroprozessortechnik2011}
 
-
-Da der Speicherzugriff auch in modernen Prozessoren eine zeitkritische Komponente des Funktionsmodells ist besitzen RISC Prozessoren einen sehr großen Registersatz, üblicherweise 16 oder mehr Register. Das ermöglicht einem Programm, viele seiner Variablen in den Registern zu halten um Hauptspeicherzugriffe zu vermeiden. Hier sind allerdings die Compiler der Programmiersprachen in der Pflicht, optimierten Binärcode für RISC Prozessoren zu generieren. Alle beschriebenen Vorteile treten nicht ein, wenn sie von den Compilern nicht unterstützt werden. Wenn ein für CISC Prozessoren geschriebenes Programm auf einem RISC Prozessor ausgeführt wird, funktioniert es, aber die Variablen werden zum größten Teil im Stack gespeichert, einem Teil des Hauptspeichers, und der Großteil zur Verfügung stehender Register wird nicht verwendet. 
-\par
-%TODO RISC V verlinken.
-Aktuelle Prozessoren sind meist CISC Prozessoren. Mit RISC-V existiert aber ein Projekt welches die Absicht hat wieder moderne und konkurrenzfähige RISC Prozessorendesigns zu entwickeln und als freie ISA zur Verfügung zu stellen . 
+\par \bigskip
+\noindent Da der Speicherzugriff auch in modernen Prozessoren eine zeitkritische Komponente des Funktionsmodells ist besitzen RISC Prozessoren einen sehr großen Registersatz, üblicherweise 16 oder mehr Register. Das ermöglicht einem Programm, viele seiner Variablen in den Registern zu halten um Hauptspeicherzugriffe zu vermeiden. Hier sind allerdings die Compiler der Programmiersprachen in der Pflicht, optimierten Binärcode für RISC Prozessoren zu generieren. Alle beschriebenen Vorteile erübrigen sich, wenn sie von den Compilern nicht unterstützt werden. Der große Registersatz muss vom Compiler auch verwendet werden, da sonst Speicherzugriffe ähnlich oft auftreten wie bei den CISC Prozessoren. \cite[S.102]{mikroprozessortechnik2011}
+\par \bigskip
+\noindent Moderne Prozessoren sind meist CISC Prozessoren. Mit RISC-V existiert aber ein Projekt welches die Absicht hat wieder moderne und konkurrenzfähige RISC Prozessorendesigns zu entwickeln und als freie ISA zur Verfügung zu stellen. 
 
 \newpage
 \section{Aufbau und Funktion}
 \subsection{Register} \label{sub:register}
-Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten bevor sie diese verarbeiten könnte. Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit.\cite{mikroprozessortechnik2011} Sie werden aus Flip-Flops aufgebaut welche jeweils genau ein Bit speichern können. Das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops.\cite{mikroprozessortechnik2011} Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessordie, es werden deshalb keine großen Speichermengen zur Verfügung gestellt.
+Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten bevor sie diese verarbeiten könnte. Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit.\cite{mikroprozessortechnik2011} Sie werden aus Flip-Flops aufgebaut welche jeweils genau ein Bit speichern können. Das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops.\cite{mikroprozessortechnik2011} Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessordie. Es wird deshalb sehr wenig Registerspeicher in Prozessoren verbaut.
 
 \subsubsection{Aufbau}
 Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau ein Bit speichern. 
@@ -261,32 +259,40 @@ Eingang 1 & Eingang 2 & AND & NAND \\ \hline
 
 
 \subsubsection{Universalregister}
-Es werden zwei Arten von Registergruppen unterschieden. In einem Universalregister kann ein Programm Werte und Variablen abspeichern. Sie sind einem Programmierer zugänglich, das heißt er kann auf jedes Universalregister direkt zugreifen und seinen Wert verändern.
-%Beispiel
-Der Prozessor des Computers mit dem diese Arbeit verfasst wurde besitzt folgende Register.
+Es werden zwei Arten von Registergruppen unterschieden. In einem Universalregister können beliebige Daten gespeichert werden. Sie sind einem Entwickler zugänglich, das heißt er kann auf jedes Universalregister direkt zugreifen und seinen Wert verändern. 
 
-\begin{figure}[!htb]
+%\begin{figure}[!htb]
+%\centering
+%\includegraphics[scale=0.5]{inforeg}
+%\caption{Ausgabe des GDB-Befehls ''info registers''}
+%\centering
+%\label{fig:inforeg}
+%\end{figure}
+
+
+\begin{wrapfigure}{L}{0.3\textwidth}
 \centering
 \includegraphics[scale=0.5]{inforeg}
-\caption{Ausgabe des GDB-Befehls ''info registers''}
 \centering
+\caption{Ausgabe des GDB-Befehls ''info registers''}
 \label{fig:inforeg}
-\end{figure}
+\end{wrapfigure}
 
-
-\noindent Abbildung \ref{fig:inforeg} zeigt die Register des Prozessors i7-6700HQ. Ausgenommen sind hier die Register für spezielle Befehlssatzerweiterungen wie zum Beispiel SIMD oder AVX. Diese sind in der Regel 128 bzw. 256 Bit breit. Die Universalregister sind in der Abbildung mit den Namen R8 bis R15 zu sehen.
+\noindent Abbildung \ref{fig:inforeg} zeigt die Register des Prozessors i7-6700HQ. Ausgenommen sind hier die Register für spezielle Befehlssatzerweiterungen wie zum Beispiel SIMD oder AVX. Diese sind in der Regel 128 bzw. 256 Bit breit. Die Universalregister sind in Abbildung \ref{fig:inforeg} mit den Namen R8 bis R15 zu sehen.
 \subsubsection{Spezialregister}
 Spezialregister werden von einer CPU für interne Zwecke genutzt. Oft sind in Prozessoren ähnliche Spezialregister zu finden. 
-%TODO S
-Der Stack Pointer(SP) ist ein Register welcher auf die aktuelle Position des Stacks im Speicher zeigt. Wenn der Befehl zu Speicherung eines Werts auf dem Stack ausgeführt wird, inkrementiert die CPU automatisch durch die interne Verschaltung des SP den Wert des Stackpointers. Dadurch zeigt das Register immer auf die nächste freie Speicheradresse im Stack.
 
-Der Instruction Pointer(IP) enthält die Adresse des nächsten Befehls im Programmspeicher der ausgeführt werden muss. Auch er wird nach der Abarbeitung eines Befehlszyklus als letzter Schritt inkrementiert. Dieses Register bietet allerdings die Möglichkeit einen anderen Wert zu laden. Das wird zur Realisierung von Sprüngen innerhalb des Programmcodes benötigt. 
+\par \bigskip
+\noindent Der Stack Pointer(SP) ist ein Register welcher auf die aktuelle Position des Stacks im Speicher zeigt. Der Stack ist ein Stapelspeicher, er verlangt also keine Adressierung mittels Adressen. Er wird mit den beiden Befehlen PUSH und POP angesteuert. PUSH schiebt einen Wert aus einem Register auf den Stack, POP lädt den obersten Wert in ein Register.  Wenn der Befehl zu Speicherung eines Werts auf dem Stack ausgeführt wird, inkrementiert die CPU automatisch den Wert des Stack Pointers. Dadurch zeigt das Register immer auf die nächste freie Speicheradresse im Stack.
 
-Das Statusregister (SR) wird zur Ausführung von bedingten Sprunganweisungen gebraucht. Sie werden auch Flagregister genannt da die ALU, in Abhängigkeit der zuletzt ausgeführten Rechenoperation, einzelne Bits (Flags) setzen kann. Auf die einzelnen Flags und ihre Bedeutung wird im Abschnitt der ALU (siehe \ref{subsec:alu}) näher eingegangen
+\par \bigskip
+\noindent Der Instruction Pointer (IP) enthält die Adresse des nächsten Befehls im Programmspeicher der ausgeführt werden muss. Auch er wird nach der Abarbeitung eines Befehlszyklus als letzter Schritt inkrementiert. Dieses Register bietet allerdings die Möglichkeit einen anderen Wert zu laden. Das wird zur Realisierung von Sprüngen innerhalb des Programmcodes benötigt. 
 
-%TODO Unterschied IP und PC
+\par \bigskip
+\noindent Das Statusregister (SR) wird zur Ausführung von bedingten Sprunganweisungen gebraucht. Sie werden auch Flagregister genannt da die ALU, in Abhängigkeit der zuletzt ausgeführten Rechenoperation, einzelne Bits (Flags) setzen kann. Auf die einzelnen Flags und ihre Bedeutung wird im Abschnitt der ALU (siehe \ref{subsec:alu}) näher eingegangen
+
 \subsection{Steuerwerk}
-Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zuständig. Es besteht aus zwei wesentlichten Komponenten. Im Befehlsregister (Programm Counter bzw. PC) ist die Adresse des nächsten Befehls enthalten, welcher ausgeführt werden soll. Der Befehl wird von der Adresse des Befehlsregisters in den Befehlsdekodierer geladen und analysiert. Falls nötig wird der Befehl in mehrere Schritte unterteilt, die nacheinander abgearbeitet werden müssen. Ob und wie viele solcher Schritte benötigt werden um einen bestimmten Befehl auszuführen bestimmt zum einen die Architektur des Prozessors und zum anderen der Befehl an sich. Bei RISC Prozessoren ist keine weitere Unterteilung in mehrere Befehle notwendig, bei CISC Prozessoren besitzt der Befehlssatz sehr viel kompliziertere Befehle welche nicht in einem Takt abgearbeitet werden können. Hier wird der Befehlsdekodierer den Befehl in die nötigen Teilbefehle umwandeln und nacheinander ausführen.
+Das Steuerwerk ist für die Steuerung von internen Bussystemen des Prozessors zuständig. Es besteht aus zwei wesentlichten Komponenten. Im Befehlsregister (Instruction Pointer bzw. IP) ist die Adresse des nächsten Befehls enthalten, welcher ausgeführt werden soll. Der Befehl wird von der Adresse des Befehlsregisters in den Befehlsdekodierer geladen und analysiert. Falls nötig wird der Befehl in mehrere Schritte unterteilt, die nacheinander abgearbeitet werden müssen. Ob und wie viele solcher Schritte benötigt werden um einen bestimmten Befehl auszuführen bestimmt zum einen die Architektur des Prozessors und zum anderen der Befehl an sich. Bei RISC Prozessoren ist keine weitere Unterteilung in mehrere Befehle notwendig, bei CISC Prozessoren besitzt der Befehlssatz sehr viel kompliziertere Befehle welche nicht in einem Takt abgearbeitet werden können. Hier wird der Befehlsdekodierer den Befehl in die nötigen Teilbefehle umwandeln und nacheinander ausführen.
 
 
 
@@ -298,27 +304,23 @@ Da über ein Bussystem immer nur zwei Komponenten miteinander kommunizieren kön
 %https://en.wikibooks.org/wiki/Microprocessor_Design/ALU#Example:_4-Bit_ALU
 %https://en.wikibooks.org/wiki/Microprocessor_Design
 Die ALU (Arithmetic Logic Unit) ist der Teil einer CPU, welcher die eigentliche Datenverarbeitung durchführt. Sie verfügt über keinen eigenen Speicher, die Ergebnisse müssen also in den Registern gespeichert werden. Die ALU ist ein Schaltwerk, welches einfache Operationen auf meist zwei Operanden ausführen kann. So kann das Rechenwerk einer CPU meistens arithmetische, logische und bitschiebende Operationen ausführen. Arithmetische Operationen umfassen Addition und Subtraktion, seltener auch Multiplikation und Division. Addierer und Subtrahierer sind als Hardwareeinheit in die ALU integriert, wohingegen Multiplikation und Division meist algorithmisch durchgeführt werden. Die ALU alleine hat wenig Wirkung, sie obliegt der Kontrolle des Steuerwerkes. Dieses steuert, welche Operation ausgeführt wird; mit welchen Operanden sie ausgeführt wird und in welches Register das Ergebnis gespeichert werden soll.
-%TODO Absatz
-Rechenwerke sind innerhalb eines Prozessors oft unterschiedlich aufgebaut. 
-So haben sehr einfache Prozessoren häufig ein spezielles Register, in welchem das Ergebnis einer ALU Operation automatisch gespeichert wird, den so genannten Akkumulator. Solch ein Register hat den Vorteil, das auf die Angabe eines Zieles bei der Programmierung verzichtet werden kann, da der Ausgang der ALU fest mit dem Akkumulator verbunden ist. Des weiteren ist der Ausgang des Akkumulators fest mit einem der zwei Eingänge der ALU verbunden. Man kann sich den Akkumulator also als fest vorgeschaltetes Register des Rechenwerks vorstellen, in dem auch das Ergebnis gespeichert wird. Deshalb muss bei einer Rechenoperation vom Programmierer nur ein Operand angegeben werden. 
-%TODO Absatz
 
-\noindent \textbf{Beispiel:} Im Akkumulator befindet sich der Wert 10d  und der Assemblerbefehl ADD RAX wird ausgeführt. Dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
+\par \bigskip
+\noindent Rechenwerke sind innerhalb eines Prozessors oft unterschiedlich aufgebaut. 
+Sehr einfache Prozessoren besitzen häufig ein spezielles Register, in dem das Ergebnis einer ALU Operation automatisch gespeichert wird. Dieses Register wird Akkumulator genannt. Solch ein Register hat den Vorteil, dass auf die Angabe eines Zieles bei der Programmierung verzichtet werden kann, da der Ausgang der ALU fest mit dem Akkumulator verbunden ist. Des weiteren ist der Ausgang des Akkumulators fest mit einem der zwei Eingänge der ALU verbunden. Man kann sich den Akkumulator also als fest vorgeschaltetes Register des Rechenwerks vorstellen, in dem auch das Ergebnis gespeichert wird. Deshalb muss bei einer Rechenoperation vom Programmierer nur ein Operand angegeben werden. 
 
-\noindent Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist. Eine Rechenwerksoperation muss also immer zwei Quellregister und ein Zielregister angeben. Diese Konfiguration ist zwar sehr flexibel in der Übergabe der Speicherorte, allerdings benötigt sie zusätzliche Schaltungslogik auf dem Chip und die Codekomplexität nimmt zu.
+\par\bigskip\noindent \textbf{Beispiel:} Im Akkumulator befindet sich der Wert 10d  und der Assemblerbefehl ADD RAX wird ausgeführt. Dann wird die ALU vom Steuerwerk angewiesen eine Addition auszuführen und übergibt als Parameter am zweiten Eingang den Wert des Registers RAX. Der erste Eingang ist mit dem Akkumulator verbunden und übergibt deshalb den Wert 10d. Das Ergebnis der Berechnung wird wiederum in den Akkumulator gespeichert und überschreibt den vorherigen Wert 10d.  
 
-%TODO Absatz
+\noindent Diese feste Konfiguration der ALU hat allerdings einige Nachteile weshalb in den meisten modernen Prozessoren eine ALU implementiert ist, die mit keinem Register fest verbunden ist. Eine Rechenwerksoperation muss dann immer zwei Quellregister und ein Zielregister angeben. Diese Konfiguration ist zwar sehr flexibel in der Übergabe der Speicherorte, allerdings benötigt sie zusätzliche Schaltungslogik auf dem Chip und die Codekomplexität nimmt zu.
+
+\par\bigskip
 \noindent \textbf{Beispiel:} Bei der Ausführung des Befehls ADD RAX, RBX, RCX werden die Werte der beiden Register RAX und RBX addiert und das Ergebnis in RCX gespeichert.
 
-Die ALU speichert zwar das Ergebnis in dem ihr zugewiesenen Register, allerdings kann der Prozessor keine Eigenschaften der letzten Operation unterscheiden. Diese Fähigkeit wird aber benötigt, wenn der Programmierer  anfordert, dass das Programm an eine andere Adresse springt, sollte das letzte Rechenergebnis 0 ergeben haben. Damit der Prozessor diesen Verlauf der letzten Rechenoperation speichern kann, ist den meisten Prozessoren ein Statusregister integriert. Das Statusregister speichert nicht wie die Universalregister einen Wert in mehreren Bits ab, sondern jedes Bit steht im Register für eine bestimmte Eigenschaft der vorhergehenden Rechenoperation. Diese Bits werden Flags genannt. Eine 1 bedeutet dass die letzte Operation diese Bedingung erfüllt hat, eine 0 das Gegenteil. Welche Flags ein Prozessor unterstützt und wie diese angeordnet sind unterscheidet sich von Prozessor zu Prozessor. Allerdings sind die fünf grundlegensten Flags in fast allen Prozessoren implementiert.
+\par\smallskip\noindent Die ALU speichert zwar das Ergebnis in dem ihr zugewiesenen Register, allerdings kann der Prozessor keine Eigenschaften der letzten Operation unterscheiden. Diese Fähigkeit wird aber benötigt, wenn der Entwickler anfordert, dass das Programm an eine andere Adresse springt, sollte das letzte Rechenergebnis 0 ergeben haben. In Hochsprachen entspricht dieser Anwendungsfall zum Beispiel einer if-Bedingung. Wenn die Bedingung erfüllt ist wird ein gesonderter Codeteil ausgeführt. Damit der Prozessor diese Bedingung prüfen kann, ist den meisten Prozessoren ein Statusregister integriert. Das Statusregister speichert nicht wie die Universalregister einen Wert ab der als Binärzahl interpretiert wird, sondern jedes Bit im Register steht für eine bestimmte Eigenschaft der vorhergehenden Rechenoperation. Diese Bits werden Flags genannt. Eine 1 bedeutet dass die letzte Operation diese Bedingung erfüllt hat, eine 0 das Gegenteil. Welche Flags ein Prozessor unterstützt und wie diese angeordnet sind unterscheidet sich von Prozessor zu Prozessor. Allerdings sind die fünf grundlegensten Flags in fast allen Prozessoren implementiert.
 
-%TODO Absatz
-\noindent \textbf{Zero-Flag (Nullbit):} Das Zero-Flag ist sehr simpel aufgebaut. Wenn das letzte Ergebnis der ALU gleich Null war wird das Bit auf 1 gesetzt, ansonsten auf 0. Mit diesem Flag lässt sich eine Abbruchbedingung für eine Schleife leicht prüfen. Die Anweisung: $$for(int \ i=5;i \ > \ 0;i--)\{\}$$ wird solange durchlaufen bis das Ergebnis der ALU Operation ($i--$) gleich Null ist und damit das Zero-Flag gesetzt wird. Dann wird die Schleife abgebrochen und der Programmablauf fortgesetzt.
-
+\par\smallskip\noindent \textbf{Zero-Flag (Nullbit):} Das Zero-Flag ist sehr simpel aufgebaut. Wenn das letzte Ergebnis der ALU gleich Null war wird das Bit auf 1 gesetzt, ansonsten auf 0. Mit diesem Flag lässt sich eine Abbruchbedingung für eine Schleife leicht prüfen. Die Anweisung: $$for(int \ i=5;i \ > \ 0;i--)\{\}$$ wird solange durchlaufen bis das Ergebnis der ALU Operation ($i$ -\ -) gleich Null ist und damit das Zero-Flag gesetzt wird. Dann wird die Schleife abgebrochen und der Programmablauf fortgesetzt. \cite[S.95]{mikroprozessortechnik2011}
 \begin{table}[!htb]
 \centering
-\caption{Schritte der for-Schleife}
-\label{forschleife}
 \begin{tabular}{|c|c|c|}
 \hline
 
@@ -330,14 +332,14 @@ i & Zero-Flag & Nächster Schritt \\ \hline
 1 & 0         & Weiter           \\ \hline
 0 & 1         & Abbruch          \\ \hline
 \end{tabular}
+\caption{Schritte der for-Schleife}
+\label{forschleife}
 \end{table}
 
-Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung von Abbildung 
+\noindent Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung der for-Schleife. 
 
 \newpage
-\noindent \textbf{Carry-Flag (Übertragsbit):} 
-
-Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Tabelle \ref{tab:uebertrag} bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit den vorhandenen Bits dargestellt werden kann. Diese Flag wird beim Rechnen mit vorzeichenlosen Zahlen verwendet.
+\noindent \textbf{Carry-Flag (Übertragsbit):} Das Carry-Flag zeigt an, ob es bei der letzten ALU-Operation zu einem Übertrag gekommen ist. Wie in Tabelle \ref{tab:uebertrag} bereits dargestellt, kommt es zu einem Überlauf, wenn das Ergebnis nicht mehr korrekt mit der zur Verfügung stehenden Bitbreite dargestellt werden kann.\cite[S.95]{mikroprozessortechnik2011}
 
 
 \begin{table}[!htb]
@@ -359,10 +361,9 @@ Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
 \noindent In Tabelle \ref{tab:carry} sind beispielhaft zwei Rechenoperationen dargestellt. Es wird angenommen, dass die Operation von einer 8-Bit ALU ausgeführt wird. In der ersten Zeile wird die Summe aus 253 und 2 berechnet. Das Ergebnis kann gerade noch als 8-Bit Dualzahl dargestellt werden ($11111111b = 255d$), das Carry-Bit wird deshalb nicht von der ALU gesetzt. Das Ergebnis der Rechnung in der zweiten Zeile  würde neun Bits benötigen um korrekt dargestellt werden zu können ($100000000b = 256d$). Da das Rechenwerk aber nur eine Breite von 8 Bit hat wird im Zielregister der Wert der ersten 8 Bit des Ergebnisses, also null gespeichert. Um diese fehlerhafte Rechnung anzuzeigen wird nun das Carry Bit im Flagregister gesetzt.  
 Sollte der letzte ausgeführte ALU Befehl ein Schiebebefehl gewesen sein, so wird das Carry Flag dazu verwendet den Wert des herausgeschobenen Bits anzuzeigen.
 
-%TODO Absatz
-\noindent \textbf{Sign-Flag (Vorzeichenbit):} Das Vorzeichenbit entspricht dem MSB (most significant bit) des Ergebnisses. Das MSB ist das höchstwertige Bit einer Dualzahl und representiert im Zweierkomplement das Vorzeichen der Zahl.
-%TODO Absatz
-\noindent \textbf{Overflow-Flag (Überlauf-Bit):} Diese Flag wird beim Rechnen mit Zahlen im Zweierkomplement benötigt. Es wird gesetzt, wenn bei einer Addition oder Subtraktion ein Übertrag auf das MSB stattfindet, also das höchstwertige Bit verändert wird. 
+\par\bigskip\noindent \textbf{Sign-Flag (Vorzeichenbit):} Das Vorzeichenbit entspricht dem MSB (most significant bit) des Ergebnisses. Das MSB ist das höchstwertige Bit einer Dualzahl.
+
+ \par\bigskip\noindent \textbf{Overflow-Flag (Überlauf-Bit):} Diese Flag wird beim Rechnen mit Zahlen im Zweierkomplement benötigt. Es wird gesetzt, wenn bei einer Addition oder Subtraktion ein Übertrag auf das MSB stattfindet, also das höchstwertige Bit verändert wird. 
 \begin{table}[!htb]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -384,14 +385,9 @@ In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der 
 
 
 \subsection{Bussysteme}
-Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte also jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf da es sonst zu Kollisionen auf dem entsprechenden Bus kommt. 
-%TODO Absatz
-Dieses Problem zeigt sich auch bei Rechnernetzen wenn verschiedene Geräte über das gleiche Medium (z.B. Ethernet) kommunizieren wollen. Dafür wurde das Verfahren CSMA (''Carrier Sense Multiple Access'') entwickelt. Es ist die Aufgabe der Geräte, eine Kollision zu erkennen (''Collision Detection'') und den Konflikt zu lösen. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
-
+Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte also jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf da es sonst zu Kollisionen auf dem entsprechenden Bus kommt. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
+\par\smallskip\noindent
 Eine wichtige Entscheidung bei der Entwicklung eines Prozessors ist die Breite des Adressbusses. Der Adressbus zum Beispiel limitiert mit der Breite $n$ den möglichen adressierbaren Speicherplatz auf $2^n$ Speicherplätze. Ein 32-Bit breiter Adressbus kann $2^{32} = 4.294.967.296$ Speicherplätze mit jeweils 8-Bit Breite ansprechen, also etwa 4 Gigabyte. Diese Limitierung war der ausschlagebende Grund den Adressbus zu erweitern, da 4 Gigabyte Hauptspeicher oft nicht ausreichten. 
-
-
-
 
 
 \newpage
@@ -464,7 +460,7 @@ $$for(int \ i=0; i<100; i++)\{...\}$$
 Diese Schleife wird genau 100 mal durchlaufen bis sie abbricht. Es gibt aber auch Szenarien in den die benötigte Zahl an Durchläufen nicht bekannt ist:
 $$while(''Bedingung'')\{...\}$$
 Diese Schleifen werden solange durchlaufen bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
-Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Program Counter mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
+Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Instruction Pointer (IP) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Instruction Pointer mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
 
 \begin{code}[!htb]
 \begin{lstlisting}
@@ -501,10 +497,10 @@ int main(int argc, char const *argv[])
 \caption[Assembler Code einfache Schleife]{Assembler-Code für eine einfache Schleife}
 \end{code}
 
-Die erste Zeile (''push rbp'') und die letzten beiden Zeilen (''pop rbp \& ret'') sind bei jeder Funktion gleich und dienen dazu, einen Bereich im Stack für das Programm zur Verfügung zu stellen und diesen nach Programmende wieder freizugeben. In Zeile 11 wird im Stack an der Adresse mit Offset 0x4 der Wert 0 gespeichert. Das entspricht der Initialisierung der Variable counter im C-Programm. Danach kommt es zu einem unbedingten Sprung. Der Program Counter wird mit dem angegebenen Wert geladen und zeigt nun auf Adresse 0x612. Im nächsten Ausführungszyklus wird nun das Programm an Adresse 0x612 weiter ausgeführt. Mit diesem Sprung wird genau eine Zeile übersprungen. Diese Zeile (main+20) inkrementiert den Wert im Stack an der Adresse mit Offset 0x4, welche die Variable counter enthält. Diese Zeile wird zum Beginn des Programmes genau einmal übersprungen, da die Abbruchbedingung beim ersten Durchlauf noch nicht kontrolliert wurde. Das Programm wird also in Zeile 24 weiter ausgeführt. Der Befehl cmp (''Compare'') vergleicht nun den Wert der Variablen counter (''rbp-0x4'') mit der Konstante 0x63 (99d). Da cmp eine ALU Operation ist wird dieser Befehl die entsprechenden Flags im Statusregister setzen, je nachdem ob ''counter'' kleiner oder gleich 0x63 ist. Wenn der Befehl abgearbeitet ist wird die Zeile 28 geladen. Der Befehl jbe (''Jump if below or equal'') ist ein bedingter Sprung. Das heißt es wird nur gesprungen wenn die Bedingung erfüllt ist. Daraufhin wird das Statusregister geprüft ob das Carry-Flag (CF) oder das Zero-Flag (ZF) gesetzt ist. Wenn die ODER-Verknüpfung dieser beiden Werte 1 ergibt, wird der PC mit der angegebenen Adresse geladen, wenn sie eine 0 ergibt, wird mit dem nächsten Befehl weitergearbeitet. Die Zeile 28 entspricht also der Abbruchprüfung der Schleife  ($counter < 100$). Wenn der Wert kleiner 100 ist wird in Zeile 20 gesprungen und damit die Variable inkrementiert, wenn der Wert größer oder gleich 100 ist wird das Programm in Zeile 30 weitergeführt. Da die Schleife dann beendet ist wird das Programm beendet.
+Die erste Zeile (''push rbp'') und die letzten beiden Zeilen (''pop rbp \& ret'') sind bei jeder Funktion gleich und dienen dazu, einen Bereich im Stack für das Programm zur Verfügung zu stellen und diesen nach Programmende wieder freizugeben. In Zeile 11 wird im Stack an der Adresse mit Offset 0x4 der Wert 0 gespeichert. Das entspricht der Initialisierung der Variable counter im C-Programm. Danach kommt es zu einem unbedingten Sprung. Der Instruction Pointer wird mit dem angegebenen Wert geladen und zeigt nun auf Adresse 0x612. Im nächsten Ausführungszyklus wird nun das Programm an Adresse 0x612 weiter ausgeführt. Mit diesem Sprung wird genau eine Zeile übersprungen. Diese Zeile (main+20) inkrementiert den Wert im Stack an der Adresse mit Offset 0x4, welche die Variable counter enthält. Diese Zeile wird zum Beginn des Programmes genau einmal übersprungen, da die Abbruchbedingung beim ersten Durchlauf noch nicht kontrolliert wurde. Das Programm wird also in Zeile 24 weiter ausgeführt. Der Befehl cmp (''Compare'') vergleicht nun den Wert der Variablen counter (''rbp-0x4'') mit der Konstante 0x63 (99d). Da cmp eine ALU Operation ist wird dieser Befehl die entsprechenden Flags im Statusregister setzen, je nachdem ob ''counter'' kleiner oder gleich 0x63 ist. Wenn der Befehl abgearbeitet ist wird die Zeile 28 geladen. Der Befehl jbe (''Jump if below or equal'') ist ein bedingter Sprung. Das heißt es wird nur gesprungen wenn die Bedingung erfüllt ist. Daraufhin wird das Statusregister geprüft ob das Carry-Flag (CF) oder das Zero-Flag (ZF) gesetzt ist. Wenn die ODER-Verknüpfung dieser beiden Werte 1 ergibt, wird der PC mit der angegebenen Adresse geladen, wenn sie eine 0 ergibt, wird mit dem nächsten Befehl weitergearbeitet. Die Zeile 28 entspricht also der Abbruchprüfung der Schleife  ($counter < 100$). Wenn der Wert kleiner 100 ist wird in Zeile 20 gesprungen und damit die Variable inkrementiert, wenn der Wert größer oder gleich 100 ist wird das Programm in Zeile 30 weitergeführt. Da die Schleife dann beendet ist wird das Programm beendet.
 
 \subsection{Subroutinen}
-Subroutinen sind neben den Schleifen eine der wichtigsten und elementarsten Konstrollstrukturen in der Softwareentwicklung. Den meisten Programmierern sind Subroutinen eher als Funktionen bekannt. Sie sind wie die Schleifen in jeder modernen Programmiersprache enthalten. Funktionen ermöglichen es Programmcode übersichtlich zu gestalten und zu kapseln. Wenn eine bestimmter Algorithmus häufiger ausgeführt werden soll kann er in eine Funktion ausgelagert werden. Dann muss der gesamte Algorithmus nicht mehrfach implementiert werden sondern kann als Funktion aufgerufen werden. Der Prozessor hat für die verzweigung des Programmflussen einen eigenen Befehl, die sogenannte Call-Anweißung. Nach einem Call Befehl wird eine Adresse angegeben und mit dieser Adresse wird der Program Counter geladen. Zur Veranschaulichung wieder ein kleines Beispiel in der Sprache C.  
+Subroutinen sind neben den Schleifen eine der wichtigsten und elementarsten Konstrollstrukturen in der Softwareentwicklung. Den meisten Programmierern sind Subroutinen eher als Funktionen bekannt. Sie sind wie die Schleifen in jeder modernen Programmiersprache enthalten. Funktionen ermöglichen es Programmcode übersichtlich zu gestalten und zu kapseln. Wenn eine bestimmter Algorithmus häufiger ausgeführt werden soll kann er in eine Funktion ausgelagert werden. Dann muss der gesamte Algorithmus nicht mehrfach implementiert werden sondern kann als Funktion aufgerufen werden. Der Prozessor hat für die verzweigung des Programmflussen einen eigenen Befehl, die sogenannte Call-Anweißung. Nach einem Call Befehl wird eine Adresse angegeben und mit dieser Adresse wird der Instruction Pointer geladen. Zur Veranschaulichung wieder ein kleines Beispiel in der Sprache C.  
 
 \begin{code}[!htb]
 \begin{lstlisting}
@@ -562,7 +558,7 @@ Dieses kleine Programm initialisiert zwei Variablen, a und b, mit int Werten. Ei
 \caption[Assembler Code Funktionen]{Assembler-Code mit Funktionsaufruf}
 \end{code}
 
-In der main Methode werden in Zeilen main+15 und main+22 die beiden Variablen a und b auf dem Stack initialisiert. In Zeile main+35 wird der call-Befehl vom Prozessor ausgeführt. Call ist in seiner grundlegenden Funktion dem Befehl JMP ähnlich. Beides sind unbedingte Sprungbefehle, das heißt sie laden die übergebene Adresse ohne weiter Prüfung in den PC. Der Unterschied zwischen den beiden besteht darin, dass das Programm nach dem Beenden einer Subroutine wieder an seinen Aufrufort im Hauptprogramm zurückspringt. Um an die richtige Stelle im Hauptprogramm zurückzuspringen wird der call-Befehl deshalb den Wert der Rücksprungadresse auf dem Stack speichern. Nach dem Aufruf von call wird nach Adresse 0x5fa gesprungen, wo sich der Startpunkt der Funktion $add$ befindet. Die Funktion hat nur die Funktion die beiden übergebenen Werte zu addieren und das Ergebnis zurückzugeben. In Zeile add+16 werden die beiden Register mit den Variablen addiert. Daraufhin wird das Programm beendet. Hier wird ein interresantes Detail über Funktionsaufrufe in Assembler ersichtlich. In Hochsprachen ist es ein Entwickler gewohnt, dass eine Funktion Übergabeparameter und Rückgabeparameter besitzt. Diese Übergaben sind aber in Assembler nicht explizit möglich. Die Parameter werden deshalb in Registern gespeichert welche vom Compiler verwaltet werden müssen.In den Zeilen 35 und 37 der main-Funktion werden die beiden Variablen a und b in den Registern $esi$ und $edi$ gespeichert. Diese beiden Register dienen nun als Übergabeparameter für die Funktion add. In der Funktion werden die Variablen dann erst auf dem Stack gespeichert und dann in die Register $edx$ und $eax$ verschoben. Diese werden daraufhin addiert und das Ergebnis wird in $eax$ gespeichert. Als letzter Schritt wird die Funktion mit dem Befehl $ret$ (Zeile add+19) beendet. Dieser Befehl lädt den Program Counter wieder mit dem Wert der Rücksprungadresse welche vom call-Befehl auf dem Stack gespeichert wurde.
+In der main Methode werden in Zeilen main+15 und main+22 die beiden Variablen a und b auf dem Stack initialisiert. In Zeile main+35 wird der call-Befehl vom Prozessor ausgeführt. Call ist in seiner grundlegenden Funktion dem Befehl JMP ähnlich. Beides sind unbedingte Sprungbefehle, das heißt sie laden die übergebene Adresse ohne weiter Prüfung in den PC. Der Unterschied zwischen den beiden besteht darin, dass das Programm nach dem Beenden einer Subroutine wieder an seinen Aufrufort im Hauptprogramm zurückspringt. Um an die richtige Stelle im Hauptprogramm zurückzuspringen wird der call-Befehl deshalb den Wert der Rücksprungadresse auf dem Stack speichern. Nach dem Aufruf von call wird nach Adresse 0x5fa gesprungen, wo sich der Startpunkt der Funktion $add$ befindet. Die Funktion hat nur die Funktion die beiden übergebenen Werte zu addieren und das Ergebnis zurückzugeben. In Zeile add+16 werden die beiden Register mit den Variablen addiert. Daraufhin wird das Programm beendet. Hier wird ein interresantes Detail über Funktionsaufrufe in Assembler ersichtlich. In Hochsprachen ist es ein Entwickler gewohnt, dass eine Funktion Übergabeparameter und Rückgabeparameter besitzt. Diese Übergaben sind aber in Assembler nicht explizit möglich. Die Parameter werden deshalb in Registern gespeichert welche vom Compiler verwaltet werden müssen.In den Zeilen 35 und 37 der main-Funktion werden die beiden Variablen a und b in den Registern $esi$ und $edi$ gespeichert. Diese beiden Register dienen nun als Übergabeparameter für die Funktion add. In der Funktion werden die Variablen dann erst auf dem Stack gespeichert und dann in die Register $edx$ und $eax$ verschoben. Diese werden daraufhin addiert und das Ergebnis wird in $eax$ gespeichert. Als letzter Schritt wird die Funktion mit dem Befehl $ret$ (Zeile add+19) beendet. Dieser Befehl lädt den Instruction Pointer wieder mit dem Wert der Rücksprungadresse welche vom call-Befehl auf dem Stack gespeichert wurde.
 \newpage
 \section{Interrupts}
 Das Konzept von Interrupts ist für moderne Prozessoren von enormer Bedeutung, weshalb es in so gut wie jedem modernen Prozessor implementiert ist. Bisher wurde in dieser Arbeit nur betrachtet wie ein Prozessor intern logisch funktioniert. Allerdings muss dieser auch mit zahlreichen anderen Bausteinen auf einer Platine zusammenarbeiten um sinnvoll eingesetzt werden zu können. Eine CPU in einem Desktop PC muss beispielsweise auf Tastatureingaben und Mausbewegungen reagieren, oder auf eine Netzwerkschnittstelle welche Daten empfängt. Solche Service-Anforderungen sind von hoher Priorität, da sonst kein reibungsloser Ablauf gewährleistet werden kann. Auswirkungen können zum Beispiel sein, dass die Maus nicht auf Bewegung reagiert oder die Netzwerkschnittstelle keine Daten verarbeiten kann. Ein Problem bei solchen Anforderungen an die CPU ist, dass sie nicht vorhersehbar sind, also asynchron auftreten. Eine Mausbewegung kann zu jeder Zeit kommen genau so wie der Datenempfang an einer Netzwerkschnittstelle.
@@ -591,7 +587,7 @@ Um die Verarbeitungsgeschwindigkeit dennoch steigern zu können wurde nach den F
 \item Befehl dekodieren
 \item Operanden einlesen
 \item Befehl ausführen 
-\item Program Counter inkrementieren(PC)
+\item Instruction Pointer inkrementieren (IP)
 \end{enumerate}
 In einfachen Prozessoren benötigt jede Stufe einen Takt. Die Ausführung eines Befehls dauert also insgesamt fünf Takte. Während der Befehl zum Beispiel von der Control Unit dekodiert wird (2. Schritt), ist der Rest der Ausführungseinheiten nicht beschäftigt. Der Prozessor ist also nur zu 20\% ausgelastet. 
 
@@ -744,7 +740,7 @@ Befehle & Assembler      \\ \hline
 
 \end{table}
 
-\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Program Counter mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl die Operanden eingelesen und der zweite Befehl ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Program Counters, falls die Sprungbedingung erfüllt wurde. 
+\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl die Operanden eingelesen und der zweite Befehl ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
 
 Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Programm einzubauen, bis der Sprungbefehl abgearbeitet ist. Die Anzahl der benötigten Fülloperationen wird durch die Breite der Pipeline bestimmt. In den gezeigten Beispielen mit einer fünfstufigen Pipeline werden drei NOP-Operationen benötigt um den Steuerflusskonflikt zu beseitigen.
 
@@ -766,7 +762,7 @@ Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Pro
 \label{tab:Steuerflusskonflikt}
 \end{table}
 \noindent In Tabelle
- \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Program Counters nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
+ \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
 
 \newpage
 \section{Planung und Entwurf eines Prozessors}
