@@ -134,4 +134,32 @@
   publisher = {IEEE},
 }
 
+@Article{patterson1985reduced,
+  author    = {Patterson, David A},
+  title     = {Reduced instruction set computers},
+  journal   = {Communications of the ACM},
+  year      = {1985},
+  volume    = {28},
+  number    = {1},
+  pages     = {8--21},
+  publisher = {ACM},
+}
+
+@Article{jamil1995risc,
+  author    = {Jamil, Tariq},
+  title     = {Risc versus cisc},
+  journal   = {Ieee Potentials},
+  year      = {1995},
+  volume    = {14},
+  number    = {3},
+  pages     = {13--16},
+  publisher = {IEEE},
+}
+
+@Manual{intel4000,
+  title  = {Intel® 64 and IA-32 Architectures Software Developer’s Manual},
+  author = {Intel},
+  url    = {https://software.intel.com/sites/default/files/managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
