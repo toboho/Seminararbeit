@@ -150,21 +150,21 @@ Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten \cite{
 \centering
 \includegraphics[scale=0.60]{Von-Neumann_Architektur}
 \caption{Komponenten Von-Neumann Architektur}
-\small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
 \label{fig:vonNeumann}}
+\small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
 \end{figure}
 
 
 \noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite{TaschenbuchMikroprozessortechnik}.
 Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht selbstständig unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vornehmen. Außerdem kann mit dieser Archtitektur zu jedem Takt nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander ablaufen.
 \begin{enumerate}
-\item Instruction Fetch 
-\item Befehl d
+\item Befehl laden 
+\item Befehl dekodieren
 \item Operanden laden
 \item Befehl ausführen
 \item Instruction Pointer (IP) inkrementieren
 \end{enumerate}
-Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Program Counter - PC) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
+Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
 Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern.
@@ -385,14 +385,9 @@ In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der 
 
 
 \subsection{Bussysteme}
-Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte also jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf da es sonst zu Kollisionen auf dem entsprechenden Bus kommt. 
-%TODO Absatz
-Dieses Problem zeigt sich auch bei Rechnernetzen wenn verschiedene Geräte über das gleiche Medium (z.B. Ethernet) kommunizieren wollen. Dafür wurde das Verfahren CSMA (''Carrier Sense Multiple Access'') entwickelt. Es ist die Aufgabe der Geräte, eine Kollision zu erkennen (''Collision Detection'') und den Konflikt zu lösen. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
-
+Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte also jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf da es sonst zu Kollisionen auf dem entsprechenden Bus kommt. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
+\par\smallskip\noindent
 Eine wichtige Entscheidung bei der Entwicklung eines Prozessors ist die Breite des Adressbusses. Der Adressbus zum Beispiel limitiert mit der Breite $n$ den möglichen adressierbaren Speicherplatz auf $2^n$ Speicherplätze. Ein 32-Bit breiter Adressbus kann $2^{32} = 4.294.967.296$ Speicherplätze mit jeweils 8-Bit Breite ansprechen, also etwa 4 Gigabyte. Diese Limitierung war der ausschlagebende Grund den Adressbus zu erweitern, da 4 Gigabyte Hauptspeicher oft nicht ausreichten. 
-
-
-
 
 
 \newpage
@@ -465,7 +460,7 @@ $$for(int \ i=0; i<100; i++)\{...\}$$
 Diese Schleife wird genau 100 mal durchlaufen bis sie abbricht. Es gibt aber auch Szenarien in den die benötigte Zahl an Durchläufen nicht bekannt ist:
 $$while(''Bedingung'')\{...\}$$
 Diese Schleifen werden solange durchlaufen bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
-Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Program Counter (PC) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Program Counter mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
+Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den Befehl aus der Speicherzelle auf dessen Adresse der Instruction Pointer (IP) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des PC inkrementiert damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können besitzen Prozessoren spezielle Befehle mit denen sie den Wert des PC ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Instruction Pointer mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
 
 \begin{code}[!htb]
 \begin{lstlisting}
@@ -767,7 +762,7 @@ Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Pro
 \label{tab:Steuerflusskonflikt}
 \end{table}
 \noindent In Tabelle
- \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Program Counters nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
+ \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
 
 \newpage
 \section{Planung und Entwurf eines Prozessors}
