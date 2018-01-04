@@ -6,7 +6,7 @@
 \contentsline {table}{\numberline {6}{\ignorespaces Rechnen im Zweierkomplement mit 8-Bit Zahlen\relax }}{19}
 \contentsline {table}{\numberline {7}{\ignorespaces Befehlsausf\IeC {\"u}hrung ohne Pipelining \cite {mikroprozessortechnik2011}\relax }}{35}
 \contentsline {table}{\numberline {8}{\ignorespaces Befehlsausf\IeC {\"u}hrung mit Pipelining \cite {mikroprozessortechnik2011}\relax }}{35}
-\contentsline {table}{\numberline {9}{\ignorespaces Datenflusskonflikt Ablauf\relax }}{36}
+\contentsline {table}{\numberline {9}{\ignorespaces Datenflusskonflikt Ablauf \cite {mikroprozessortechnik2011}\relax }}{36}
 \contentsline {table}{\numberline {10}{\ignorespaces L\IeC {\"o}sung Datenflusskonflikt\relax }}{37}
 \contentsline {table}{\numberline {11}{\ignorespaces Programmablauf Steuerflusskonflikt\relax }}{38}
 \contentsline {table}{\numberline {12}{\ignorespaces L\IeC {\"o}sung Steuerflusskonflikt\relax }}{39}
