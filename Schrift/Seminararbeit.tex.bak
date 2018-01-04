@@ -418,7 +418,8 @@ Fordert das Programm nun eine virtuelle Adresse an welche nicht im physikalische
 \subsection{Cache}
 Zum Beginn der Prozessorentwicklung entsprach der Speichertakt in etwa dem eines Prozessors. Allerdings zeigte sich schnell, dass der Speichertakt nicht mit dem Prozessortakt in gleichem Maße steigen kann. Der daraus entstandene Geschwindigkeitsunterschied wird auch Speichermauer (''Memory Wall'') genannt \cite{mckee2004reflections}.
 %Quelle PDF http://www.cs.columbia.edu/~sedwards/classes/2012/3827-spring/advanced-arch-2011.pdf
-Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunterschied zum Speicher muss der Prozessor mehrere Taktzyklen warten bis der Speicher auf eine Anforderung antwortet. Die Kommunikation mit Speicher ist allerdings ein elementarer Bestandteil der Funktionsweise eines Prozessors. Um diese Latenzzeiten zumindest verkürzen zu können wurde ein weiterer Speichermechanismus zwischen Registerwerk und Arbeitsspeicher eingeführt, der Cache. Der Cache ist im Prozessor selbst verbaut und hat überlicherweiße nur eine Größe von drei bis sechs Megabyte, da er sehr viel Platz und Strom verbraucht. Dafür ist er um ein vielfaches schneller als Arbeitsspeicher. Der Cache selbst ist wiederum in meist drei Teile unterteilt. Der sogenannte Level-1-Cache ist der schnellste Speicher im Cachesystem. Er ist meistens an den Prozessortakt angeschlossen und hat deshalb eine den Registern ähnliche Latenzzeit. Gleichzeitig ist er aber auch der kleinste Speicher in der Cacheorganisation. 
+Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunterschied zum Speicher muss der Prozessor mehrere Taktzyklen wart%TODO Zitat
+en bis der Speicher auf eine Anforderung antwortet. Die Kommunikation mit Speicher ist allerdings ein elementarer Bestandteil der Funktionsweise eines Prozessors. Um diese Latenzzeiten zumindest verkürzen zu können wurde ein weiterer Speichermechanismus zwischen Registerwerk und Arbeitsspeicher eingeführt, der Cache. Der Cache ist im Prozessor selbst verbaut und hat überlicherweiße nur eine Größe von drei bis sechs Megabyte, da er sehr viel Platz und Strom verbraucht. Dafür ist er um ein vielfaches schneller als Arbeitsspeicher. Der Cache selbst ist wiederum in meist drei Teile unterteilt. Der sogenannte Level-1-Cache ist der schnellste Speicher im Cachesystem. Er ist meistens an den Prozessortakt angeschlossen und hat deshalb eine den Registern ähnliche Latenzzeit. Gleichzeitig ist er aber auch der kleinste Speicher in der Cacheorganisation. 
 Üblicherweise ist er zwischen 8 und 32 KByte groß. Eine Besonderheit des Level-1-Caches ist, dass er  einen getrennten Daten und Instruktionsspeicher besitzt. Etwas mehr Speicherplatz bietet der Level-2-Cache. Er besitzt ca. 256 KByte Speicherplatz, wird aber mit geringerem Takt betrieben. Daraus folgen erhöhte Latenzzeiten im Gegensatz zum L1-Cache. Den größten Speicherplatz bietet der Level-3-Cache. Dieser besitzt eine Größe von etwa 6 MByte\footnote{Diese Größen basieren beispielhaft auf einem Intel i7-6700HQ. Serverprozessoren besitzen ein vielfaches mehr Cache}. Der L3 Cache taktet sehr viel langsamer als der Prozessor und hat deshalb auch die höchsten Latenzzeiten innerhalb der Cacheorganisation.\cite{molka2009memory}. Hier ist noch anzumerken dass bei Mehrkernprozessoren der Level-3-Cache zwischen allen Kernen geteilt wird, wohingegen der Level-1 sowie Level-2-Cache jedem Kern exklusiv zu Verfügung steht.
 
 
@@ -435,8 +436,7 @@ Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunter
 \noindent Er ist also nicht imstande einen Ersatz für den Arbeitsspeicher bereitzustellen. Durch statistische Untersuchungen von Speicherzugriffen konnten allerdings bestimmte Erkenntnisse gewonnen werden. Wenn ein Prozessor Daten aus dem Arbeitsspeicher anfordert ist die Wahrscheinlichkeit groß, dass er in kommenden Speicherzugriffen Daten anfordern wird welche in der Nähe der vorher verwendeten Adresse liegt. Diesen Umstand nennt man räumliche Lokalität. Das kann zum Beispiel passieren wenn Textdaten unfragmentiert im Arbeitsspeicher liegen. Dann wird der Prozessor mit hoher Wahrscheinlichkeit sequentiell einen ganzen Block im Arbeitsspeicher anfragen. Der Cache wird daraufhin den Datenblock aufnehmen um die Latenz der kommenden Anfragen zu verbessern. 
 
 \noindent Eine weitere Eigenschaft ist die zeitliche Lokalität des Speicherzugriffs. Wenn eine Adresse aus dem Hauptspeicher angefordert wird, so ist die Wahrscheinlichtkeit höher, dass sie bald wieder benötigt wird. Solch eine Situation kann zum Beispiel bei dem Überprüfen einer Laufvariablen in einer Schleife auftreten. Anstatt die Adresse bei jedem Schleifendurchlauf aus dem langsamen Hauptspeicher zu laden, wird sie im Cache gespeichert. 
-Der Cache Speicher ist wie der Arbeitsspeicher ein flüchtiger Speicher, er verliert also seinen gespeicherten Inhalt bei Stromverlust. Daraus folgt auch, dass er zu Beginn leer ist und sukzessive mit Einträgen gefüllt werden muss.
-%TODO Zitat
+Der Cache Speicher ist wie der Arbeitsspeicher ein flüchtiger Speicher, er verliert also seinen gespeicherten Inhalt bei Stromverlust. Daraus folgt auch, dass er zu Beginn leer ist und sukzessive mit Einträgen gefüllt werden muss.\cite[S.180-188]{mikroprozessortechnik2011}
 \subsubsection{Cacheorganisation}
 Vereinfacht dargestellt besteht der Cache aus so genannten Cachezeilen (''Cache-Lines''). Diese Cachezeilen haben eine bestimmte Blocklänge (''block size'')\cite[S.183]{mikroprozessortechnik2011}. Wenn Daten in den Cache geladen werden dann immer in diesen festen Blöcken. Auch wenn der Prozessor nur eine Adresse aus dem Arbeitsspeicher benötigt wird im Cache, falls nicht schon vorhanden, der ganze Block in dem sich diese Adresse befindet in eine Cachezeile gespeichert.
 \subsubsection{Ersetzungsstrategien}
@@ -447,7 +447,7 @@ Vereinfacht dargestellt besteht der Cache aus so genannten Cachezeilen (''Cache-
 \noindent Die einfachste Cache Ersetzungsstrategie ist die FIFO-Ersetzung (''First In-First out''). Bei ihr wird der älteste Cache Eintrag mit dem neuesten überschrieben. Da der älteste Cache Eintrag lange nicht mehr benutzt wurde, ist stochastisch davon auszugehen, dass seine Ersetzung mit einem aktuellen Eintrag in einer erhöhten Cache-Treffer Wahrscheinlichkeit resultiert.
 
 %---------------LFU------------------------------------
-\noindent Eine weitere Ersetzungsstrategie ist die LFU-Ersetzung (''Least Frequently Used''). Im Gegensatz zur FIFO-Ersetzung wird hier über eine bestimmte Zeitspanne der Cache überwacht und dann die Cachezeile überschrieben, welche die geringste Nutzungszahl (?) ausweist. Auch hier ist es wieder günstiger diese Cachezeile mit neuen Daten zu überschreiben, da die alte seltener benutzt wurde und somit der Zeitverlust beim erneuten laden aus dem Hauptspeicher vertretbar ist.
+\noindent Eine weitere Ersetzungsstrategie ist die LFU-Ersetzung (''Least Frequently Used''). Im Gegensatz zur FIFO-Ersetzung wird hier über eine bestimmte Zeitspanne der Cache überwacht und dann die Cachezeile überschrieben, welche die geringste Nutzungszahl aufweist. Auch hier ist es wieder günstiger diese Cachezeile mit neuen Daten zu überschreiben, da die alte seltener benutzt wurde und somit der Zeitverlust beim erneuten laden aus dem Hauptspeicher vertretbar ist.
 
 %--------------Random----------------------------------------
 \noindent Das Zufallsprinzip erfordert im Gegensatz zur LRU-Ersetzung keine gesonderte Logik zu Bestimmung der zu löschenden Zeile. Der neue Cache-Eintrag wird einfach über eine zufällig ausgewählte Cache-Zeile geschrieben. Diese Methode mag zwar ungewöhnlich erscheinen, aber es wurde gezeigt dass das zufällige Ersetzen von Cachezeilen mit neuen Einträgen unter Umständen bessere Ergebnisse als die anderen Strategien liefern kann.\cite[S.185ff]{mikroprozessortechnik2011} \cite{smith1985instruction}
@@ -455,7 +455,7 @@ Vereinfacht dargestellt besteht der Cache aus so genannten Cachezeilen (''Cache-
 \addtocontents{toc}{\protect\newpage}
 
 \newpage
-\section{Programmablauf}	
+\section{Programmablauf}	\label{sec:programmablauf}
 \subsection{Schleifen}
 Programmschleifen sind für jedes Programm von essentieller Bedeutung und in jeder modernen Programmiersprache implementiert. Ohne sie wäre kein effizienter und kompakter Programmaufbau möglich. In Hochsprachen sind zwei Grundlegende Arten von Schleifen geläufig. Zum einen die Schleifen mit festgelegter Anzahl an Durchläufen: 
 $$for(int \ i=0; i<100; i++)\{...\}$$
@@ -584,7 +584,7 @@ Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Prio
 
 \newpage
 \section{Pipelines}
-Um die Allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurden immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
+Um die allgemeine Entwicklung der Informationsverarbeitung voranzutreiben wurden immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor schnell seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
 Um die Verarbeitungsgeschwindigkeit dennoch steigern zu können wurde nach den Flaschenhälsen in den ausgeführten Programmen gesucht. Eines der  Probleme war die geringe Auslastung des Prozessors während der Ausführung eines Programms. Die Befehlsausführung ist wie bereits ausgeführt in fünf Schritte unterteilt.
 \begin{enumerate}
 \item Befehl einlesen
@@ -617,7 +617,7 @@ Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{ta
 \end{tabular}
 \end{table}
 
-Wie in Abbildung \ref{noPipeline} dargestellt ist, wird während der erste Befehl dekodiert wird keine weitere Verarbeitung innerhalb der CPU vorgenommen. Um diesen Flaschenhals zu beseitigen wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden.
+\par\bigskip\noindent Wie in Abbildung \ref{noPipeline} dargestellt ist, wird während der erste Befehl dekodiert wird keine weitere Verarbeitung innerhalb der CPU vorgenommen. Um diesen Flaschenhals zu beseitigen wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden.
 
 \begin{table}[!htb]
 \centering
@@ -638,9 +638,9 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 \end{table}
 
 
-In Abbildung \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
+\noindent In Abbildung \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
 
-\noindent\textbf{Datenflusskonflikte:} Zur Veranschaulichung dieses Problems folgendes Beispiel:
+\par\bigskip\noindent\textbf{Datenflusskonflikte:} Zur Veranschaulichung dieses Problems folgendes Programm mit zwei Befehlen:
 
 \begin{table}[!htb]
 \centering
@@ -668,7 +668,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 5    &                                                            &                                                              &                                                               & {\color[HTML]{FE0000} \textbf{2. Befehl}} & {\color[HTML]{FE0000} \textbf{1. Befehl}}                       \\ \hline
 6    &                                                            &                                                              &                                                               &                                           & 2. Befehl                                                       \\ \hline
 \end{tabular}
-\caption{Datenflusskonflikt Ablauf}
+\caption{Datenflusskonflikt Ablauf \protect\cite{mikroprozessortechnik2011}}
 \label{tab:Datenflusskonflikt}
 \end{table}
 
@@ -708,7 +708,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 
 In Tabelle \ref{tab:Datenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. Pipelining birgt aber noch eine weitere Problematik.
 
-\noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel ?? dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Vorraussetzungen gelten müssen. Zur Darstellung der bedingten Programmflussänderungen folgendes Beispiel:
+\par\bigskip\noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel \ref{sec:programmablauf} dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Bedingungen geprüft werden müssen. Zur Darstellung der bedingten Programmflussänderungen folgendes Beispiel:
 
 
 \begin{table}[!htb]
@@ -744,9 +744,9 @@ Befehle & Assembler      \\ \hline
 
 \end{table}
 
-\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl die Operanden eingelesen und der zweite Befehl ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
+\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird wie in den anderen Beispielen auch in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl werden die Operanden eingelesen und der zweite Befehl wird ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
 
-Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Programm einzubauen, bis der Sprungbefehl abgearbeitet ist. Die Anzahl der benötigten Fülloperationen wird durch die Breite der Pipeline bestimmt. In den gezeigten Beispielen mit einer fünfstufigen Pipeline werden drei NOP-Operationen benötigt um den Steuerflusskonflikt zu beseitigen.
+\par\smallskip\noindent Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Programm einzubauen, bis der Sprungbefehl abgearbeitet ist. Die Anzahl der benötigten Fülloperationen wird durch die Breite der Pipeline bestimmt. In den gezeigten Beispielen mit einer fünfstufigen Pipeline werden drei NOP-Operationen benötigt um den Steuerflusskonflikt zu beseitigen.
 
 \begin{table}[!htb]
 \centering
@@ -763,16 +763,16 @@ Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Pro
 \multicolumn{1}{|l|}{8} &                                                                                         & \cellcolor[HTML]{FFFE65}4.Befehl                                                           & \cellcolor[HTML]{67FD9A}3.Befehl                                                            & \cellcolor[HTML]{38FFF8}2.Befehl        & \cellcolor[HTML]{F8A102}NOP                                                                   \\ \hline
 \end{tabular}
 \caption{Lösung Steuerflusskonflikt}
-\label{tab:Steuerflusskonflikt}
+\label{tab:loesungSteuerflusskonflikt}
 \end{table}
 \noindent In Tabelle
- \ref{tab:Steuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
+ \ref{tab:loesungSteuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen die Wartezyklen mit anderen Methoden zu kompensieren.
 
 \newpage
 \section{Planung und Entwurf eines Prozessors}
-Der Inhalt der bisherigen Arbeit handelte von den Komponenten einer CPU und deren Funktionsweißen. Um den dargestellten Inhalt praktischer Vermitteln zu können, wird nun mittels einer Simulationssoftware eine CPU von Grund auf erstellt. Dieser Prozessor stellt keinen Vergleich zu modernen Prozessoren her. Er soll lediglich die Funktionsweiße der essentiellsten Bauteile beschreiben und einfache Operationen wie Sprünge und Subroutinen unterstützen.
+Der Inhalt der bisherigen Arbeit handelte von den Komponenten einer CPU und deren Funktionsweißen. Um den dargestellten Inhalt praktischer Vermitteln zu können, wird nun mittels einer Simulationssoftware eine CPU von Grund auf erstellt. Dieser Prozessor stellt keinen Vergleich zu modernen Prozessoren her. Er soll lediglich die Funktionsweiße der essentiellsten Bauteile beschreiben und einfache Operationen wie Sprünge und Subroutinen unterstützen (siehe Kapitel \ref{sec:programmablauf}).
 \subsection{Befehlsbreite}
-Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbreite. Je nachdem welche Features eingebaut werden sollen kann der Befehlssatz eingeteilt werden. Logisim bietet die Möglichkeit, einen maximal 32-Bit weiten Bus zu nutzen. Zu Erklärungszwecken werden die 32-Bit wie folgt aufgeteilt:
+Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbreite. Je nachdem welche Features implementiert werden sollen kann der Befehlssatz eingeteilt werden. Logisim bietet die Möglichkeit, einen maximal 32-Bit weiten Bus zu nutzen. Zu Erklärungszwecken werden die 32-Bit wie folgt aufgeteilt:
 
 \begin{table}[!htb]
 \centering
@@ -789,12 +789,9 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
 \end{tabular}
 \caption{Befehlsbus}
 \end{table}
-\noindent
-\textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
-\newline
-\textbf{Argument: } Das Argument wird nicht bei jedem Befehl verwendet. Diese 8-Bit sind eine Hilfestellung für Operationen bei denen eine genauere Spezifikation der zu ausführenden Tätigkeit benötigt wird. Beispielsweise wird bei der arithmetischen Operation ADD mit Hilfe des Argumentes angegeben, in welches Register das Ergebnis gespeichert werden soll.
-\newline
-\textbf{Value: } Die verbleibenden 16-Bit werden als Wertangabe benutzt. Durch diese 16-Bit wird gleichzeitig die Befehlsbusbreite innerhalb des Prozessors festgelegt, das heißt der Prozessor kann mit Zahlen arbeiten welche innerhalb der 16-Bit Grenze liegen (ohne Vorzeichen maximal 65536). Einige Befehle in dieser CPU benötigen allerdings drei Parameter zur Ausführung. Um mit dem Argument drei Parameter bereitzustellen können die letzten 16-Bit in zwei 8-Bit Blöcke gespalten werden. Diese werden hier Quelle und Ziel genannt. Der Befehlssatz sieht bei diesen speziellen Befehlen folgendermaßen aus: 
+\par\bigskip\noindent\textbf{Opcode: } Der Opcode beinhaltet den Befehl welche die CPU als nächstes Ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle vorhanden sein müssen um die Basisfunktionalität einer CPU zu erzielen.
+\par\bigskip\noindent\textbf{Argument: } Das Argument wird nicht bei jedem Befehl verwendet. Diese 8-Bit sind eine Hilfestellung für Operationen bei denen eine genauere Spezifikation der zu ausführenden Tätigkeit benötigt wird. Beispielsweise wird bei der arithmetischen Operation ADD mit Hilfe des Argumentes angegeben, in welches Register das Ergebnis gespeichert werden soll.
+\par\bigskip\noindent\textbf{Value: } Die verbleibenden 16-Bit werden als Wertangabe benutzt. Durch diese 16-Bit wird gleichzeitig die Befehlsbusbreite innerhalb des Prozessors festgelegt, das heißt der Prozessor kann mit Zahlen arbeiten welche innerhalb der 16-Bit Grenze liegen (ohne Vorzeichen maximal 65536). Einige Befehle in dieser CPU benötigen allerdings drei Parameter zur Ausführung. Um mit dem Argument drei Parameter bereitzustellen können die letzten 16-Bit in zwei 8-Bit Blöcke gespalten werden. Diese werden hier Quelle und Ziel genannt. Der Befehlssatz sieht bei diesen speziellen Befehlen folgendermaßen aus: 
 \begin{table}[!htb]
 \centering
 \caption{Befehlsbus mit drei Parametern}
@@ -889,10 +886,11 @@ Die CPU soll die grundlegenden Aufgaben eines Prozessors erfüllen können. Dazu
 \newpage
 \section{Implementierung einer Prozessorsimulation in Logisim}
 \subsection{Logisim}
-Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen. Ein solch einfacher Prozessor soll nun im Folgenden implementiert werden.
+Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen. Ein solch einfacher Prozessor besitzt folgende Komponenten 
 
 \begin{figure}[!htb]
-\includegraphics[scale=0.40]{cpu}
+\centering
+\includegraphics[scale=0.30]{cpu}
 \caption{Darstellung des Prozessors}
 \centering
 \label{fig:register}
@@ -913,7 +911,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 
 \textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. Der Befehlsbus wird mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird sendet die CU die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum Beschreiben freizuschalten.
 
-\begin{figure}[!htb]
+
+\begin{figure}[!htbp]
 \includegraphics[scale=0.35]{cu}
 \centering
 \label{fig:cu}
@@ -923,7 +922,7 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \newpage
 
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
 \includegraphics[scale=0.35]{alu}
 \centering
 \label{fig:alu}
@@ -932,7 +931,7 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 
 \newpage
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
 \includegraphics[scale=0.35]{register}
 \centering
 \label{fig:register}
@@ -941,12 +940,13 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 
 \newpage
 
-\begin{figure}[!htb]
-\includegraphics[scale=0.35]{ram}
+\begin{figure}[!hp]
+\includegraphics[scale=0.45]{ram}
 \centering
 \label{fig:register}
 \caption{Speicher}
 \end{figure}
+\newpage
 
 \subsection{Entwicklung und Ausführung eines Programmes}
 Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter Ubuntu 17.10 mit dem Linuxkernel 4.13 kompiliert.
@@ -970,24 +970,24 @@ int main(int argc, char const *argv[])
 	for(unsigned int i=1;i<65536;i+=2){
 		if(checkIfPrime(i)){
 			counter++;
-		}s
+		}
 	}
-	std::cout << counter << std::endl; //Ausgabe 6492
+	std::cout << counter << std::endl; //Ausgabe 6541
 	return 0;
 }
 \end{lstlisting}
 \caption[C++ Code Primzahlenzählen]{C++ Code Primzahlenzählen}
+\label{code:prime}
 \end{code}
 
+\noindent Das in Codeblock \ref{code:prime} gezeigt Programm zum Primzahlenzählen ist sehr ineffizient. Alleine die for-Schleife der CheckIfPrime-Funktion wird während des Ausführens 202.710.573 Schritte durchlaufen. Ziel ist nicht die optimale Laufzeit zu erreichen, sondern ein einfaches Programm auf der selbst gebauten CPU auszuführen.
 
-
-Um dieses Programm auf der VI-17 ausführen zu können muss es im Assembler der CPU neu geschrieben werden. Da Assembler eine sehr hardwarenahe Sprache ist, erleichtern wir uns die Entwicklung und betrachten den Assemblercode des C++ Programms, um die grobe Struktur sehen zu können, welche die CPU ausführt. Der Assemblercode kann mittels GDB betrachtet werden. Um den Umfang der Erklärungen nicht zu sprengen muss allerdings ein grundsätzliches Verständnis für den x86 Befehlssatz vorhanden sein.
+\par\bigskip\noindent Um dieses Programm auf der VI-17 ausführen zu können muss es in der Assemblersprache der CPU neu geschrieben werden. Da Assembler eine sehr hardwarenahe Sprache ist, erleichtern wir uns die Entwicklung und betrachten den Assemblercode des C++ Programms, um die grobe Struktur sehen zu können, welche die CPU ausführt. Der Assemblercode kann mittels GDB betrachtet werden. Um den Umfang der Erklärungen nicht zu sprengen muss allerdings ein grundsätzliches Verständnis für den x86 Befehlssatz vorausgesetzt werden.
 \newpage
 
 
 \begin{code}
 \begin{lstlisting}
-Dump of assembler code for function main:
    0x000000000040085e <+0>:	push   %rbp
    0x000000000040085f <+1>:	mov    %rsp,%rbp
    0x0000000000400862 <+4>:	sub    $0x20,%rsp
@@ -1015,8 +1015,7 @@ Dump of assembler code for function main:
    0x00000000004008b8 <+90>:	mov    $0x0,%eax
    0x00000000004008bd <+95>:	leaveq 
    0x00000000004008be <+96>:	retq   
-End of assembler dump.
-\end{lstlisting}s
+\end{lstlisting}
 \caption[Assemblercode der main Methode]{Assemblercode der main-Methode}
 \end{code}
 
@@ -1059,7 +1058,7 @@ End of assembler dump.
 \end{code}
 %Intel Dokumentation zitieren Code Listing 3 URL-
 %https://software.intel.com/sites/default/files/managed/a4/60/325383-sdm-vol-2abcd.pdf
-Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF \textbf{nicht} gesetzt, also null, sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null(ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist \cite{elements2005}. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX.\cite[S.202]{technischeInformatik2}
+Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF \textbf{nicht} gesetzt, also null, sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null(ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist \cite{elements2005}. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX\cite[S.202]{technischeInformatik2}.
 \newpage
 
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
