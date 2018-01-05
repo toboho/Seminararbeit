@@ -20,7 +20,7 @@
 \usepackage[onehalfspacing]{setspace}
 \bibliographystyle{ieeetr}
 \usepackage[left=4cm,right=2cm,top=4cm,bottom=2cm,includeheadfoot]{geometry}
-
+\sloppy
 \graphicspath{{images/}}
 
 \captionsetup[table]{position=bottom}
@@ -63,10 +63,7 @@
 \fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{1pt}
 \setlength{\footnotemargin}{0pt}
-
 \setcounter{page}{1}
-
-\section{Motivation}
 
 
 \section{Zahlensysteme}
@@ -129,6 +126,7 @@ Ja                              & 10000000                            & -128    
 \noindent Zur Erklärung soll ein 8-Bit Prozessor die Rechnung 127+1 durchführen (siehe Tabelle \ref{tab:ueberlauf}). Hier wird nun nicht 128 als Ergebnis geliefert, sondern -128. Dies geschieht aufgrund der Interpretation von vorzeichenbehafteten Dualzahlen. Da das vorderste Bit  gesetzt ist, interpretiert der Prozessor die Wertigkeit mit -128 statt 128. Da die restlichen sieben Bit null sind wird das Ergebnis als -128 interpretiert.
 
 \newpage
+
 \section{Prozessorarchitekturen}
 Prozessoren besitzen immer einen eigenen, meist einzigartigen Aufbau. Allerdings haben sich im Laufe der Entwicklung einige Architekturmerkmale ausgeprägt, welche die Prozessoren verbindet. 
 Ziel dieser Architekturen ist es stets, die Ausführungsgeschwindigkeit eines Programmes zu steigern.
@@ -163,10 +161,10 @@ Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmco
 \item Befehl ausführen
 \item Instruction Pointer (IP) inkrementieren
 \end{enumerate}
-Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
+Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden, welche für den Befehl benötigt werden, geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
-Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern.
+Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern (siehe Abbildung \ref{fig:harvard}).
 
 \begin{figure}[!htb]
 \centering
@@ -174,7 +172,7 @@ Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. 
 \caption{Harvard-Architektur}
 \centering
 \small Quelle: Eigene Darstellung
-\label{fig:flipflop}
+\label{fig:harvard}
 \end{figure}
 
 
@@ -191,7 +189,7 @@ Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designph
 Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set Architecture = Prozessorarchitektur} einige Nachteile aufwiesen, weshalb die RISC-ISA (Reduced Instruction Set Computer) entwickelt wurde.
 
 \par \bigskip
-\noindent Studien haben in den 1980'er Jahren gezeigt, dass 25\% der Befehle eines CISC-Prozessors 95\% der Ausführungszeit ausmachen \cite{jamil1995risc}. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bot, gar nicht ausnutzten und die meiste Zeit nur die simplen Befehle verwendeten. \cite{patterson1985reduced} 
+\noindent Studien haben in den 1980'er Jahren gezeigt, dass 25\% der Befehle eines CISC-Prozessors 95\% der Ausführungszeit ausmachen \cite{jamil1995risc}. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bot, gar nicht ausnutzten und die meiste Zeit nur simple Befehle verwendeten. \cite{patterson1985reduced} 
 
 \par \bigskip
 \noindent Ein weiterer Grund für die Entwicklung der RISC Computer war, dass die Programmierung eines Prozessors in Assemblersprache keine Notwendigkeit mehr darstellte. Mit dem Auftreten der ersten Hochsprachen, insbesondere C, und ihren Compilern, mussten Programmierer nicht mehr den Befehlssatz eines Prozessors kennen. Die Compiler wandelten den Programmcode der Hochsprache erst in Assembler und daraufhin in eine maschinenlesbare Form um. Durch diese Abstraktionsschicht zwischen Prozessor und Entwickler war die kompakte Struktur von Assemblerbefehlen nicht weiter ein Entwicklungsfaktor für Prozessoren.
@@ -877,14 +875,14 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann (Tabelle 
 \newpage
 \section{Implementierung eines Prozessors in Logisim}
 \subsection{Logisim}
-Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen. Ein solch einfacher Prozessor besitzt folgende Komponenten 
+Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digitaler Schaltungen. Es bietet die Möglichkeit, größere Schaltungen aus kleineren Schaltungen herzustellen. Damit ist es möglich, ganze Prozessoren in Logisim zu entwerfen.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.30]{cpu}
 \caption{Darstellung des Prozessors}
 \centering
-\label{fig:register}
+\label{fig:prozessor}
 \end{figure}
 \newpage
 
@@ -893,21 +891,22 @@ Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digital
 \subsection{Prozessor Komponenten}
 Der Prozessor besteht aus fünf Hauptkomponenten:
 \begin{itemize}
-\item Control Unit - Steuerungseinheit
-\item ALU - Arithmetisch Logische Einheit
-\item Registersatz 
-\item RAM/Stack
-\item ROM
+\item Control Unit - Steuerungseinheit (Abbildung \ref{fig:cu})
+\item ALU - Arithmetisch Logische Einheit (Abbildung \ref{fig:alu})
+\item Registersatz (Abbildung \ref{fig:register})
+\item RAM/Stack (Abbildung \ref{fig:speicher})
+\item ROM (Abbildung \ref{fig:rom})
 \end{itemize}
 
-\textbf{Control Unit - Steuerungseinheit: } Die CU verarbeitet die Daten des Befehlsbusses und dekodiert die einzelnen Befehle, welche die CPU als nächstes ausführen muss. Der Befehlsbus wird mittels Komparatoren mit dem gesamtem Befehlssatz verglichen. Wenn ein Befehl gefunden wird, sendet die CU die notwendigen Steuersignale an die einzelnen Komponenten des Prozessors, um zum Beispiel die Register zum Beschreiben freizuschalten.
+\noindent Auf den folgenden Seiten werden Bilder der einzelnen Komponenten des Prozessors abgebildet.
+
 
 
 \begin{figure}[!htbp]
 \includegraphics[scale=0.35]{cu}
 \centering
-\label{fig:cu}
 \caption{Steuerwerk}
+\label{fig:cu}
 \end{figure}
 \newpage
 \newpage
@@ -916,8 +915,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \begin{figure}[!htbp]
 \includegraphics[scale=0.35]{alu}
 \centering
-\label{fig:alu}
 \caption{Rechenwerk}
+\label{fig:alu}
 \end{figure}
 
 \newpage
@@ -925,8 +924,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \begin{figure}[!htbp]
 \includegraphics[scale=0.35]{register}
 \centering
-\label{fig:register}
 \caption{Registerwerk}
+\label{fig:register}
 \end{figure}
 
 \newpage
@@ -934,11 +933,17 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \begin{figure}[!hp]
 \includegraphics[scale=0.45]{ram}
 \centering
-\label{fig:register}
 \caption{Speicher}
+\label{fig:speicher}
+\end{figure}
+
+\begin{figure}[!hp]
+\includegraphics[scale=0.25]{rom}
+\centering
+\caption{ROM}
+\label{fig:rom}
 \end{figure}
 \newpage
-
 \subsection{Entwicklung und Ausführung eines Programmes}
 Um nun die Funktionalität der CPU zu zeigen wurde ein C++ Programm entwickelt, welches alle Primzahlen bis $2^{16} = 65536$ ausrechnet und die Anzahl der Primzahlen auf dem Terminal ausgibt. Dieses Programm wurde unter Ubuntu 17.10 mit dem Linuxkernel 4.13 kompiliert.
 
@@ -973,7 +978,7 @@ int main(int argc, char const *argv[])
 
 \noindent Das in Quellcodeblock \ref{code:prime} gezeigte Programm zum Primzahlenzählen ist sehr ineffizient. Alleine die for-Schleife der CheckIfPrime-Funktion wird während des Ausführens 202.710.573 Schritte durchlaufen. Ziel ist nicht die optimale Laufzeit zu erreichen, sondern ein einfaches Programm auf der selbstgebauten CPU auszuführen.
 
-\par\bigskip\noindent Um dieses Programm auf der VI-17 ausführen zu können, muss es in der Assemblersprache der CPU neu geschrieben werden. Da Assembler eine sehr hardwarenahe Sprache ist, erleichtern wir uns die Entwicklung und betrachten den Assemblercode des C++ Programms, um die grobe Struktur sehen zu können, welche die CPU ausführt. Der Assemblercode kann mittels GDB betrachtet werden. Um den Umfang der Erklärungen nicht zu sprengen muss allerdings ein grundsätzliches Verständnis für den x86 Befehlssatz vorausgesetzt werden.
+\par\bigskip\noindent Um dieses Programm auf der VI-17 ausführen zu können, muss es in der Assemblersprache der CPU neu geschrieben werden. Da Assembler eine sehr hardwarenahe Sprache ist, erleichtern wir uns die Entwicklung und betrachten den Assemblercode des C++ Programms, um die grobe Struktur sehen zu können, welche die CPU ausführt. Der Assemblercode kann mittels GDB betrachtet werden.
 \newpage
 
 
@@ -1051,6 +1056,13 @@ End of assembler dump.
 %https://software.intel.com/sites/default/files/managed/a4/60/325383-sdm-vol-2abcd.pdf
 Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF \textbf{nicht} gesetzt, also null sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null (ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist \cite{elements2005}. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX\cite[S.202]{technischeInformatik2}.
 \newpage
+
+\section{Schlusswort}
+Prozessoren haben wie keine andere Technik die Entwicklung der Informatik beeinflusst. Sie sind die Grundlage jedes Computers, ganz gleich ob sie in einem Mobiltelefon oder einem Rechenzentrum eingesetzt werden. In den letzten 20 Jahren wurde die Leistungsfähigkeit der Prozessoren immer weiter gesteigert. Zuerst durch immer höhere Taktraten, später dann durch mehrere CPU-Kerne und Veränderungen an der Architektur. Goorden Moore, einer der Gründer von Intel, hat 1965 das Moorsche Gesetz in einem Artikel beschrieben. Danach verdoppelt sich die Anzahl an Transistoren auf den Chips alle 18 Monate. Diese Entwicklung kann bis heute nachverfolgt werden. Allerdings kann dieser Trend nicht immer so weitergehen. 
+
+\par\bigskip\noindent Die zukünftige Entwicklung der Prozessoren bleibt also spannend. Die Forschung an Quantencomputer zeigt neuerdings immer größere Erfolge. Vielleicht wird mit ihnen der nächste große Sprung in Rechenleistung ermöglicht. 
+\newpage
+\pagestyle{empty}
 
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \listoffigures
