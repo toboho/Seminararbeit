@@ -77,14 +77,13 @@ $$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite{mikroprozessortechnik2011}$$
 Die Dezimalzahl 135 wird mit dieser Formel wie folgt gebildet:$$Z=1*10^2+3*10^1+5*10^0 = 135$$
 Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird. Deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar als
 $$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite{mikroprozessortechnik2011}$$ 
-Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeingnet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
+Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeignet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz (1646-1716) entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
 
 \subsection{Binäre Darstellung von Zahlen}
-Zahlen im Dualsystem können vorzeichenlos und vorzeichenbehaftet dargestellt werden.
 
 \subsubsection{Vorzeichenlose Binärzahlen}
 Vorzeichenlose Binärzahlen können mittels folgender Formel gebildet werden: $$Z=\sum\limits_{i=0}^{N-1} a_i * 2^i$$ 
-Die Dezimalzahl 135 würde dann im Dualsystem dem Bitmuster $10000111$ entsprechen, dargestellt durch folgende Konvertierung:
+Die Dezimalzahl 135 würde dann im Dualsystem dem Bitmuster $10000111$ entsprechen; dargestellt durch folgende Konvertierung:
 $$10000111b = 1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = 128 +4+2+1 = 135d$$
 Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen sie arbeiten können. In den Anfängen der Prozessorentwicklung waren 8 bzw. 16 Bit Prozessoren üblich. Das bedeuted, dass ein Prozessor mit 8 bzw 16 Bit breiten Daten rechnen kann. Durch diese Limitation der Bitbreite können ungewollte Probleme beim Rechnen mit Dualzahlen auftreten. So kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Überlauf kommen. Ein Überlauf tritt auf, wenn zum Beispiel auf einer 8-Bit CPU\footnote{CPU =  Central Processing Unit = Prozessor} die Operation 255+1 ausgeführt wird.
 
@@ -105,12 +104,12 @@ Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen s
 \noindent In Tabelle \ref{tab:uebertrag} ist diese Rechnung zur Veranschaulichung abgebildet. Aufgrund der Bitbreite des Prozessors von 8-Bit ist die größte darstellbare Binärzahl welche dieser verarbeiten kann dargestellt durch acht Einsen ($11111111b = 255d$)\footnote{Die Buchstaben am Ende der Zahlen zeigen das benutzte Zahlensystem. D.h. d = Dezimal, b = Binär, h = Hexadezimal}. Nun wird allerdings in Tabelle \ref{tab:uebertrag} diese Zahl inkrementiert\footnote{inkrementiert = um eins erhöht}. Der Prozessor wird am Ende dieser Operation den Wert null als Ergebnis speichern. Der Grund dafür ist in der letzten Zeile der Tabelle \ref{tab:uebertrag} ersichtlich. Die Rechenoperation 255+1d ergibt 256. Diese Zahl wird im Binärsystem mit 9-Bit dargestellt.
 $$256d = 1*2^8+0*2^7+0*2^6+0*2^5+0*2^4+0*2^3+0*2^2+0*2^1+0*2^0 = 100000000b$$
 Der Prozessor speichert nur 8 Bit als Ergebnis. Deshalb werden die ersten 8 Bit des Ergebnisses ($00000000b$) gespeichert und die Rechnung ist fehlerhaft. Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit)\footnote{Auf die Flags und ihre Bedeutung wird in Kapitel \ref{subsec:alu} näher eingegangen} setzen um dem Programmierer darauf hinzuweißen, dass die letzte Operation falsche Ergebnisse geliefert hat. 
-\subsubsection{Zweierkomplement}
+\subsubsection{Vorzeichenbehaftete Binärzahlen}
 \noindent Mit vorzeichenlosen Dualzahlen können allerdings keine negativen Werte abgebildet werden. Diese Eigenschaft bieten vorzeichenbehaftete Dualzahlen. Eine Dualzahl $Z$ im sogenannten Zweierkomplement wird folgendermaßen gebildet:
 $$Z=-a_{N-1}*2^{N-1}+\sum\limits_{i=0}^{N-2} a_i * 2^i$$
 Die Formel kann zu Erklärungszwecken in zwei Teile gegliedert werden. Zum einen in den ersten Teil $-a_{N-1}*2^{N-1}$, das Vorzeichenbit. Dieser sagt aus, dass das höchstwertige Bit einer vorzeichenbehafteten Zahl negativ gewertet wird. Zum anderen der hintere Teil $\sum\limits_{i=0}^{N-2} a_i * 2^i$, dieser ist bereits aus der Erzeugung von vorzeichenlosen Dualzahlen bekannt. Die Bits werden nach ihrer Position gewichtet und ihre Wertigkeit aufaddiert. Die Zahl $10000111b$ im Zweierkomplement wird also wie folgt interpretiert:
 $$10000111b = -1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = -128+4+2+1 = -121d$$
-Bei den vorzeichenlosen Dualzahlen konnte es, wie oben beschrieben, zu einem Übertrag kommen, wenn der darstellbare Zahlenbereich überschritten wurde. Ein ähnliches Verhalten besitzen Zahlen im Zweierkomplement, allerdings kommt es zu einem Überlauf statt einem Übertrag. 
+Bei den vorzeichenlosen Dualzahlen konnte es zu einem Übertrag kommen, wenn der darstellbare Zahlenbereich überschritten wurde. Ein ähnliches Verhalten besitzen Zahlen im Zweierkomplement, allerdings kommt es zu einem Überlauf statt einem Übertrag. 
 
 
 \begin{table}[!htb]
@@ -127,18 +126,18 @@ Ja                              & 10000000                            & -128    
 \label{tab:ueberlauf}
 \end{table}
 
-\noindent Zur Erklärung soll ein 8-Bit Prozessor die Rechnung 127+1 durchführen (siehe Tabelle \ref{tab:ueberlauf}). Hier wird nun nicht 128 als Ergebnis geliefert, sondern -128. Dies geschieht aufgrund der Interpretation von vorzeichenbehafteten Dualzahlen. Da das vorderste Bit  gesetzt ist, interpretiert der Prozessor die Wertigkeit mit -128 statt 128, und da die restlichen sieben Bit null sind wird das Ergebnis als -128 interpretiert.
+\noindent Zur Erklärung soll ein 8-Bit Prozessor die Rechnung 127+1 durchführen (siehe Tabelle \ref{tab:ueberlauf}). Hier wird nun nicht 128 als Ergebnis geliefert, sondern -128. Dies geschieht aufgrund der Interpretation von vorzeichenbehafteten Dualzahlen. Da das vorderste Bit  gesetzt ist, interpretiert der Prozessor die Wertigkeit mit -128 statt 128. Da die restlichen sieben Bit null sind wird das Ergebnis als -128 interpretiert.
 
 \newpage
 \section{Prozessorarchitekturen}
 Prozessoren besitzen immer einen eigenen, meist einzigartigen Aufbau. Allerdings haben sich im Laufe der Entwicklung einige Architekturmerkmale ausgeprägt, welche die Prozessoren verbindet. 
 Ziel dieser Architekturen ist es stets, die Ausführungsgeschwindigkeit eines Programmes zu steigern.
 \subsection{Von-Neumann Architektur}
-Die Von-Neumann Architektur ist nach dem Mathematiker John von Neumann benannt. Er hat 1945 in dem Bericht ''First Draft of a Report on the EDVAC'' das Prinzip erstmals beschrieben.
-Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten \cite{von1993first} (siehe Abbildung \ref{fig:vonNeumann}):
+Die von Neumann Architektur ist nach dem Mathematiker John von Neumann (1903-1957) benannt. Er hat 1945 in dem Bericht ''First Draft of a Report on the EDVAC'' das Prinzip erstmals beschrieben.
+Die Von-Neumann-Architektur besteht grundlegend aus folgenden Komponenten \cite{von1993first} (siehe Abbildung 1):
 \begin{samepage}
 \begin{itemize}
-\item CPU 
+\item CPU (Rechenwerk/Steuerwerk)
 \item Speicherwerk 
 \item Ein-/Ausgabewerk
 \item Bus-System
@@ -150,8 +149,8 @@ Die Von-Neumann Architektur besteht grundlegend aus folgenden Komponenten \cite{
 \centering
 \includegraphics[scale=0.60]{Von-Neumann_Architektur}
 \small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
-\caption{Komponenten Von-Neumann Architektur}
 \label{fig:vonNeumann}}
+\caption{Komponenten der Von-Neumann-Architektur}
 \end{figure}
 
 
@@ -164,10 +163,10 @@ Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmco
 \item Befehl ausführen
 \item Instruction Pointer (IP) inkrementieren
 \end{enumerate}
-Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden welche für den Befehl benötigt werden geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
+Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden, welche für den Befehl benötigt werden, geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
 \subsection{Harvard Architektur} 
-Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern.
+Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern (siehe Abbildung \ref{fig:harvard}).
 
 \begin{figure}[!htb]
 \centering
@@ -175,7 +174,7 @@ Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. 
 \caption{Harvard-Architektur}
 \centering
 \small Quelle: Eigene Darstellung
-\label{fig:flipflop}
+\label{fig:harvard}
 \end{figure}
 
 
@@ -184,16 +183,15 @@ Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. 
 \noindent In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen sich eine aktuelle CPU dem Entwickler zwar als pure Von-Neumann Maschine, also mit gemeinsamen Code und Datenspeicher (RAM); allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten. Die beiden Architekturprinzipien haben jeweils Vor- und Nachteile, wobei in modernen Prozessoren beide Konzepte verwendet werden um maximale Leistung zu erzielen.
 \subsection{CISC-Prozessoren}
 %TODO Geschichte?
-Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Assemblersprache ist die hardwarenäheste Methode um Programme für Prozessoren zu schreiben. Sie setzt das genaue Wissen über den Befehlssatz der CPU vorraus. Jeder Assemblerbefehl wird in genau einen Maschinenbefehl übersetzt und dann von dem Prozessor ausgeführt. Das macht das Entwickeln in Assemblersprache sehr aufwending. Um Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer spezialisiertere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Damit ein Entwickler diese Zwischenschritte nicht eigenständig ausführen muss wurden sie fest in den Prozessor integriert. Ein mehrstufiger Befehl wird von CISC\footnote{CISC = Complex-Instruction-Set-Computer}-Prozessoren in so genannten Mikrocode aufgeteilt welcher dann die einzelnen Schritte ausführt. Beispielsweise beinhaltete der Intel 486 Befehlssatz einen Befehl ''CMPXCHG  $dest,src$''\cite[S.172f]{intel4000}. Dieser vergleicht den Inhalt des Akkumulators\footnote{Der Akkumulator ist ein Register. Mehr zu Registern in Kapitel \ref{sub:register}} mit $dest$. Wenn die beiden Werte gleich sind wird der Akkumulator mit $src$ geladen, andernfalls mit $dest$. An diesem Befehl ist zu erkennen, dass mehrere Zwischenschritte benötigt werden. Erst wird der Akku mit $dest$ verglichen und dann, je nach Ergebnis des Vergleiches, ein neuer Wert in den Akkumulator geladen. Diese Unterschritte wird mittels Microcode beschrieben, welcher fest in den Prozessor integriert ist. Dieses Konzept ermöglichte es, kompaktere Programme in Assemblersprache zu verfassen. So wuchs der Befehlssatz der Prozessoren immer weiter an und wurde komplexer. Entwickler konnten zwar kompakte Programme schreiben aber mussten für jeden Befehl die genaue Funktion kennen um keinen Fehler zu machen. 
+Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Assemblersprache ist die hardwarenäheste Methode um Programme für Prozessoren zu schreiben. Sie setzt das genaue Wissen über den Befehlssatz der CPU voraus. Jeder Assemblerbefehl wird in genau einen Maschinenbefehl übersetzt und dann von dem Prozessor ausgeführt. Das macht das Entwickeln in Assemblersprache sehr aufwending. Um Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller immer spezialisiertere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Damit ein Entwickler diese Zwischenschritte nicht eigenständig ausführen musste wurden sie fest in den Prozessor integriert. Ein mehrstufiger Befehl wird von CISC\footnote{CISC = Complex-Instruction-Set-Computer}-Prozessoren in so genannten Mikrocode aufgeteilt welcher dann die einzelnen Schritte ausführt. Beispielsweise beinhaltete der Intel 486 Befehlssatz einen Befehl ''CMPXCHG  $dest,src$''\cite[S.172f]{intel4000}. Dieser vergleicht den Inhalt des Akkumulators\footnote{Der Akkumulator ist ein Register. Mehr zu Registern in Kapitel \ref{sub:register}} mit $dest$. Wenn die beiden Werte gleich sind wird der Akkumulator mit $src$ geladen, andernfalls mit $dest$. An diesem Befehl ist zu erkennen, dass mehrere Zwischenschritte benötigt werden. Erst wird der Akku mit $dest$ verglichen und dann, je nach Ergebnis des Vergleiches, ein neuer Wert in den Akkumulator geladen. Diese Unterschritte werden mittels Microcode beschrieben, welcher fest in den Prozessor integriert ist. Dieses Konzept ermöglichte es, kompaktere Programme in Assemblersprache zu verfassen. So wuchs der Befehlssatz der Prozessoren immer weiter an und wurde komplexer. Entwickler konnten zwar kompakte Programme schreiben, aber mussten für jeden Befehl die genaue Funktion kennen um keinen Fehler im Programmcode zu implementieren. 
 
 %Um solche Befehle ausführen zu können, mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Der Befehlsdekodierer nimmt zwar auf einem Prozssor mehr Platz ein, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (''Instruction Set Architecture'') wird CISC (''Complex Instruction Set Computer'') genannt.	
 
 \subsection{RISC-Prozessoren}
-%TODO Quelle Studie suchen 
-Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set Architecture = Prozessorarchitektur} einige Nachteile entwickelte, weshalb die RISC-ISA (Reduced Instruction Set Computer) entwickelt wurde.
+Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set Architecture = Prozessorarchitektur} einige Nachteile aufwiesen, weshalb die RISC-ISA (Reduced Instruction Set Computer) entwickelt wurde.
 
 \par \bigskip
-\noindent Studien haben in den 1980'er Jahren gezeigt, dass 25\% der Befehle eines CISC-Prozessors 95\% der Ausführungszeit ausmachen \cite{jamil1995risc}. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bot, gar nicht ausnutzten und nur die simplen Befehle verwendeten. \cite{patterson1985reduced} 
+\noindent Studien haben in den 1980'er Jahren gezeigt, dass 25\% der Befehle eines CISC-Prozessors 95\% der Ausführungszeit ausmachen \cite{jamil1995risc}. Das bedeutet, dass Programme den komplexen Befehlssatz, welche eine CISC CPU bot, gar nicht ausnutzten und die meiste Zeit nur simple Befehle verwendeten. \cite{patterson1985reduced} 
 
 \par \bigskip
 \noindent Ein weiterer Grund für die Entwicklung der RISC Computer war, dass die Programmierung eines Prozessors in Assemblersprache keine Notwendigkeit mehr darstellte. Mit dem Auftreten der ersten Hochsprachen, insbesondere C, und ihren Compilern, mussten Programmierer nicht mehr den Befehlssatz eines Prozessors kennen. Die Compiler wandelten den Programmcode der Hochsprache erst in Assembler und daraufhin in eine maschinenlesbare Form um. Durch diese Abstraktionsschicht zwischen Prozessor und Entwickler war die kompakte Struktur von Assemblerbefehlen nicht weiter ein Entwicklungsfaktor für Prozessoren.
@@ -205,10 +203,10 @@ Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set
 \par \bigskip
 \noindent RISC-Prozessoren sollten einfach als skalare Architektur implementiert werden können. Skalar bedeutet, dass mit jedem Takt ein Befehl abgearbeitet wird. Während bei CISC-Prozessoren ein Befehl in mehrere Mikrobefehle dekodiert werden muss, wird dies bei RISC vermieden. Jeder geladene Befehl wird dekodiert und spricht genau eine Hardwareeinheit an. Komplexe Befehle wie die bereits genannte CMPXCHG Instruktion werden nicht mehr unterstützt. Stattdessen werden die einzelnen Schritte als seperate Assemblerbefehle kodiert. 
 
-\noindent Eine weitere Eigenschaft der RISC Philosophie ist die Kommunikation mit dem Hauptspeicher nur über Load und Store Befehle. Wenn eine Variable aus dem Hauptspeicher benötigt wird muss diese erst mit dem LOAD-Befehl in ein Register geladen werden. Durch den großen Registersatz kann diese Varible dann lange in einem Register gespeichert werden. Dadurch wird die Anzahl der Zugriffe auf den Hauptspeicher reduziert, was die Ausführungszeit senkt. In CISC Prozessoren kann eine Variable direkt mit Adresse im Hauptspeicher ohne Registereinladung verwendet werden, aber dieser komplexe Befehl muss in Microcode umgewandelt werden und benötigt bei jeder Ausführung viele Taktzyklen.\cite[S.102]{mikroprozessortechnik2011}
+\noindent Eine weitere Eigenschaft der RISC Philosophie ist die Kommunikation mit dem Hauptspeicher nur über Load und Store Befehle. Wenn eine Variable aus dem Hauptspeicher benötigt wird, muss diese erst mit dem LOAD-Befehl in ein Register geladen werden. Durch den großen Registersatz kann diese Varible dann lange in einem Register gespeichert werden. Dadurch wird die Anzahl der Zugriffe auf den Hauptspeicher reduziert, was die Ausführungszeit senkt. In CISC Prozessoren kann eine Variable direkt mit Adresse im Hauptspeicher ohne Registereinladung verwendet werden, aber dieser komplexe Befehl muss in Microcode umgewandelt werden und benötigt bei jeder Ausführung viele Taktzyklen.\cite[S.102]{mikroprozessortechnik2011}
 
 \par \bigskip
-\noindent Da der Speicherzugriff auch in modernen Prozessoren eine zeitkritische Komponente des Funktionsmodells ist besitzen RISC Prozessoren einen sehr großen Registersatz, üblicherweise 16 oder mehr Register. Das ermöglicht einem Programm, viele seiner Variablen in den Registern zu halten um Hauptspeicherzugriffe zu vermeiden. Hier sind allerdings die Compiler der Programmiersprachen in der Pflicht, optimierten Binärcode für RISC Prozessoren zu generieren. Alle beschriebenen Vorteile erübrigen sich, wenn sie von den Compilern nicht unterstützt werden. Der große Registersatz muss vom Compiler auch verwendet werden, da sonst Speicherzugriffe ähnlich oft auftreten wie bei den CISC Prozessoren. \cite[S.102]{mikroprozessortechnik2011}
+\noindent Da der Speicherzugriff auch in modernen Prozessoren eine zeitkritische Komponente des Funktionsmodells ist, besitzen RISC Prozessoren einen sehr großen Registersatz, üblicherweise 16 oder mehr Register. Das ermöglicht einem Programm, viele seiner Variablen in den Registern zu halten um Hauptspeicherzugriffe zu vermeiden. Hier sind allerdings die Compiler der Programmiersprachen in der Pflicht, optimierten Binärcode für RISC Prozessoren zu generieren. Alle beschriebenen Vorteile erübrigen sich, wenn sie von den Compilern nicht unterstützt werden. Der große Registersatz muss vom Compiler auch verwendet werden, da sonst Speicherzugriffe ähnlich oft auftreten wie bei den CISC Prozessoren. \cite[S.102]{mikroprozessortechnik2011}
 \par \bigskip
 \noindent Moderne Prozessoren sind meist CISC Prozessoren. Mit RISC-V existiert aber ein Projekt welches die Absicht hat wieder moderne und konkurrenzfähige RISC Prozessorendesigns zu entwickeln und als freie ISA zur Verfügung zu stellen. 
 
