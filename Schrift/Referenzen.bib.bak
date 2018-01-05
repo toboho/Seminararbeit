@@ -168,4 +168,11 @@
   url    = {https://meltdownattack.com/},
 }
 
+@Misc{meltdown,
+  author = {Moritz Lipp, Michael Schwarz, et al.},
+  title  = {Meltdown},
+  year   = {2018},
+  url    = {https://meltdownattack.com/},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
