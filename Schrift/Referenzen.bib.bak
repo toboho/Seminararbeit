@@ -67,7 +67,7 @@
   url       = {http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html},
 }
 
-@Book{rechnerarchitektur,
+@Book{          ,
   title     = {Rechnerarchitektur},
   publisher = {Vieweg+Teubner Verlag},
   year      = {2011},

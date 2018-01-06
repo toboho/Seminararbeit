@@ -97,6 +97,8 @@ Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung, mit welche
 \multicolumn{1}{|r|}{Ergebnis:} & 00000000b                            & 0d                                     \\ \hline
 \end{tabular}
 \caption{Rechnung mit Übertrag}
+\centering
+\small Quelle: Eigene Darstellung
 \label{tab:uebertrag}
 \end{table}
 
@@ -122,6 +124,8 @@ Ja                              & 10000000                            & -128    
 \multicolumn{1}{|l|}{Ergebnis:} & 10000000                            & -128                                  \\ \hline
 \end{tabular}
 \caption{Rechnung mit Überlauf}
+\centering
+\small Quelle: Eigene Darstellung
 \label{tab:ueberlauf}
 \end{table}
 \newpage
@@ -145,7 +149,7 @@ Die Von-Neumann-Architektur besteht grundlegend aus folgenden Komponenten \cite{
 \end{samepage}
 
 
-\noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann-Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite{TaschenbuchMikroprozessortechnik}.
+\noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann-Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite[S.74]{TaschenbuchMikroprozessortechnik}.
 Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht selbstständig unterscheiden kann, ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Entwickler bzw. Compiler\footnote{Ein Compiler ist ein Programm, welches Quellcode in maschinenlesbare Form umwandelt} vornehmen. Außerdem kann mit dieser Archtitektur zu jedem Takt nur jeweils Daten oder Code geladen werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten, welche nacheinander ablaufen.
 %TODO Programmcode oder Daten
 \newpage
@@ -164,6 +168,7 @@ Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehls
 \small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
 \label{fig:vonNeumann}}
 \caption{Komponenten der Von-Neumann-Architektur}
+\small Quelle: Eigene Darstellung
 \end{figure}
 
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
@@ -215,7 +220,7 @@ Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set
 \newpage
 \section{Aufbau und Funktion}
 \subsection{Register} \label{sub:register}
-Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten, bevor sie diese verarbeiten könnte.%TODO
+Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten, bevor sie diese verarbeiten könnte.\cite[S.83]{elements2005}
  Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit. Sie werden aus Flip-Flops aufgebaut, welche jeweils genau ein Bit speichern können. Das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops. Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessorchip. Es wird deshalb sehr wenig Registerspeicher in Prozessoren verbaut.\cite[S.89]{mikroprozessortechnik2011}
 
 \subsubsection{Aufbau}
@@ -225,6 +230,8 @@ Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau e
 \centering
 \includegraphics[scale=0.30]{flipflop}
 \caption{Schaltnetz D-Flip-Flop}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:flipflop}
 \end{figure}
 
@@ -244,6 +251,8 @@ Eingang 1 & Eingang 2 & AND & NAND \\ \hline
 \end{tabular}
 \caption{Schaltregeln AND und NAND Gatter}
 \label{andnand}
+\centering
+\small Quelle: Eigene Darstellung
 \end{table}
 
 
@@ -253,7 +262,7 @@ Eingang 1 & Eingang 2 & AND & NAND \\ \hline
 \centering
 \caption{Schaltnetz 4-Bit Register}
 \includegraphics[scale=0.35]{4bitreg}
-\centering
+\small Quelle: Eigene Darstellung
 \label{fig:4bitreg}
 \end{figure}
 \newpage
@@ -277,6 +286,7 @@ Es werden zwei Arten von Registergruppen unterschieden. Universalregister und Sp
 \centering
 \caption{Ausgabe des GDB-Befehls ''info registers''}
 \label{fig:inforeg}
+\small Quelle: Eigene Darstellung
 \end{wrapfigure}
 
 \noindent Abbildung \ref{fig:inforeg} zeigt die Register des Prozessors i7-6700HQ. Ausgenommen sind hier die Register für spezielle Befehlssatzerweiterungen wie zum Beispiel SIMD oder AVX. Diese sind in der Regel 128 bzw. 256 Bit breit. Die Universalregister sind in Abbildung \ref{fig:inforeg} mit den Namen R8 bis R15 zu sehen.
@@ -332,6 +342,7 @@ i & Zero-Flag & Nächster Schritt \\ \hline
 \end{tabular}
 \caption{Schritte der for-Schleife}
 \label{forschleife}
+\small Quelle: Eigene Darstellung
 \end{table}
 
 \noindent Tabelle \ref{forschleife} zeigt die Nutzung des Zero-Flags zur Prüfung der Abbruchbedingung der for-Schleife. 
@@ -349,7 +360,7 @@ Rechnung & Ergebnis (d) & Ergebnis (b) & Carry-Flag \\ \hline \hline
 \end{tabular}
 \caption{Beispiele Carry-Flag}
 \label{tab:carry}
-
+\small Quelle: Eigene Darstellung
 \end{table}
 
 
@@ -371,7 +382,7 @@ Rechnung (d) & Ergebnis (Zweierkomplement) & Ergebnis (b) & Overflow-Flag \\ \hl
 
 \end{tabular}
 \caption{Rechnen im Zweierkomplement mit 8-Bit Zahlen}
-
+\small Quelle: Eigene Darstellung
 \label{tab:overflow}
 \end{table}
 
@@ -397,7 +408,7 @@ Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltu
 \subsection{Paging}
 Um dieses Prinzip zu veranschaulichen, ist folgendes Beispiel hilfreich. 
 \par\smallskip\noindent Ein Entwickler hat ein Programm geschrieben, welches 4 MiByte (4096 KiByte) Arbeitsspeicher benötigt. Das System, auf welchem das Programm ausgeführt werden soll, besitzt allerdings nur 1 MiByte (1024 KiByte) physischen Hauptspeicher. Wenn das Betriebssystem Paging unterstützt, wird es folgendermaßen vorgehen:
-\par\smallskip\noindent Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet.  In Abbildung \ref{fig:paging} ist dieses Beispiel dargestellt. 4 MiByte virtueller Hauptspeicher stehen zur Verfügung.\newline Allerdings ist nur das erste Page-Frame physisch im Hauptspeicher. Die restlichen drei Page-Frames sind im Massenspeicher hinterlegt und werden bei Bedarf geladen.
+\par\smallskip\noindent Das Betriebssytem teilt den benötigten Adressraum von 4 MiByte in vier gleich große Teile (jeweils 1024 KiByte) ein, welche einzeln in den Hauptspeicher geladen werden können. Diese Speicherfenster nennt man ''Page Frames''. Zum Start des Programmes wird eines der vier Pageframes in den Hauptspeicher geladen und der Rest auf einem Massenspeicher gespeichert. Die Seiten werden vom Betriebssystem in einer Seitentabelle (''Page-Table'') verwaltet.  In Abbildung \ref{fig:paging} ist dieses Beispiel dargestellt. 4 MiByte virtueller Hauptspeicher stehen zur Verfügung.\newline Allerdings ist nur das erste Page-Frame physisch im Hauptspeicher. Die restlichen drei Page-Frames sind im Massenspeicher hinterlegt und werden bei Bedarf geladen.\cite[S.113ff]{rechnerarchitektur}
 
 \begin{figure}[!htb]
 \includegraphics[scale=0.7]{Paging}
@@ -423,6 +434,7 @@ Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunter
 \caption{Teil der Ausgabe des Befehls ''lscpu'' unter Ubuntu}
 \centering
 \label{fig:lscpu}
+\small Quelle: Eigene Darstellung
 \end{figure}
 
 \noindent In Abbildung \ref{fig:lscpu} ist als Beispiel die Cache-Organisation eines Intel i7-6700HQ Notebookprozessors dargestellt. Gut zu sehen ist, dass der L1 Cache in einen Datenspeicher (''L1d'') und einen Instruktionsspeicher (''L1i'') geteilt ist. 
@@ -470,6 +482,8 @@ int main(int argc, char const *argv[])
 }
 \end{lstlisting}
 \caption[C Code einfache Schleife]{C-Code für eine einfache Schleife}
+\centering
+\small Quelle: Eigene Darstellung
 \label{code:scheife}
 \end{code}
 \newpage
@@ -492,6 +506,8 @@ int main(int argc, char const *argv[])
    0x000000000000061e <+36>:	ret    
 \end{lstlisting}
 \caption[Assembler Code einfache Schleife]{Assembler-Code der Schleife}
+\centering
+\small Quelle: Eigene Darstellung
 \label{code:scheifeasm}
 \end{code}
 
@@ -515,6 +531,8 @@ int main(int argc, char const *argv[])
 }
 \end{lstlisting}
 \caption[C Code Funktionen]{C-Code mit Funktionsaufruf}
+\centering
+\small Quelle: Eigene Darstellung
 \label{code:funktion}
 \end{code}
 
@@ -553,6 +571,8 @@ int main(int argc, char const *argv[])
    0x000000000000060d <+19>:	ret    
 \end{lstlisting}
 \caption[Assembler Code Funktionen]{Assembler-Code mit Funktionsaufruf}
+\centering
+\small Quelle: Eigene Darstellung
 \label{code:funktionasm}
 \end{code}
 
@@ -570,7 +590,8 @@ Das Konzept von Interrupts ist für moderne Prozessoren von enormer Bedeutung, w
 \par\bigskip\noindent Ein Prozessor ist an mehrere externe Schnittstellen angebunden, welche Interrupts auslösen können. Um die Priorität der Interrupts zu verwalten und den Prozessor zu entlasten, besitzen die meisten interruptfähigen Prozessoren einen Interrupt-Controller. Der Aufbau und die Funktionsweise des Controllers wird im Folgenden nur oberflächlich beschrieben. Die Vektorisierung, Kaskadierung und das Daisy-Chaining von Interrupts wird hier nicht behandelt.
 Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Priorisierung von Interrupts. Das Interrupt-Masken-Register (IMR) ist dafür zuständig, die einzelnen Interrupteingänge für Interrupts freizuschalten oder zu sperren. Nur wenn im IMR das Interrupt-Freigabe-Bit für den jeweiligen Interrupt gesetzt ist, wird der Interrupt weiterverarbeitet. Das Interrupt-Request-Register (IRR) enthält die Interrupts, welche vom IMR freigeschaltet  und von den externen Interruptquellen angefordert wurden. Vereinfacht kann man sich die Werte des IRR als UND-Verknüpfung zwischen den Werten der Interrupteingänge und den Werten des IMR vorstellen. Da es möglich ist, dass mehrere Interrupts gleichzeitig auftreten, muss der Interrupt-Controller entscheiden, welche Unterbrechung Vorrang hat. Die Entscheidung trifft der Controller auf der Basis der Werte des Prioritätenregisters. In ihm ist die Reihenfolge der Interruptabarbeitung hinterlegt. Das Prioritätenschaltnetz (PSN) wird nun die Reihenfolge der Abarbeitung bestimmmen, indem es die Werte des IRR und des Prioritätenregisters vergleicht . Die als erstes abzuarbeitende Unterbrechung wird in das Interrupt-Service-Register (ISR) geschrieben. Das ISR zeigt also an, welcher Interrupt zur Verarbeitung an den Prozessor weitergegeben wird. \cite[S.114ff]{mikroprozessortechnik2011}
 
-\par\bigskip\noindent Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle externen Schnittstellen sind interruptfähig. Dieses Konzept ist sehr effizient und die Probleme die es mitbringt, werden durch den Interruptcontroller eliminiert.
+\par\bigskip\noindent Nahezu jeder Prozessor besitzt heutzutage einen Interruptcontroller und alle externen Schnittstellen sind interruptfähig. Dieses Konzept ist sehr effizient und die Probleme die es mitbringt, werden durch den Interruptcontroller eliminiert.\cite[S.2862ff]{intel4000}
+
 %TODO https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.html
 %Beispiel ausm Buch 
 
@@ -615,6 +636,8 @@ Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{ta
 \end{tabular}
 \caption{Befehlsausführung ohne Pipelining \protect\cite[S.203]{mikroprozessortechnik2011}}
 \label{noPipeline}
+\centering
+\small Quelle: Eigene Darstellung
 \end{table}
 
 \begin{table}[!htb]
@@ -632,6 +655,8 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 8    & 8. Befehl                                                   & 7. Befehl  & 6. Befehl                                                  & 5. Befehl & 4. Befehl                                                       \\ \hline
 \end{tabular}
 \caption{Befehlsausführung mit Pipelining \protect\cite[S.204]{mikroprozessortechnik2011}}
+\centering
+\small Quelle: Eigene Darstellung
 \label{pipeline}
 \end{table}
 
@@ -646,6 +671,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 SUB R1,R5 \\
 ADD R1,R4
 \end{tabular}
+\centering
 \end{table}
 
 \noindent Dieses kleine Assemblerprogramm führt bei der Ausführung auf einem Prozessor mit z.B fünfstufiger Pipeline zu Problemen. Die Aufgabe des Programms ist es, die Inhalte der Register R1 und R5 zu subtrahieren und das Ergebnis wieder in R1 zu speichern. Daraufhin soll das Register R1 mit R5 addiert werden und das Resultat wiederum in R1 gespeichert werden. Auf einem Prozessor ohne Pipelining wird dieses Programm wie erwartet durchlaufen und am Ende steht das richtige Ergebnis in Register R1. Wird es aber innerhalb einer Pipeline ausgeführt, so ergibt sich folgendes Problem:
@@ -693,9 +719,11 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 \end{tabular}
 \caption{Lösung Datenflusskonflikt}
 \label{tab:Datenflusskonfliktloesung}
+\centering
+\small Quelle: Eigene Darstellung
 \end{table}
 
-\noindent In Tabelle \ref{tab:Datenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen. Pipelining birgt aber noch eine weitere Problematik.
+\noindent In Tabelle \ref{tab:Datenflusskonfliktloesung} ist gut zu erkennen, dass das Ergebnis der ersten Operation im fünften Takt gespeichert wird und die 2. Operation erst im sechsten Takt ausgeführt wird. Die zweite Rechnung wird also mit dem Ergebnis der ersten Rechnung vollzogen.Pipelining birgt aber noch eine weitere Problematik. \cite[S.241f]{rechnerarchitektur}
 
 \par\bigskip\noindent \textbf{Steuerflusskonflikte:} Die Befehlssätze der meisten Prozessorarchitekturen enthalten Anweisungen zum Ändern des Programmflusses. Diese wurde bereits im Kapitel \ref{sec:programmablauf} dargestellt und erklärt. Probleme mit dem Pipelining gibt es bei bedingten Programmflussänderungen wie zum Beispiel Sprüngen, Aufrufen und Rückkehrbefehlen. Der unbedingte Sprung, oft JMP genannt, ist hingegen für das Pipelining kein Problem, da für ihn keine Bedingungen geprüft werden müssen. Zur Darstellung der bedingten Programmflussänderungen folgendes Beispiel:
 
@@ -712,9 +740,6 @@ Befehle & Assembler      \\ \hline
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \centering
 \begin{tabular}{|c|l|l|l|l|l|}
@@ -730,7 +755,8 @@ Befehle & Assembler      \\ \hline
 \end{tabular}
 \caption{Programmablauf Steuerflusskonflikt}
 \label{tab:Steuerflusskonflikt}
-
+\centering
+\small Quelle: Eigene Darstellung
 \end{table}
 
 \newpage\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt, falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird, wie auch in den anderen Beispielen, in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten, muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl werden die Operanden eingelesen und der zweite Befehl wird ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
@@ -752,12 +778,14 @@ Befehle & Assembler      \\ \hline
 \multicolumn{1}{|c|}{8} &                                                                                         & \cellcolor[HTML]{FFFE65}4.Befehl                                                           & \cellcolor[HTML]{67FD9A}3.Befehl                                                            & \cellcolor[HTML]{38FFF8}2.Befehl        & \cellcolor[HTML]{F8A102}NOP                                                                   \\ \hline
 \end{tabular}
 \caption{Lösung Steuerflusskonflikt}
+\centering
+\small Quelle: Eigene Darstellung
 \label{tab:loesungSteuerflusskonflikt}
 \end{table}
 \noindent In Tabelle
- \ref{tab:loesungSteuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen, die Wartezyklen mit anderen Methoden zu kompensieren.
+ \ref{tab:loesungSteuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen, die Wartezyklen mit anderen Methoden zu kompensieren. \cite[S.243f]{rechnerarchitektur}
 
-\par\bigskip\noindent Neben den Pipelines haben sich noch weitere Verfahren etabliert, welche die Performance eines Prozessors steigern sollen. Zu diesen Verfahren gehören die spekulative Ausführung und die Out-Of-Order Excecution. Die spekulative Ausführung wird bei bedingten Sprüngen verwendet. Wie schon in Tabelle \ref{tab:Steuerflusskonflikt} dargestellt, wird in einer Pipeline bei einem bedingten Sprungbefehl erst im letzten Schritt (Ergebnisse speichern) ersichtlich, ob ein Sprung auftritt oder nicht. Bei der spekulativen Ausführung wird der Prozessor bereits im ersten Schritt (Befehl dekodieren) entscheiden, welches Ergebnis der Sprungbedingungsprüfung am Wahrscheinlichsten ist und dieses nehmen. Sollte sich diese Annahme bestätigen, kann die CPU weiterarbeiten. War sie allerdings falsch, so muss die Pipeline mit den spekulativ geladenen Befehlen geleert werden. Dieses Verfahren nennt man Pipeline Flush. \cite{mikroprozessortechnik2011} \noindent Die Out-Of-Order Execution ist ebenfalls ein komplizierter Mechanismus. Bei ihr wird die Ausführungsreihenfolge des Codes von der CPU selbst verändert, wenn diese erkennt, dass dadurch ein Geschwindigkeitsvorteil erlangt werden kann. 
+\newpage\par\bigskip\noindent Neben den Pipelines haben sich noch weitere Verfahren etabliert, welche die Performance eines Prozessors steigern sollen. Zu diesen Verfahren gehören die spekulative Ausführung und die Out-Of-Order Excecution. Die spekulative Ausführung wird bei bedingten Sprüngen verwendet. Wie schon in Tabelle \ref{tab:Steuerflusskonflikt} dargestellt, wird in einer Pipeline bei einem bedingten Sprungbefehl erst im letzten Schritt (Ergebnisse speichern) ersichtlich, ob ein Sprung auftritt oder nicht. Bei der spekulativen Ausführung wird der Prozessor bereits im ersten Schritt (Befehl dekodieren) entscheiden, welches Ergebnis der Sprungbedingungsprüfung am Wahrscheinlichsten ist und dieses nehmen. Sollte sich diese Annahme bestätigen, kann die CPU weiterarbeiten. War sie allerdings falsch, so muss die Pipeline mit den spekulativ geladenen Befehlen geleert werden. Dieses Verfahren nennt man Pipeline Flush. \cite{mikroprozessortechnik2011} \noindent Die Out-Of-Order Execution ist ebenfalls ein komplizierter Mechanismus. Bei ihr wird die Ausführungsreihenfolge des Codes von der CPU selbst verändert, wenn diese erkennt, dass dadurch ein Geschwindigkeitsvorteil erlangt werden kann. 
 
 \par\bigskip\noindent Solche komplizierten Verfahren bezwecken eine erhöhte Ausführungsgeschwindigkeit, allerdings wurden bei ihnen schwere Sicherheitslücken entdeckt. Sie werden ''Spectre''\footnote{CVE-2017-5753} und ''Meltdown''\footnote{CVE-2017-5754} genannt. Sie wurden am 03.01.2018 veröffentlicht und betreffen die beiden bereits genannten Verfahren. Mit der Spectre Schwachstelle wird der Prozessor dazu verleitet, bei der spekulativen Ausführung Befehle zu laden, welche im normalen Programmablauf niemals ausgeführt werden würden. Durch sorgfältiges Auswählen der Befehle, welche fälschlicherweise spekulativ geladen werden, kann ein Angreifer den Adressraum eines fremden Prozesses auslesen. Darin können zum Beispiel Passwörter oder private Schlüssel liegen\cite{spectre}. Die Meltdown Attacke verfolgt das gleiche Ziel. Allerdings wird hier die Out-Of-Order Ausführung einer CPU missbraucht, um den fremden Adressraum mittels Side-Channel Attacken auszulesen \cite{meltdown}. Das besondere an diesen beiden Schwachstellen ist, dass sie fest in die Hardware von Prozessoren verbaut sind. Um die Ausnutzung solcher Sicherheitslücken zu verhindern, müssen die Hersteller von Betriebssystemem (Linux, MacOS und Windows) das Kernelmapping aus den Benutzerprogrammen entfernen. Das kann allerdings zu Geschwindigkeitsverlusten führen.
 
@@ -784,6 +812,8 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
   
 \end{tabular}
 \caption{Befehlsbus}
+\centering
+\small Quelle: Eigene Darstellung
 \end{table}
 \par\bigskip\noindent\textbf{Opcode: } Der Opcode beinhaltet den Befehl, welchen die CPU als nächstes ausführen soll(z.B. MOV oder ADD). Es werden nicht mehr als 8-Bit benötigt, da nicht viele Befehle erforderlich sind, um die Basisfunktionalität einer CPU zu zeigen.
 \par\bigskip\noindent\textbf{Argument: } Das Argument wird nicht bei jedem Befehl verwendet. Diese 8-Bit sind eine Hilfestellung für Operationen, bei welchen eine genauere Spezifikation der auszuführenden Tätigkeit benötigt wird. Beispielsweise wird bei der arithmetischen Operation ADD mit Hilfe des Argumentes angegeben, in welches Register das Ergebnis gespeichert werden soll.
@@ -802,6 +832,8 @@ Am Anfang der Planung jeder CPU steht die Festlegung der benötigten Befehlsbrei
   \hline
 \end{tabular}
 \caption{Befehlsbus mit drei Parametern}
+\centering
+\small Quelle: Eigene Darstellung
 \label{Befehlsbus3P}
 \end{table}
 \newline
@@ -875,6 +907,8 @@ Der Befehlssatz beschreibt die Befehle, welche die CPU ausführen kann (Tabelle 
   \hline
 \end{tabular}
 \caption{Befehlssatz}
+\centering
+\small Quelle: Eigene Darstellung
 \label{tab:befehlssatz}
 \end{table}
 \newpage
@@ -890,6 +924,7 @@ Logisim ist ein Open Source Werkzeug für den Entwurf und die Simulation digital
 \includegraphics[scale=0.30]{cpu}
 \caption{Darstellung des Prozessors}
 \centering
+\small Quelle: Eigene Darstellung
 \label{fig:prozessor}
 \end{figure}
 \newpage
@@ -914,6 +949,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \includegraphics[scale=0.35]{cu}
 \centering
 \caption{Steuerwerk}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:cu}
 \end{figure}
 \newpage
@@ -924,6 +961,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \includegraphics[scale=0.35]{alu}
 \centering
 \caption{Rechenwerk}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:alu}
 \end{figure}
 
@@ -933,6 +972,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \includegraphics[scale=0.35]{register}
 \centering
 \caption{Registerwerk}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:register}
 \end{figure}
 
@@ -942,6 +983,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \includegraphics[scale=0.45]{ram}
 \centering
 \caption{Speicher}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:speicher}
 \end{figure}
 
@@ -949,6 +992,8 @@ Der Prozessor besteht aus fünf Hauptkomponenten:
 \includegraphics[scale=0.25]{rom}
 \centering
 \caption{ROM}
+\centering
+\small Quelle: Eigene Darstellung
 \label{fig:rom}
 \end{figure}
 \newpage
@@ -981,6 +1026,8 @@ int main(int argc, char const *argv[])
 }
 \end{lstlisting}
 \caption[C++ Code Primzahlenzählen]{C++ Code Primzahlenzählen}
+\centering
+\small Quelle: Eigene Darstellung
 \label{code:prime}
 \end{code}
 
@@ -1021,6 +1068,8 @@ int main(int argc, char const *argv[])
    0x00000000004008be <+96>:	retq   
 \end{lstlisting}
 \caption[Assemblercode der main Methode]{Assemblercode der main-Methode}
+\centering
+\small Quelle: Eigene Darstellung
 \end{code}
 
 \noindent In der Zeile main +15 wird die Variable counter mit 0 initialisiert und auf dem Stack an Offset 0x8 des Base Pointers platziert. 
@@ -1059,10 +1108,12 @@ End of assembler dump.
 
 \end{lstlisting}
 \caption[Assemblercode der checkIfPrime Methode]{Assemblercode der checkIfPrime-Methode}
+\centering
+\small Quelle: Eigene Darstellung
 \end{code}
 %Intel Dokumentation zitieren Code Listing 3 URL-
 %https://software.intel.com/sites/default/files/managed/a4/60/325383-sdm-vol-2abcd.pdf
-\noindent Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF nicht gesetzt, also null sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null (ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist \cite{elements2005}. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX\cite[S.202]{technischeInformatik2}.
+\noindent Das Code Listing 3 zeigt den Assemblercode der Funktion checkIfPrime. In Zeile 4 wird der Übergabeparameter, welcher sich in Register edi befindet, auf den Stack verschoben. Daraufhin wird mit dem Befehl cmpl dieser Übergabeparameter mit dem Wert 1 verglichen. Dafür werden die beiden Werte subtrahiert und das Ergebnis ausgewertet. Bei dieser Auswertung setzt die CPU automatisch die Flags für die Subtraktion. Wenn Beispielweise eine -2 übergeben wird und vom Befehl compl mit dem Wert 1 verglichen werden soll, so wird die ALU -2-1=-3 rechnen und dabei die Sign Flag(SF) setzen, da das Ergebnis negativ ist. Der nächste Befehl ist jg (Jump if greater), dieser Sprung wird laut Intel-Architektur-Dokumentation nur ausgeführt, wenn die beiden Flags ZF und SF nicht gesetzt, also null sind. Diese sind null, wenn das Ergebnis zum einen nicht negativ (SF) und nicht null (ZF) ist. \newline Kurz gesagt: Die beiden Zeilen 7 und 11 stellen sicher, dass der Übergabeparameter größer als 1 ist. Im C++ Programm entspricht das der ersten Zeile der Funktion. Sollte eine der beiden Flags ZF bzw. SF nicht gesetzt sein, wird nicht gesprungen und in Zeile 13 eine 0 in das Rückgaberegister geschrieben. Daraufhin wird zum Ende der Funktion gesprungen und die Funktion ist beendet. Wenn der Sprung in Zeile 11 ausgeführt wird, dann springt das Programm zu Zeile 20 in der die Laufvariable i  mit dem Wert 2 initialisiert wird. Die Zeilen 27 bis 30 sind analog zu Codelisting 2 die Prüfung der Laufvariable in der for-Schleife, ob die Abbruchbedinggung bereits erfüllt ist \cite{c}. In der Schleife werden die Zeilen 35 bis 59 ausgeführt. Der Befehl idvl führt eine Division aus, wobei der Rest in Register EDX gespeichert wird. Nachdem EDX in EAX verschoben wurde, wird mittels des Befehls test EAX,EAX (Zeile 48) geprüft, ob das Register null ist, also auch der Rest der Division null ist. Sollte dem so sein, so springt das Programm ans Ende und schreibt eine 0 in Übergaberegister EAX\cite[S.202]{technischeInformatik2}.
 \newpage
 
 \section{Schlusswort}
@@ -1083,6 +1134,29 @@ Prozessoren haben wie keine andere Technik die Entwicklung der Informatik beeinf
 \newpage
 \addcontentsline{toc}{section}{Literaturverzeichnis}
 \bibliography{Referenzen}
+
+\newpage
+\section*{Eidesstattliche Erklärung}
+
+Hiermit erkläre ich, dass ich die vorliegende Seminararbeit
+mit dem Titel „Aufbau und Funktionsweise eines Prozessors“ selbständig verfasst habe, dass ich sie
+zuvor an keiner anderen Hochschule und in keinem
+anderen Studiengang als Prüfungsleistung eingereicht
+habe und dass ich keine anderen als die angegebenen
+Quellen und Hilfsmittel benutzt habe. Alle Stellen der
+Arbeit, die wörtlich oder sinngemäß aus Veröffentlichungen
+oder aus anderweitigen fremden Äußerungen entnommen
+wurden, sind als solche kenntlich gemacht.\bigskip
+
+\noindent
+Hof, den \today
+
+\vspace*{2cm}
+
+\begin{tabular}{@{}l@{}}\hline
+\rule{0pt}{2ex}
+Marco Vogel
+\end{tabular}
 
 \end{document}
 
