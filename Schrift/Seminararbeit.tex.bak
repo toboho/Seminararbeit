@@ -72,10 +72,10 @@ Die vorliegende Arbeit soll die Faszination der technischen Entwicklung und Mög
 
 \subsection{Allgemeines}
 Das für Menschen geläufige Zahlensystem ist das Dezimalsystem. Das bedeutet, dass Zahlen mit folgender Formel gebildet werden:
-$$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite{mikroprozessortechnik2011}$$
+$$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite[S.11]{mikroprozessortechnik2011}$$
 Die Dezimalzahl 135 wird mit dieser Formel wie folgt gebildet:$$Z=1*10^2+3*10^1+5*10^0 = 135$$
 Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird. Deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar als
-$$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite{mikroprozessortechnik2011}$$ 
+$$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite[S.11]{mikroprozessortechnik2011}$$ 
 Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit der Basis 10 zählen. Für Computer ist dieses Zahlensystem allerdings ungeeignet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fließen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz (1646-1716) entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da diese selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
 
 \subsection{Binäre Darstellung von Zahlen}
@@ -588,6 +588,13 @@ Um die Verarbeitungsgeschwindigkeit dennoch steigern zu können, wurde nach den 
 \end{enumerate}
 In einfachen Prozessoren benötigt jede Stufe einen Takt. Die Ausführung eines Befehls dauert also insgesamt fünf Takte. Während der Befehl von der Control Unit dekodiert wird (2. Schritt), ist der Rest der Ausführungseinheiten nicht beschäftigt. Der Prozessor ist also nur zu 20\% ausgelastet. 
 
+
+\par\bigskip\noindent Wie in Tabelle \ref{noPipeline} dargestellt ist, wird, während der erste Befehl dekodiert wird, keine weitere Verarbeitung innerhalb der CPU vorgenommen. Um diesen Flaschenhals zu beseitigen, wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden.
+
+
+\noindent In Tabelle \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendigung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
+
+
 \begin{table}[!htb]
 \centering
 \begin{tabular}{|c|l|l|l|l|l|}
@@ -610,8 +617,6 @@ Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{ta
 \label{noPipeline}
 \end{table}
 
-\par\bigskip\noindent Wie in Tabelle \ref{noPipeline} dargestellt ist, wird, während der erste Befehl dekodiert wird, keine weitere Verarbeitung innerhalb der CPU vorgenommen. Um diesen Flaschenhals zu beseitigen, wurden Pipelines in die Befehlsverarbeitung eingeführt. Die Idee der Pipelines ist, dass sich die einzelnen Schritte der Ausführung überlappen. Wenn also der erste Befehl dekodiert wird kann zur gleichen Zeit der zweite Befehl aus dem Speicher gelesen werden und in das entsprechende Register geladen werden.
-
 \begin{table}[!htb]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -631,7 +636,6 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 \end{table}
 
 
-\noindent In Tabelle \ref{pipeline} ist der beispielhafte Ablauf eines Programm unter Zuhilfenahme von Pipelining dargestellt. In den ersten vier Takten sind noch immer Bereiche sichtbar, in denen keine Schritte parallelisiert werden. In dieser Zeit wird die Pipeline aufgefüllt. Nach der Beendigung des ersten Befehls ist die Pipeline vollständig gefüllt und der Prozessor beendet mit jedem Takt genau einen Befehl. Dieses Ausführungsverhalten nennt man Skalar. Damit wäre der Prozessor zu 100\% ausgelastet. Dieser Wert kann allerdings in der Praxis nicht erreicht werden, da bei dieser Art der Parallelisierung Probleme im Programmfluss auftreten.
 
 \par\bigskip\noindent\textbf{Datenflusskonflikte:} Dieses Problem veranschaulicht folgendes Programm mit zwei Befehlen: 
 
@@ -729,7 +733,7 @@ Befehle & Assembler      \\ \hline
 
 \end{table}
 
-\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt, falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird, wie auch in den anderen Beispielen, in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten, muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl werden die Operanden eingelesen und der zweite Befehl wird ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
+\newpage\noindent Der erste Befehl ist ein bedingter Sprungbefehl. Dieser Sprung wird ausgeführt, falls das Carry- oder Zero-Flag gesetzt sind. In Tabelle \ref{tab:Steuerflusskonflikt} ist das resultierende Problem sichtbar. Der erste Befehl (JBE) wird, wie auch in den anderen Beispielen, in fünf Schritten abgearbeitet. Sollte der Sprung aber auftreten, muss der Instruction Pointer mit der neuen Adresse (hier 0xFF635ACB) geladen werden. Dieser Speicherzugriff wird für den ersten Befehl im fünften Takt ausgeführt. Zu diesem Zeitpunkt befinden sich allerdings bereits die nächsten drei folgenden Befehle in der Pipeline, da jeder Takt einen neuen Befehl aus dem Speicher lädt. Der kritische Abschnitt befindet sich hier also im fünften Takt. Dort wird der vierte Befehl dekodiert, vom dritten Befehl werden die Operanden eingelesen und der zweite Befehl wird ausgeführt. Erst in diesem fünften Takt ändert sich der Wert des Instruction Pointers, falls die Sprungbedingung erfüllt wurde. 
 
 \par\smallskip\noindent Auch hier liegt eine mögliche Lösung darin, solange NOP-Operationen in das Programm einzubauen, bis der Sprungbefehl abgearbeitet ist. Die Anzahl der benötigten Fülloperationen wird durch die Breite der Pipeline bestimmt. In den gezeigten Beispielen mit einer fünfstufigen Pipeline werden drei NOP-Operationen benötigt, um den Steuerflusskonflikt zu beseitigen.
 
