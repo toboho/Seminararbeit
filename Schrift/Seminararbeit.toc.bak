@@ -1,0 +1,42 @@
+\contentsline {section}{\numberline {1}Einleitung}{1}
+\contentsline {section}{\numberline {2}Zahlensysteme}{1}
+\contentsline {subsection}{\numberline {2.1}Allgemeines}{1}
+\contentsline {subsection}{\numberline {2.2}Bin\IeC {\"a}re Darstellung von Zahlen}{2}
+\contentsline {subsubsection}{\numberline {2.2.1}Vorzeichenlose Bin\IeC {\"a}rzahlen}{2}
+\contentsline {subsubsection}{\numberline {2.2.2}Vorzeichenbehaftete Bin\IeC {\"a}rzahlen}{3}
+\contentsline {section}{\numberline {3}Prozessorarchitekturen}{5}
+\contentsline {subsection}{\numberline {3.1}Von-Neumann-Architektur}{5}
+\contentsline {subsection}{\numberline {3.2}Harvard-Architektur}{6}
+\contentsline {subsection}{\numberline {3.3}CISC-Prozessoren}{7}
+\contentsline {subsection}{\numberline {3.4}RISC-Prozessoren}{8}
+\contentsline {section}{\numberline {4}Aufbau und Funktion}{11}
+\contentsline {subsection}{\numberline {4.1}Register}{11}
+\contentsline {subsubsection}{\numberline {4.1.1}Aufbau}{11}
+\contentsline {subsubsection}{\numberline {4.1.2}Universalregister}{14}
+\contentsline {subsubsection}{\numberline {4.1.3}Spezialregister}{14}
+\contentsline {subsection}{\numberline {4.2}Steuerwerk}{15}
+\contentsline {subsection}{\numberline {4.3}Arithmetisch Logische Einheit}{15}
+\contentsline {subsection}{\numberline {4.4}Bussysteme}{19}
+\contentsline {section}{\numberline {5}Speicherverwaltung}{20}
+\contentsline {subsection}{\numberline {5.1}Paging}{20}
+\contentsline {subsection}{\numberline {5.2}Cache}{21}
+\contentsline {subsubsection}{\numberline {5.2.1}Cacheorganisation}{23}
+\contentsline {subsubsection}{\numberline {5.2.2}Ersetzungsstrategien}{23}
+\newpage 
+\contentsline {section}{\numberline {6}Programmablauf}{25}
+\contentsline {subsection}{\numberline {6.1}Schleifen}{25}
+\contentsline {subsection}{\numberline {6.2}Subroutinen}{27}
+\contentsline {section}{\numberline {7}Interrupts}{29}
+\contentsline {section}{\numberline {8}Pipelining}{32}
+\contentsline {section}{\numberline {9}Planung und Entwurf eines Prozessors}{39}
+\contentsline {subsection}{\numberline {9.1}Befehlsbreite}{39}
+\contentsline {subsection}{\numberline {9.2}Befehlssatz}{40}
+\contentsline {section}{\numberline {10}Implementierung eines Prozessors in Logisim}{43}
+\contentsline {subsection}{\numberline {10.1}Logisim}{43}
+\contentsline {subsection}{\numberline {10.2}Prozessor Komponenten}{44}
+\contentsline {subsection}{\numberline {10.3}Entwicklung und Ausf\IeC {\"u}hrung eines Programmes}{49}
+\contentsline {section}{\numberline {11}Schlusswort}{53}
+\contentsline {section}{Abbildungsverzeichnis}{54}
+\contentsline {section}{Tabellenverzeichnis}{55}
+\contentsline {section}{Quellcodeverzeichnis}{56}
+\contentsline {section}{Literaturverzeichnis}{57}
