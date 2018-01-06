@@ -72,10 +72,10 @@ Die vorliegende Arbeit soll die Faszination der technischen Entwicklung und Mög
 
 \subsection{Allgemeines}
 Das für Menschen geläufige Zahlensystem ist das Dezimalsystem. Das bedeutet, dass Zahlen mit folgender Formel gebildet werden:
-$$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite{mikroprozessortechnik2011}$$
+$$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite[S.11]{mikroprozessortechnik2011}$$
 Die Dezimalzahl 135 wird mit dieser Formel wie folgt gebildet:$$Z=1*10^2+3*10^1+5*10^0 = 135$$
 Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird. Deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar als
-$$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite{mikroprozessortechnik2011}$$ 
+$$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite[S.11]{mikroprozessortechnik2011}$$ 
 Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit der Basis 10 zählen. Für Computer ist dieses Zahlensystem allerdings ungeeignet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fließen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz (1646-1716) entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da diese selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
 
 \subsection{Binäre Darstellung von Zahlen}
@@ -216,7 +216,7 @@ Mehrere Faktoren führten dazu, dass die CISC-ISA\footnote{ISA = Instruction Set
 \section{Aufbau und Funktion}
 \subsection{Register} \label{sub:register}
 Register sind die schnellste Speichereinheit innerhalb einer CPU. Prozessoren besitzen eine vielfach höhere Ausführungsgeschwindigkeit als Arbeitsspeicher. Die CPU müsste ohne Register viele Taktzyklen auf Daten warten, bevor sie diese verarbeiten könnte.%TODO
- Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit.\cite{mikroprozessortechnik2011} Sie werden aus Flip-Flops aufgebaut, welche jeweils genau ein Bit speichern können. Das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops.\cite{mikroprozessortechnik2011} Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessorchip. Es wird deshalb sehr wenig Registerspeicher in Prozessoren verbaut.
+ Register bieten deshalb die Möglichkeit, sehr kleine Datenmengen mit einer sehr geringen Latenz prozessorintern lesen und schreiben zu können. Übliche Registergrößen sind 8,16,32 oder 64 Bit. Sie werden aus Flip-Flops aufgebaut, welche jeweils genau ein Bit speichern können. Das heißt ein 64 Bit Register besteht aus 64 gemeinsam gesteuerten Flip-Flops. Diese Art der Datenspeicherung hat allerdings auch einige Nachteile. So verbrauchen Register sehr viel Energie und Platz auf dem Prozessorchip. Es wird deshalb sehr wenig Registerspeicher in Prozessoren verbaut.\cite[S.89]{mikroprozessortechnik2011}
 
 \subsubsection{Aufbau}
 Register bestehen aus so genannten Flip-Flops. Diese Schaltungen können genau ein Bit speichern. 
@@ -382,7 +382,7 @@ In Tabelle \ref{tab:overflow} wird mit 8-Bit Zahlen gearbeitet, also reicht der 
 
 
 \subsection{Bussysteme}
-Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte dann jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären, ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf, sonst kommt es zu Kollisionen auf dem entsprechenden Bus. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert, welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
+Bisher wurde der Aufbau und die Funktion der einzelnen Komponenten einer CPU erläutert, aber nicht wie die Kommunikation innerhalb eines Prozessors abläuft. Wie teilt zum Beispiel das Steuerwerk dem Rechenwerk mit, dass eine Rechnung auszuführen ist? Prinzipiell könnte jede Komponente mit jeder anderen verbunden werden. Das Steuerwerk hätte dann jeweils zwei Leitungen zum Rechenwerk, Registerwerk und zum Cache, eine für jede Datentransportrichtung. Wenn alle Komponenten auf diese Weise verbunden wären, ergäbe das ein enorm kompliziertes Chipdesign mit schlechter Energieeffizienz. Dazu kommt die nicht vorhandene Konnektivität zu externen Schnittstellen. Man müsste jeden externen Baustein an alle Komponenten des Prozessors anschließen\cite[S.62]{mikroprozessortechnik2011}. Um all diese Probleme lösen zu können, wurde der Systembus in den Prozessor eingefügt. Die Idee dahinter ist, dass alle Komponenten an einen zentralen Kommunikationskanal angeschlossen sind. Man unterteilt diesen in Datenbus, Steuerbus und Adressbus \cite[S.62]{mikroprozessortechnik2011}. Der Vorteil dieser Architektur besteht darin, dass externe Schnittstellen sehr einfach in die Prozessorkommunikation integriert werden können. Aber auch dieses Konzept stellt gewisse Anforderungen an den Zugang zu diesem gemeinsam genutzten Systembus. Es muss sichergestellt werden, dass zu jeder Zeit nur ein Baustein senden darf, sonst kommt es zu Kollisionen auf dem entsprechenden Bus. In einem Prozessor wird diese Aufgabe von einem so genannten Busmaster übernommen. Er steuert, welcher Baustein wann auf welchen Bus zugreifen  und Daten senden bzw. empfangen kann.
 \par\smallskip\noindent
 Eine wichtige Entscheidung bei der Entwicklung eines Prozessors ist die Breite der Busse. Der Adressbus zum Beispiel limitiert mit der Breite $n$ den möglichen adressierbaren Speicherplatz auf $2^n$ Speicherplätze. Ein 32-Bit breiter Adressbus kann $2^{32} = 4.294.967.296$ Speicherplätze mit jeweils 8-Bit Breite ansprechen, also etwa 4 Gigabyte. Diese Limitierung war der ausschlagebende Grund, den Adressbus zu erweitern, da 4 Gigabyte Hauptspeicher nicht mehr ausreichten. 
 
@@ -413,7 +413,7 @@ Um dieses Prinzip zu veranschaulichen, ist folgendes Beispiel hilfreich.
 \subsection{Cache} \label{subsec:cache}
 Zum Beginn der Prozessorentwicklung entsprach der Speichertakt in etwa dem eines Prozessors. Allerdings zeigte sich schnell, dass der Speichertakt nicht mit dem Prozessortakt in gleichem Maße steigen kann. Der daraus entstandene Geschwindigkeitsunterschied wird auch Speichermauer (''Memory Wall'') genannt \cite{mckee2004reflections}.
 %Quelle PDF http://www.cs.columbia.edu/~sedwards/classes/2012/3827-spring/advanced-arch-2011.pdf
-Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunterschied zum Speicher muss der Prozessor mehrere Taktzyklen warten,  bis der Speicher auf eine Anforderung antwortet.\cite{mikroprozessortechnik2011} Die Kommunikation mit Speichermedien ist allerdings ein elementarer Bestandteil der Funktionsweise eines Prozessors. Um diese Latenzzeiten zumindest verkürzen zu können, wurde ein weiterer Speichermechanismus zwischen Registerwerk und Arbeitsspeicher eingeführt, der Cache.\newpage\noindent Der Cache ist im Prozessor selbst verbaut und hat üblicherweise nur eine Größe von drei bis sechs Megabyte, da er sehr viel Platz und Strom verbraucht. Dafür ist er um ein vielfaches schneller als der Arbeitsspeicher. Der Cache selbst ist wiederum in meist drei Teile unterteilt. Der sogenannte Level-1-Cache ist der schnellste Speicher im Cachesystem. Er ist meistens an den Prozessortakt angeschlossen und hat deshalb eine den Registern ähnliche Latenzzeit. Gleichzeitig ist er aber auch der kleinste Speicher in der Cacheorganisation. 
+Das war ein Problem für die Prozessorentwickler. Mit zunehmenden Leistungsunterschied zum Speicher muss der Prozessor mehrere Taktzyklen warten,  bis der Speicher auf eine Anforderung antwortet.\cite[S.180]{mikroprozessortechnik2011} Die Kommunikation mit Speichermedien ist allerdings ein elementarer Bestandteil der Funktionsweise eines Prozessors. Um diese Latenzzeiten zumindest verkürzen zu können, wurde ein weiterer Speichermechanismus zwischen Registerwerk und Arbeitsspeicher eingeführt, der Cache.\newpage\noindent Der Cache ist im Prozessor selbst verbaut und hat üblicherweise nur eine Größe von drei bis sechs Megabyte, da er sehr viel Platz und Strom verbraucht. Dafür ist er um ein vielfaches schneller als der Arbeitsspeicher. Der Cache selbst ist wiederum in meist drei Teile unterteilt. Der sogenannte Level-1-Cache ist der schnellste Speicher im Cachesystem. Er ist meistens an den Prozessortakt angeschlossen und hat deshalb eine den Registern ähnliche Latenzzeit. Gleichzeitig ist er aber auch der kleinste Speicher in der Cacheorganisation. 
 Üblicherweise ist er zwischen 8 und 32 KByte groß. Eine Besonderheit des Level-1-Caches ist, dass er  einen getrennten Daten und Instruktionsspeicher besitzt. Etwas mehr Speicherplatz bietet der Level-2-Cache. Er besitzt ca. 256 KByte Speicherplatz, wird aber mit geringerem Takt betrieben. Daraus folgen erhöhte Latenzzeiten im Gegensatz zum L1-Cache. Den größten Speicherplatz bietet der Level-3-Cache. Dieser besitzt eine Größe von etwa 6 MByte\footnote{Diese Größen basieren beispielhaft auf einem Intel i7-6700HQ. Serverprozessoren besitzen ein vielfaches mehr Cache}. Der L3 Cache taktet sehr viel langsamer als der Prozessor und hat deshalb auch die höchsten Latenzzeiten innerhalb der Cacheorganisation.\cite{molka2009memory}. Hier ist noch anzumerken, dass bei Mehrkernprozessoren der Level-3-Cache zwischen allen Kernen geteilt wird, wohingegen der Level-1 sowie Level-2-Cache jedem Kern exklusiv zu Verfügung steht.
 
 
@@ -434,7 +434,7 @@ Der Cache Speicher ist wie der Arbeitsspeicher ein flüchtiger Speicher, er verl
 \subsubsection{Cacheorganisation}
 Vereinfacht dargestellt besteht der Cache aus so genannten Cachezeilen (''Cache-Lines''). Diese Cachezeilen haben eine bestimmte Blocklänge (''block size'')\cite[S.183]{mikroprozessortechnik2011}. Wenn Daten in den Cache geladen werden, dann immer in diesen festen Blöcken. Auch wenn der Prozessor nur eine Adresse aus dem Arbeitsspeicher benötigt, wird im Cache, falls nicht schon vorhanden, der ganze Block in dem sich diese Adresse befindet in eine Cachezeile gespeichert.
 \subsubsection{Ersetzungsstrategien}
- Wie bereits in Kapitel \ref{subsec:cache} beschrieben ist die Speicherkapazität von Cache-Speicher aufgrund des hohen Stromverbrauchs und Platzbedarfs sehr begrenzt. Deshalb kann es passieren, dass der Cache voll ist und keine weiteren Einträge aufnehmen kann. Um solche Ausnahmen zu behandeln, wurden verschiedene Cache-Ersetzungsstrategien implementiert. Der Fokus bei diesen Strategien liegt darauf, diejenigen Cache Zeilen zu ersetzen, welche die geringste Wahrscheinlichkeit aufweisen, wieder verwendet zu werden. Es wird also immer versucht, die Wahrscheinlichkeit für Cache-Treffer zu maximieren, um die Wartezeit des Prozessors auf Daten oder Instruktionen zu minimieren. \cite{mikroprozessortechnik2011}
+ Wie bereits in Kapitel \ref{subsec:cache} beschrieben ist die Speicherkapazität von Cache-Speicher aufgrund des hohen Stromverbrauchs und Platzbedarfs sehr begrenzt. Deshalb kann es passieren, dass der Cache voll ist und keine weiteren Einträge aufnehmen kann. Um solche Ausnahmen zu behandeln, wurden verschiedene Cache-Ersetzungsstrategien implementiert. Der Fokus bei diesen Strategien liegt darauf, diejenigen Cache Zeilen zu ersetzen, welche die geringste Wahrscheinlichkeit aufweisen, wieder verwendet zu werden. Es wird also immer versucht, die Wahrscheinlichkeit für Cache-Treffer zu maximieren, um die Wartezeit des Prozessors auf Daten oder Instruktionen zu minimieren. \cite[S.187]{mikroprozessortechnik2011}
 
 
 %---------------FIFO-----------------------------
@@ -575,7 +575,7 @@ Der Interrupt-Controller besitzt intern mehrere Register zur Verwaltung und Prio
 %Beispiel ausm Buch 
 
 \newpage
-\section{Pipelines}
+\section{Pipelining}
 Um die allgemeine Entwicklung der Informationsverarbeitung voranzutreiben, wurden immer schnellere Prozessoren benötigt. Hersteller haben daraufhin an mehreren Methoden geforscht, die Ausführungsgeschwindigkeit der CPUs zu steigern. Ein bewährtes Mittel war stets die Erhöhung der Taktfrequenz. Der 1978 erschienene Prozessor Intel 8086 wurde mit einer Taktfrequenz von bis zu 10 MHz betrieben. Der Unterschied zu dem 1985 erschienen Intel 80386 mit bis zu 40 MHz war durch die Taktdifferenz enorm. Diese Maßnahme ist allerdings in den 2000ern an die physikalischen Grenzen gestoßen. Ab einer Taktfrequenz von etwa 3 GHz, also 3 Milliarden Zyklen pro Sekunde, verliert ein Prozessor schnell seine Energieeffizienz. Je höher die Taktrate ist, desto mehr Abwärme wird von den Leitungsbahnen erzeugt.
 %TODO Quelle
 Um die Verarbeitungsgeschwindigkeit dennoch steigern zu können, wurde nach den Flaschenhälsen in den ausgeführten Programmen gesucht. Eines der  Probleme war die geringe Auslastung des Prozessors während der Ausführung eines Programms. Die Befehlsausführung ist wie bereits ausgeführt in fünf Schritte unterteilt.
@@ -613,7 +613,7 @@ Takt & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{ta
 
 
 \end{tabular}
-\caption{Befehlsausführung ohne Pipelining \protect\cite{mikroprozessortechnik2011}}
+\caption{Befehlsausführung ohne Pipelining \protect\cite[S.203]{mikroprozessortechnik2011}}
 \label{noPipeline}
 \end{table}
 
@@ -631,7 +631,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 7    & 7. Befehl                                                   & 6. Befehl  & 5. Befehl                                                  & 4. Befehl & 3. Befehl                                                       \\ \hline
 8    & 8. Befehl                                                   & 7. Befehl  & 6. Befehl                                                  & 5. Befehl & 4. Befehl                                                       \\ \hline
 \end{tabular}
-\caption{Befehlsausführung mit Pipelining \protect\cite{mikroprozessortechnik2011}}
+\caption{Befehlsausführung mit Pipelining \protect\cite[S.204]{mikroprozessortechnik2011}}
 \label{pipeline}
 \end{table}
 
@@ -662,7 +662,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 5    &                                                            &                                                              &                                                               & {\color[HTML]{FE0000} \textbf{2. Befehl}} & {\color[HTML]{FE0000} \textbf{1. Befehl}}                       \\ \hline
 6    &                                                            &                                                              &                                                               &                                           & 2. Befehl                                                       \\ \hline
 \end{tabular}
-\caption{Datenflusskonflikt Ablauf \protect\cite{mikroprozessortechnik2011}}
+\caption{Datenflusskonflikt Ablauf \protect\cite[S.205]{mikroprozessortechnik2011}}
 \label{tab:Datenflusskonflikt}
 \end{table}
 
