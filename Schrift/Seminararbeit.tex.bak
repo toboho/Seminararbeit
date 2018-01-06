@@ -47,7 +47,7 @@
 	{\Large\itshape Marco Vogel\par}
 	\vfill
 	unter Aufsicht von\par
-	Stefan Müller
+	\Large Stefan Müller
 	\vfill
 % Bottom of the page
 	{\large\today\par}
@@ -65,8 +65,8 @@
 \setlength{\footnotemargin}{0pt}
 \setcounter{page}{1}
 
-\section{Einleitung}
-Die vorliegende Arbeit soll die Faszination der technischen Entwicklung und Möglichkeiten von Prozessoren aufzeigen. Äußerst interessant ist für mich der stetige Fortschritt der Prozerssorentwicklung. Wir nutzen Prozessoren täglich und dennoch ist wenig über die Komplexität dieses Themas bekannt.
+\section{Motivation}
+Die vorliegende Arbeit soll die Faszination der technischen Entwicklung und der Möglichkeiten von Prozessoren aufzeigen. Äußerst interessant ist für mich der stetige Fortschritt der Prozessorentwicklung. Wir nutzen Prozessoren täglich und dennoch ist wenig über die Komplexität dieses Themas bekannt.
 
 \section{Zahlensysteme}
 
@@ -403,7 +403,7 @@ Eine wichtige Entscheidung bei der Entwicklung eines Prozessors ist die Breite d
 Am Anfang der Prozessorentwicklung war Hauptspeicher nur in kleinen Kapazitäten verfügbar. Ein Programm war häufig zu groß, um komplett in den Hauptspeicher geladen zu werden. Deshalb wurden sogenannte Overlays verwendet. Wenn ein Programm geladen werden sollte, wurde ein Bereich im Hauptspeicher für Overlays reserviert. Der Entwickler musste dann sein Programm in Segmente (Overlays) unterteilen und diese während der Laufzeit nacheinander in den Hauptspeicher zur Ausführung laden. Diese Speicherverwaltungsmethode hatte aber Nachteile. Der Entwickler musste neben seinem geschriebenen Programm auch noch auf die Speicherverwaltung achten, was höheren Arbeitsaufwand verursachte. Außerdem erhöhte das ständige Nachladen von Overlays in den Speicher die Ausführungszeit erheblich. \cite[S.173]{mikroprozessortechnik2011}
 
 
-Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltung zu entlasten, hat sich das System des virtuellen Speichers etabliert. Dabei sieht der Programmierer nur einen großen zusammenhängenden Speicherbereich und muss keine Rücksicht auf die Größe des Hauptspeichers nehmen. Sollte ein Programm mehr Hauptspeicher benötigen als physisch in dem System vorhanden ist, dann wird das Betriebsystem die Daten auf ein anderes Speichermedium auslagern. Diese Technik wird Paging genannt und muss vom Betriebssystem unterstützt werden.
+\par\bigskip\noindent Um die Programmierer von der zeitraubenden Arbeit der manuellen Speicherverwaltung zu entlasten, hat sich das System des virtuellen Speichers etabliert. Dabei sieht der Programmierer nur einen großen zusammenhängenden Speicherbereich und muss keine Rücksicht auf die Größe des Hauptspeichers nehmen. Sollte ein Programm mehr Hauptspeicher benötigen als physisch in dem System vorhanden ist, dann wird das Betriebsystem die Daten auf ein anderes Speichermedium auslagern. Diese Technik wird Paging genannt und muss vom Betriebssystem unterstützt werden.
 
 \subsection{Paging}
 Um dieses Prinzip zu veranschaulichen, ist folgendes Beispiel hilfreich. 
@@ -468,7 +468,7 @@ $$for(int \ i=0; i<100; i++)\{...\}$$
 Diese Schleife wird genau 100 mal durchlaufen, bis sie abbricht. Zum anderen gibt es auch Szenarien, in welchen die benötigte Zahl an Durchläufen nicht bekannt ist:
 $$while(''Bedingung'')\{...\}$$
 Diese Schleifen werden solange durchlaufen, bis die Abbruchbedingung ''true'' ergibt. Die gezeigten Beispiele entsprechen Schleifen in einer Hochsprache, aber wie werden diese Konstrukte auf der Hardware durch die CPU ausgeführt?
-Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den nächsten Befehl aus der Speicherzelle, auf dessen Adresse der Instruction Pointer (IP) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des IP inkrementiert, damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können, besitzen Prozessoren spezielle Befehle, mit denen sie den Wert des IP ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Instruction Pointer mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kmpiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
+Prozessoren durchlaufen grundlegend einen linearen Programmablauf. Sie holen sich den nächsten Befehl aus der Speicherzelle, auf dessen Adresse der Instruction Pointer (IP) zeigt. Diesen Befehl dekodieren sie und führen ihn aus. Daraufhin wird der Wert des IP inkrementiert, damit er auf den nächsten Befehl im Speicher zeigt. Um Schleifen realisieren zu können, besitzen Prozessoren spezielle Befehle, mit denen sie den Wert des IP ändern können. Diese Befehle werden Sprungbefehle (''Jump'') genannt. Der Jump-Befehl lädt den Instruction Pointer mit einer angegebenen Adresse. Das bedeutet, dass der Programmablauf an der neuen Adresse weitergeführt wird. Im Grunde muss bei einer Schleife ein bestimmter Codeabschnitt immer wieder durchlaufen werden. Zur Veranschaulichung wird nun eine einfache Schleife in der Hochsprache C mit dem daraus erzeugten Assemblercode für einen Intel Prozessor verglichen. Kompiliert wurde der Code unter Ubuntu 17.10 mit dem Linux-Kernel 4.13.
 
 \begin{code}[!htb]
 \begin{lstlisting}
@@ -663,7 +663,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\  einlesen\end{tabular} & Dekodieren 
 
 
 \par\bigskip\noindent\textbf{Datenflusskonflikte:} Dieses Problem veranschaulicht folgendes Programm mit zwei Befehlen: 
-
+\newpage
 \begin{table}[!htb]
 \centering
 \label{confliktProgramm}
@@ -692,7 +692,7 @@ Takt & \begin{tabular}[c]{@{}c@{}}Befehl \\ einlesen\end{tabular} & \begin{tabul
 \label{tab:Datenflusskonflikt}
 \end{table}
 
-\noindent In Tabelle \ref{tab:Datenflusskonflikt} ist der Programmablauf für die beiden Befehle abgebildet. Das Programm wird bis zum fünften Takt wie zu erwarten fehlerfrei ausgeführt. Im fünften Takt allerdings kommt es zu einem Problem. Die Logik des Programms erwartet, dass das Ergebnis der ersten Rechnung in Register R1 steht, bevor die zweite Rechnung ausgeführt wird. Hier wird aber der zweite Befehl ausgeführt und erst danach das Ergebnis der ersten Rechnung in R1 zurückgeschrieben. Die zweite Rechnung hat also R1 verwendet, bevor die erste Operation abgeschlossen wurde. Deshalb befindet sich am Ende ein flasches Ergebnis in Register R1. Dieser aufgetretene Konflikt wird als Datenflusskonflikt bezeichnet. Eine einfache Lösung für solch einen Konflikt besteht darin, NOP-Befehle (''No-Operation'') zwischen abhängigen Befehlen einzubauen. Im oben gezeigten Beispiel würde bereits eine NOP-Operation zwischen den beiden Befehlen reichen, um den Konflikt zu lösen.
+\noindent In Tabelle \ref{tab:Datenflusskonflikt} ist der Programmablauf für die beiden Befehle abgebildet. Das Programm wird bis zum fünften Takt wie zu erwarten fehlerfrei ausgeführt. Im fünften Takt allerdings kommt es zu einem Problem. Die Logik des Programms erwartet, dass das Ergebnis der ersten Rechnung in Register R1 steht, bevor die zweite Rechnung ausgeführt wird. Hier wird aber der zweite Befehl ausgeführt und erst danach das Ergebnis der ersten Rechnung in R1 zurückgeschrieben. Die zweite Rechnung hat also R1 verwendet, bevor die erste Operation abgeschlossen wurde. Deshalb befindet sich am Ende ein flasches Ergebnis in Register R1. Dieser aufgetretene Konflikt wird als Datenflusskonflikt bezeichnet. Eine einfache Lösung für solch einen Konflikt besteht darin, NOP-Befehle (''No-Operation'') zwischen abhängigen Befehlen einzubauen. Im oben gezeigten Beispiel würde bereits eine NOP-Operation zwischen den beiden Befehlen reichen, um den Konflikt zu lösen:
 
 
 \begin{table}[!htb]
@@ -785,7 +785,7 @@ Befehle & Assembler      \\ \hline
 \noindent In Tabelle
  \ref{tab:loesungSteuerflusskonflikt} wurde der Befehl mit der bedingten Sprunganweisung von einem Compiler erkannt und der kritische Bereich danach mit NOP-Operationen ausgefüllt. Im fünften Takt wird neben des eventuellen Setzens des Instruction Pointer nur der zweite Befehl eingelesen und kann im Falle eines Sprunges ohne Probleme wieder verworfen werden. Bei beiden beschriebenen Problemen ist das Aufüllen mit NOP-Operationen nur eine Notlösung. Moderne Compiler werden deshalb versuchen, die Wartezyklen mit anderen Methoden zu kompensieren. \cite[S.243f]{rechnerarchitektur}
 
-\newline\par\bigskip\noindent Neben den Pipelines haben sich noch weitere Verfahren etabliert, welche die Performance eines Prozessors steigern sollen. Zu diesen Verfahren gehören die spekulative Ausführung und die Out-Of-Order Excecution. Die spekulative Ausführung wird bei bedingten Sprüngen verwendet. Wie schon in Tabelle \ref{tab:Steuerflusskonflikt} dargestellt, wird in einer Pipeline bei einem bedingten Sprungbefehl erst im letzten Schritt (Ergebnisse speichern) ersichtlich, ob ein Sprung auftritt oder nicht. Bei der spekulativen Ausführung wird der Prozessor bereits im ersten Schritt (Befehl dekodieren) entscheiden, welches Ergebnis der Sprungbedingungsprüfung am Wahrscheinlichsten ist und dieses nehmen. Sollte sich diese Annahme bestätigen, kann die CPU weiterarbeiten. War sie allerdings falsch, so muss die Pipeline mit den spekulativ geladenen Befehlen geleert werden. Dieses Verfahren nennt man Pipeline Flush. \cite{mikroprozessortechnik2011} \noindent Die Out-Of-Order Execution ist ebenfalls ein komplizierter Mechanismus. Bei ihr wird die Ausführungsreihenfolge des Codes von der CPU selbst verändert, wenn diese erkennt, dass dadurch ein Geschwindigkeitsvorteil erlangt werden kann. 
+\newpage\par\bigskip\noindent Neben den Pipelines haben sich noch weitere Verfahren etabliert, welche die Performance eines Prozessors steigern sollen. Zu diesen Verfahren gehören die spekulative Ausführung und die Out-Of-Order Excecution. Die spekulative Ausführung wird bei bedingten Sprüngen verwendet. Wie schon in Tabelle \ref{tab:Steuerflusskonflikt} dargestellt, wird in einer Pipeline bei einem bedingten Sprungbefehl erst im letzten Schritt (Ergebnisse speichern) ersichtlich, ob ein Sprung auftritt oder nicht. Bei der spekulativen Ausführung wird der Prozessor bereits im ersten Schritt (Befehl dekodieren) entscheiden, welches Ergebnis der Sprungbedingungsprüfung am Wahrscheinlichsten ist und dieses nehmen. Sollte sich diese Annahme bestätigen, kann die CPU weiterarbeiten. War sie allerdings falsch, so muss die Pipeline mit den spekulativ geladenen Befehlen geleert werden. Dieses Verfahren nennt man Pipeline Flush. \cite{mikroprozessortechnik2011} \noindent Die Out-Of-Order Execution ist ebenfalls ein komplizierter Mechanismus. Bei ihr wird die Ausführungsreihenfolge des Codes von der CPU selbst verändert, wenn diese erkennt, dass dadurch ein Geschwindigkeitsvorteil erlangt werden kann. 
 
 \par\bigskip\noindent Solche komplizierten Verfahren bezwecken eine erhöhte Ausführungsgeschwindigkeit, allerdings wurden bei ihnen schwere Sicherheitslücken entdeckt. Sie werden ''Spectre''\footnote{CVE-2017-5753} und ''Meltdown''\footnote{CVE-2017-5754} genannt. Sie wurden am 03.01.2018 veröffentlicht und betreffen die beiden bereits genannten Verfahren. Mit der Spectre Schwachstelle wird der Prozessor dazu verleitet, bei der spekulativen Ausführung Befehle zu laden, welche im normalen Programmablauf niemals ausgeführt werden würden. Durch sorgfältiges Auswählen der Befehle, welche fälschlicherweise spekulativ geladen werden, kann ein Angreifer den Adressraum eines fremden Prozesses auslesen. Darin können zum Beispiel Passwörter oder private Schlüssel liegen\cite{spectre}. Die Meltdown Attacke verfolgt das gleiche Ziel. Allerdings wird hier die Out-Of-Order Ausführung einer CPU missbraucht, um den fremden Adressraum mittels Side-Channel Attacken auszulesen \cite{meltdown}. Das besondere an diesen beiden Schwachstellen ist, dass sie fest in die Hardware von Prozessoren verbaut sind. Um die Ausnutzung solcher Sicherheitslücken zu verhindern, müssen die Hersteller von Betriebssystemem (Linux, MacOS und Windows) das Kernelmapping aus den Benutzerprogrammen entfernen. Das kann allerdings zu Geschwindigkeitsverlusten führen.
 
