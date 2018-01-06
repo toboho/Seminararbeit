@@ -4,9 +4,9 @@
 \contentsline {table}{\numberline {4}{\ignorespaces Schritte der for-Schleife\relax }}{17}
 \contentsline {table}{\numberline {5}{\ignorespaces Beispiele Carry-Flag\relax }}{17}
 \contentsline {table}{\numberline {6}{\ignorespaces Rechnen im Zweierkomplement mit 8-Bit Zahlen\relax }}{18}
-\contentsline {table}{\numberline {7}{\ignorespaces Befehlsausf\IeC {\"u}hrung ohne Pipelining \cite {mikroprozessortechnik2011}\relax }}{33}
-\contentsline {table}{\numberline {8}{\ignorespaces Befehlsausf\IeC {\"u}hrung mit Pipelining \cite {mikroprozessortechnik2011}\relax }}{33}
-\contentsline {table}{\numberline {9}{\ignorespaces Datenflusskonflikt Ablauf \cite {mikroprozessortechnik2011}\relax }}{34}
+\contentsline {table}{\numberline {7}{\ignorespaces Befehlsausf\IeC {\"u}hrung ohne Pipelining \cite [S.203]{mikroprozessortechnik2011}\relax }}{33}
+\contentsline {table}{\numberline {8}{\ignorespaces Befehlsausf\IeC {\"u}hrung mit Pipelining \cite [S.204]{mikroprozessortechnik2011}\relax }}{33}
+\contentsline {table}{\numberline {9}{\ignorespaces Datenflusskonflikt Ablauf \cite [S.205]{mikroprozessortechnik2011}\relax }}{34}
 \contentsline {table}{\numberline {10}{\ignorespaces L\IeC {\"o}sung Datenflusskonflikt\relax }}{35}
 \contentsline {table}{\numberline {11}{\ignorespaces Programmablauf Steuerflusskonflikt\relax }}{35}
 \contentsline {table}{\numberline {12}{\ignorespaces L\IeC {\"o}sung Steuerflusskonflikt\relax }}{36}
