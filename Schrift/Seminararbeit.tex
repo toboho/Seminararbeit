@@ -74,7 +74,7 @@ $$Z=\sum\limits_{i=0}^{n-1} a_i * 10^i \ \cite{mikroprozessortechnik2011}$$
 Die Dezimalzahl 135 wird mit dieser Formel wie folgt gebildet:$$Z=1*10^2+3*10^1+5*10^0 = 135$$
 Die Basis der Wertepotenz spiegelt das Zahlensystem wieder, welches dargestellt wird. Deshalb ist die Formel für die Zahl $Z$ mit Basis $B$ im Allgemeinen darstellbar als
 $$Z=\sum\limits_{i=0}^{n-1} a_i * B^i \ \cite{mikroprozessortechnik2011}$$ 
-Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit diesem Dezimalsystem zählen. Für Computer ist dieses Zahlensystem allerdings ungeeignet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fliesen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz (1646-1716) entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da sie selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
+Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir zehn Finger haben, können wir optimal mit der Basis 10 zählen. Für Computer ist dieses Zahlensystem allerdings ungeeignet. Ein Prozessor besteht aus vielen kleinen Transistoren. Diese können entweder Strom fließen lassen oder nicht. Somit bietet sich ein Zahlensystem an, welches nur zwei Zustände kennt: AN und AUS. Strom kann fliesen oder Strom kann nicht fliesen. Der deutsche Mathematiker Gottfried Wilhelm Leibniz (1646-1716) entwickelte die Dyadik; die Darstellung von Zahlen durch 1 und 0. Diese Darstellungsform ist für Prozessoren optimal geeignet, da diese selbst ebenfalls nur zwei Zustände kennen.\cite{mikroprozessortechnik2011}.
 
 \subsection{Binäre Darstellung von Zahlen}
 
@@ -82,7 +82,7 @@ Das dezimale Zahlensystem ist für Menschen sehr intuitiv zu verstehen. Da wir z
 Vorzeichenlose Binärzahlen können mittels folgender Formel gebildet werden: $$Z=\sum\limits_{i=0}^{N-1} a_i * 2^i$$ 
 Die Dezimalzahl 135 würde dann im Dualsystem dem Bitmuster $10000111$ entsprechen; dargestellt durch folgende Konvertierung:
 $$10000111b = 1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+1*2^2+1*2^1+1*2^0 = 128 +4+2+1 = 135d$$
-Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen sie arbeiten können. In den Anfängen der Prozessorentwicklung waren 8 bzw. 16 Bit Prozessoren üblich. Das bedeuted, dass ein Prozessor mit 8 bzw 16 Bit breiten Daten rechnen kann. Durch diese Limitation der Bitbreite können ungewollte Probleme beim Rechnen mit Dualzahlen auftreten. So kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Überlauf kommen. Ein Überlauf tritt auf, wenn zum Beispiel auf einer 8-Bit CPU\footnote{CPU =  Central Processing Unit = Prozessor} die Operation 255+1 ausgeführt wird.
+Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung, mit welchen sie arbeiten können. In den Anfängen der Prozessorentwicklung waren 8 bzw. 16 Bit Prozessoren üblich. Durch diese Limitation der Bitbreite können ungewollte Probleme beim Rechnen mit Dualzahlen auftreten. So kann es während der Ausführung mit vorzeichenlosen Zahlen zu einem Übertrag kommen. Ein Übertrag tritt auf, wenn zum Beispiel auf einer 8-Bit CPU\footnote{CPU =  Central Processing Unit = Prozessor} die Operation 255+1 ausgeführt wird.
 
 \begin{table}[!htb]
 \centering
@@ -98,9 +98,9 @@ Prozessoren haben immer eine begrenzte Anzahl an Bits zur Verfügung mit denen s
 \label{tab:uebertrag}
 \end{table}
 
-\noindent In Tabelle \ref{tab:uebertrag} ist diese Rechnung zur Veranschaulichung abgebildet. Aufgrund der Bitbreite des Prozessors von 8-Bit ist die größte darstellbare Binärzahl welche dieser verarbeiten kann dargestellt durch acht Einsen ($11111111b = 255d$)\footnote{Die Buchstaben am Ende der Zahlen zeigen das benutzte Zahlensystem. D.h. d = Dezimal, b = Binär, h = Hexadezimal}. Nun wird allerdings in Tabelle \ref{tab:uebertrag} diese Zahl inkrementiert\footnote{inkrementiert = um eins erhöht}. Der Prozessor wird am Ende dieser Operation den Wert null als Ergebnis speichern. Der Grund dafür ist in der letzten Zeile der Tabelle \ref{tab:uebertrag} ersichtlich. Die Rechenoperation 255+1d ergibt 256. Diese Zahl wird im Binärsystem mit 9-Bit dargestellt.
+\noindent In Tabelle \ref{tab:uebertrag} ist diese Rechnung zur Veranschaulichung abgebildet. Aufgrund der Bitbreite des Prozessors von 8-Bit ist die größte darstellbare Binärzahl, welche dieser verarbeiten kann, dargestellt durch acht Einsen ($11111111b = 255d$)\footnote{Die Buchstaben am Ende der Zahlen zeigen das benutzte Zahlensystem. D.h. d = Dezimal, b = Binär, h = Hexadezimal}. \mbox{Nun wird allerdings in Tabelle \ref{tab:uebertrag} diese Zahl inkrementiert\footnote{inkrementiert = um eins erhöht}. }Der Prozessor wird am Ende dieser Operation den Wert null als Ergebnis speichern. Der Grund dafür ist in der letzten Zeile der Tabelle \ref{tab:uebertrag} ersichtlich. Die Rechenoperation 255+1d ergibt 256. Diese Zahl wird im Binärsystem mit 9-Bit dargestellt.
 $$256d = 1*2^8+0*2^7+0*2^6+0*2^5+0*2^4+0*2^3+0*2^2+0*2^1+0*2^0 = 100000000b$$
-Der Prozessor speichert nur 8 Bit als Ergebnis. Deshalb werden die ersten 8 Bit des Ergebnisses ($00000000b$) gespeichert und die Rechnung ist fehlerhaft. Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit)\footnote{Auf die Flags und ihre Bedeutung wird in Kapitel \ref{subsec:alu} näher eingegangen} setzen um dem Programmierer darauf hinzuweißen, dass die letzte Operation falsche Ergebnisse geliefert hat. 
+Der Prozessor speichert nur 8 Bit als Ergebnis. Deshalb werden die ersten 8 Bit des Ergebnisses ($00000000b$) gespeichert und die Rechnung ist fehlerhaft. Diese Rechenoperation würde in der CPU das Carry Flag (Übertragsbit)\footnote{Auf die Flags und ihre Bedeutung wird in Kapitel \ref{subsec:alu} näher eingegangen} setzen, um dem Entwickler darauf hinzuweisen, dass die letzte Operation ein falsches Ergebnis geliefert hat. 
 \subsubsection{Vorzeichenbehaftete Binärzahlen}
 \noindent Mit vorzeichenlosen Dualzahlen können allerdings keine negativen Werte abgebildet werden. Diese Eigenschaft bieten vorzeichenbehaftete Dualzahlen. Eine Dualzahl $Z$ im sogenannten Zweierkomplement wird folgendermaßen gebildet:
 $$Z=-a_{N-1}*2^{N-1}+\sum\limits_{i=0}^{N-2} a_i * 2^i$$
@@ -124,14 +124,14 @@ Ja                              & 10000000                            & -128    
 \end{table}
 
 \noindent Zur Erklärung soll ein 8-Bit Prozessor die Rechnung 127+1 durchführen (siehe Tabelle \ref{tab:ueberlauf}). Hier wird nun nicht 128 als Ergebnis geliefert, sondern -128. Dies geschieht aufgrund der Interpretation von vorzeichenbehafteten Dualzahlen. Da das vorderste Bit  gesetzt ist, interpretiert der Prozessor die Wertigkeit mit -128 statt 128. Da die restlichen sieben Bit null sind wird das Ergebnis als -128 interpretiert.
-
+%TODO Da Da 
 \newpage
 
 \section{Prozessorarchitekturen}
 Prozessoren besitzen immer einen eigenen, meist einzigartigen Aufbau. Allerdings haben sich im Laufe der Entwicklung einige Architekturmerkmale ausgeprägt, welche die Prozessoren verbindet. 
 Ziel dieser Architekturen ist es stets, die Ausführungsgeschwindigkeit eines Programmes zu steigern.
-\subsection{Von-Neumann Architektur}
-Die von Neumann Architektur ist nach dem Mathematiker John von Neumann (1903-1957) benannt. Er hat 1945 in dem Bericht ''First Draft of a Report on the EDVAC'' das Prinzip erstmals beschrieben.
+\subsection{Von-Neumann-Architektur}
+Die Von-Neumann-Architektur ist nach dem Mathematiker John von Neumann (1903-1957) benannt. Er hat 1945 in dem Bericht ''First Draft of a Report on the EDVAC'' das Prinzip erstmals beschrieben.
 Die Von-Neumann-Architektur besteht grundlegend aus folgenden Komponenten \cite{von1993first} (siehe Abbildung 1):
 \begin{samepage}
 \begin{itemize}
@@ -143,17 +143,9 @@ Die Von-Neumann-Architektur besteht grundlegend aus folgenden Komponenten \cite{
 \end{samepage}
 
 
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=0.60]{Von-Neumann_Architektur}
-\small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
-\label{fig:vonNeumann}}
-\caption{Komponenten der Von-Neumann-Architektur}
-\end{figure}
-
-
-\noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite{TaschenbuchMikroprozessortechnik}.
-Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht selbstständig unterscheiden kann ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Programmierer vornehmen. Außerdem kann mit dieser Archtitektur zu jedem Takt nur jeweils Daten oder Code geladen werden und somit nur ein Befehl ausgeführt werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten welche nacheinander ablaufen.
+\noindent Bevor John von Neumann dieses Architekturprinzip beschrieben hatte, musste für eine bestimmte Aufgabe ein speziell darauf ausgelegter Rechner entworfen und gebaut werden. Mit der Von-Neumann-Architektur war das nicht mehr nötig. Es konnten verschiedene Programme auf dem gleichen Prozessor ausgeführt werden. Diese Funktion gab dem Prinzip den Namen ''programmgesteuerter Universalrechner( Stored-Program Machine)''\cite{TaschenbuchMikroprozessortechnik}.
+Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmcode und Daten im gleichen Speicher. Das führt allerdings auch zu dem Problem, dass die CPU nicht selbstständig unterscheiden kann, ob geladenene Bytes Programmcode oder Daten enthalten. Diese Unterscheidung muss also der Entwickler bzw. Compiler vornehmen. Außerdem kann mit dieser Archtitektur zu jedem Takt nur jeweils Daten oder Code geladen werden. Dieser Umstand erfordert einen speziellen Programmablauf der CPU, den so genannten Von-Neumann Zyklus. Dieser besteht aus den folgenden fünf Schritten, welche nacheinander ablaufen.
+%TODO Programmcode oder Daten
 \begin{enumerate}
 \item Befehl laden 
 \item Befehl dekodieren
@@ -162,9 +154,18 @@ Ein sehr zentrales Prinzip dieser Architektur ist die Speicherung von Programmco
 \item Instruction Pointer (IP) inkrementieren
 \end{enumerate}
 Im ersten Schritt wird aus dem Speicher der abzuarbeitende Befehl in das Befehlsregister geladen. Daraufhin wird im zweiten Schritt der Befehl vom Befehlsdekodierer verarbeitet und die nötigen Steuersignale an die CPU Komponenten weitergeleitet. Dann werden die Operanden, welche für den Befehl benötigt werden, geladen. Im vierten Schritt wird der Befehl schließlich von der ALU ausgeführt. Im letzten Schritt wird der Befehlszähler (Instruction Pointer - IP) inkrementiert, damit er im nächsten Zyklus bereits die Adresse des nächsten auszuführenden Befehls enthält \cite{unikoelnvnz}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.60]{Von-Neumann_Architektur}
+\small Quelle: \url{https://de.wikipedia.org/wiki/Von-Neumann-Architektur#/media/File:Von-Neumann_Architektur.svg
+\label{fig:vonNeumann}}
+\caption{Komponenten der Von-Neumann-Architektur}
+\end{figure}
+
 %TODO http://hki.uni-koeln.de/archive/hki2016/wisem-2011/basisinformationstechnologie-i/rechnertechnologie-i/arbeitsweise-einer-cpu-von-neumannzyklus.html
-\subsection{Harvard Architektur} 
-Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern (siehe Abbildung \ref{fig:harvard}).
+\subsection{Harvard-Architektur} 
+Die Harvard-Architektur ist eine abgewandelte Form der Von-Neumann-Architektur. Der größte Unterschied besteht in der Verwaltung von Code- und Datensegement in seperaten Speichern (siehe Abbildung \ref{fig:harvard}).
 
 \begin{figure}[!htb]
 \centering
@@ -178,10 +179,10 @@ Die Harvard Architektur ist eine abgewandelte Form der Von-Neumann Architektur. 
 
 \noindent Diese Konzeption hat den Vorteil, dass im Gegensatz zur Von-Neumann Architektur Befehle und Daten gleichzeitig geladen werden können. Um diesen Vorteil ausnutzen zu können, benötigt ein Harvard Rechner allerdings auch getrennte Daten und Adressbusse. 
 \par\bigskip
-\noindent In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard Architektur nur schwer möglich. So zeigen sich eine aktuelle CPU dem Entwickler zwar als pure Von-Neumann Maschine, also mit gemeinsamen Code und Datenspeicher (RAM); allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten. Die beiden Architekturprinzipien haben jeweils Vor- und Nachteile, wobei in modernen Prozessoren beide Konzepte verwendet werden um maximale Leistung zu erzielen.
+\noindent In modernen x86 Prozessoren ist eine klare Unterscheidung zwischen Von-Neumann und Harvard-Architektur nur schwer möglich. So zeigen sich eine aktuelle CPU dem Entwickler zwar als pure Von-Neumann Maschine, also mit gemeinsamen Code und Datenspeicher (RAM); allerdings besitzen sie intern einen getrennten Level-1 Cache für Instruktionen und Daten. Die beiden Architekturprinzipien haben jeweils Vor- und Nachteile, wobei in modernen Prozessoren beide Konzepte verwendet werden, um die maximale Leistung zu erzielen.
 \subsection{CISC-Prozessoren}
 %TODO Geschichte?
-Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Assemblersprache ist die hardwarenäheste Methode um Programme für Prozessoren zu schreiben. Sie setzt das genaue Wissen über den Befehlssatz der CPU voraus. Jeder Assemblerbefehl wird in genau einen Maschinenbefehl übersetzt und dann von dem Prozessor ausgeführt. Das macht das Entwickeln in Assemblersprache sehr aufwending. Um Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller immer spezialisiertere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Damit ein Entwickler diese Zwischenschritte nicht eigenständig ausführen musste wurden sie fest in den Prozessor integriert. Ein mehrstufiger Befehl wird von CISC\footnote{CISC = Complex-Instruction-Set-Computer}-Prozessoren in so genannten Mikrocode aufgeteilt welcher dann die einzelnen Schritte ausführt. Beispielsweise beinhaltete der Intel 486 Befehlssatz einen Befehl ''CMPXCHG  $dest,src$''\cite[S.172f]{intel4000}. Dieser vergleicht den Inhalt des Akkumulators\footnote{Der Akkumulator ist ein Register. Mehr zu Registern in Kapitel \ref{sub:register}} mit $dest$. Wenn die beiden Werte gleich sind wird der Akkumulator mit $src$ geladen, andernfalls mit $dest$. An diesem Befehl ist zu erkennen, dass mehrere Zwischenschritte benötigt werden. Erst wird der Akku mit $dest$ verglichen und dann, je nach Ergebnis des Vergleiches, ein neuer Wert in den Akkumulator geladen. Diese Unterschritte werden mittels Microcode beschrieben, welcher fest in den Prozessor integriert ist. Dieses Konzept ermöglichte es, kompaktere Programme in Assemblersprache zu verfassen. So wuchs der Befehlssatz der Prozessoren immer weiter an und wurde komplexer. Entwickler konnten zwar kompakte Programme schreiben, aber mussten für jeden Befehl die genaue Funktion kennen um keinen Fehler im Programmcode zu implementieren. 
+Neben den beiden vorherigen CPU-Architekturen gibt es noch zwei weitere Designphilosophien für die Entwicklung von Prozessoren, welche sich geschichtlich ergeben haben. In den Anfängen der Prozessorentwicklung gab es einige Faktoren, welche berücksichtigt werden mussten. So wurden Prozessoren bis in die 1970'er Jahre oft in Assembler programmiert. Assemblersprache ist die hardwarenäheste Methode, um Programme für Prozessoren zu entwickeln. Sie setzt das genaue Wissen über den Befehlssatz der CPU voraus. Jeder Assemblerbefehl wird in genau einen Maschinenbefehl übersetzt und dann von dem Prozessor ausgeführt. Das macht das Entwickeln in Assemblersprache sehr aufwendig. Um Entwicklern für jeden möglichen Anwendungsfall einen einzelnen Assemblerbefehl zur Verfügung stellen zu können, begannen Prozessorhersteller, immer spezialisiertere Befehle in den Befehlssatz zu integrieren. Diese Befehle beinhalteten oft mehrere Unterschritte, zum Beispiel das Lesen aus dem Speicher und dem Verrechnen zweier Variablen. Damit ein Entwickler diese Zwischenschritte nicht eigenständig ausführen musste, wurden sie fest in den Prozessor integriert. Ein mehrstufiger Befehl wird von CISC\footnote{CISC = Complex-Instruction-Set-Computer}-Prozessoren in so genannte Mikrocodes aufgeteilt, welcher dann die einzelnen Schritte ausführt. Beispielsweise beinhaltete der Intel-486 Befehlssatz einen Befehl ''CMPXCHG  $dest,src$''\cite[S.172f]{intel4000}. Dieser vergleicht den Inhalt des Akkumulators\footnote{Der Akkumulator ist ein Register. Mehr zu Registern in Kapitel \ref{sub:register}} mit $dest$. Wenn die beiden Werte gleich sind, wird der Akkumulator mit $src$ geladen, andernfalls mit $dest$. An diesem Befehl ist zu erkennen, dass mehrere Zwischenschritte benötigt werden. Erst wird der Akku mit $dest$ verglichen und dann, je nach Ergebnis des Vergleiches, ein neuer Wert in den Akkumulator geladen. Diese Unterschritte werden mittels Microcode beschrieben, welcher fest in den Prozessor integriert ist. Dieses Konzept ermöglichte es, kompaktere Programme in Assemblersprache zu verfassen. So wuchs der Befehlssatz der Prozessoren immer weiter an und wurde komplexer. Entwickler konnten zwar kompakte Programme schreiben, mussten aber für jeden Befehl die genaue Funktion kennen, um keinen Fehler im Programmcode zu implementieren. 
 
 %Um solche Befehle ausführen zu können, mussten die komplexen Befehle in mehrere Zwischenschritte aufgeteilt werden, welche dann vom Prozessor nacheinander abgearbeitet wurden. Prozessorhersteller entwickelten deshalb Microcode für den komplexen Befehlssatz, welche einen CISC-Befehl in mehrere Microcode Befehle dekodiert und diese ausführt. Der Befehlsdekodierer nimmt zwar auf einem Prozssor mehr Platz ein, allerdings musste somit nicht mehr oft auf den Befehlsspeicher zugegriffen werden. Durch diesen Prozess wuchs die Befehlssatzgröße stark an und wurde immer komplexer. Solch eine ISA (''Instruction Set Architecture'') wird CISC (''Complex Instruction Set Computer'') genannt.	
 
