@@ -9,109 +9,41 @@
 
 \documentclass{beamer}
 
+\usetheme[progressbar=frametitle]{metropolis}
+\setbeamertemplate{frame numbering}[fraction]
+\useoutertheme{metropolis}
+\useinnertheme{metropolis}
+\usefonttheme{metropolis}
+\usecolortheme{spruce}
+\setbeamercolor{background canvas}{bg=white}
 
 \usepackage[german]{babel}
 \usepackage{german}
-
+\title{Aufbau und Funktionsweise eines Prozessors}
+\author{Marco Vogel}
+\institute{Hochschule Hof}
+\date{\today}
 
 \begin{document}
-\title{Aufbau und Funktionsweise eines Prozessors}   
-\author{Marco Vogel} 
-\date{\today} 
 
-\frame{\titlepage} 
+\begin{frame}
+\titlepage
+\end{frame}
 
-\frame{\frametitle{Inhaltsverzeichnis}\tableofcontents} 
-
-
-\section{Einleitung} 
-\frame{\frametitle{Titel} 
-Die einzelnen Frames sollte einen Titel haben 
-}
-\subsection{Bin\"are Zahlendarstellung}
-\frame{ 
-Denn ohne Titel fehlt ihnen was
-}
-
-
-\section{Abschnitt Nr. 2} 
-\subsection{Listen I}
-\frame{\frametitle{Aufz\"ahlung}
-\begin{itemize}
-\item Einf\"uhrungskurs in \LaTeX  
-\item Kurs 2  
-\item Seminararbeiten und Pr\"asentationen mit \LaTeX 
-\item Die Beamerclass 
-\end{itemize} 
-}
-
-\frame{\frametitle{Aufz\"ahlung mit Pausen}
-\begin{itemize}
-\item  Einf\"uhrungskurs in \LaTeX \pause 
-\item  Kurs 2 \pause 
-\item  Seminararbeiten und Pr\"asentationen mit \LaTeX \pause 
-\item  Die Beamerclass
-\end{itemize} 
-}
-
-\subsection{Listen II}
-\frame{\frametitle{Numerierte Liste}
+\begin{frame}{Gliederung}
 \begin{enumerate}
-\item  Einf\"uhrungskurs in \LaTeX 
-\item  Kurs 2
-\item  Seminararbeiten und Pr\"asentationen mit \LaTeX 
-\item  Die Beamerclass
+\item{Bin\"are Zahlendarstellung}
+\item{Komponenten eines Prozessors}
+\item{Befehlsverarbeitung}
+\item{Logisim}
+\item{Beispiel}
 \end{enumerate}
-}
-\frame{\frametitle{Numerierte Liste mit Pausen}
-\begin{enumerate}
-\item  Einf\"uhrungskurs in \LaTeX \pause 
-\item  Kurs 2 \pause 
-\item  Seminararbeiten und Pr\"asentationen mit \LaTeX \pause 
-\item  Die Beamerclass
-\end{enumerate}
-}
+\end{frame}
 
-\section{Abschnitt Nr.3} 
-\subsection{Tabellen}
-\frame{\frametitle{Tabellen}
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Zeitpunkt} & \textbf{Kursleiter} & \textbf{Titel} \\
-\hline
-WS 04/05 & Sascha Frank &  Erste Schritte mit \LaTeX  \\
-\hline
-SS 05 & Sascha Frank & \LaTeX \ Kursreihe \\
-\hline
-\end{tabular}}
+\begin{frame}{Bin\"are Zahlendarstellung}
+Beispiel: 135d = $\sum\limits_{i=0}^{n-1} a_i * 10^i$
+\end{frame}
 
 
-\frame{\frametitle{Tabellen mit Pause}
-\begin{tabular}{c c c}
-A & B & C \\ 
-\pause 
-1 & 2 & 3 \\  
-\pause 
-A & B & C \\ 
-\end{tabular} }
-
-
-\section{Abschnitt Nr. 4}
-\subsection{Bl\"ocke}
-\frame{\frametitle{Bl\"ocke}
-
-\begin{block}{Blocktitel}
-Blocktext 
-\end{block}
-
-\begin{exampleblock}{Blocktitel}
-Blocktext 
-\end{exampleblock}
-
-
-\begin{alertblock}{Blocktitel}
-Blocktext 
-\end{alertblock}
-}
 \end{document}
 
