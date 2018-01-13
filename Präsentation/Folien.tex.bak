@@ -58,14 +58,7 @@ Beispiel: 135d = $\sum\limits_{i=0}^{n-1} a_i * 10^i$
 \par\smallskip
 $Z=1*10^2+3*10^1+5*10^0 = 100+30+5 = 135$
 \par\smallskip\pause
-Dezimal zu Bin\"ar: \centering $135d = 1*2^7+0*2^\begin{figure}[!htb]
-\centering
-\includegraphics[scale=0.30]{flipflop}
-\caption{Schaltnetz D-Flip-Flop}
-\centering
-\small Quelle: Eigene Darstellung
-\label{fig:flipflop}
-\end{figure}6+0*2^5+0*2^4+0*2^3+*2^2+1*2^1+1*2^0$\newline
+Dezimal zu Bin\"ar: \centering $135d = 1*2^7+0*2^6+0*2^5+0*2^4+0*2^3+*2^2+1*2^1+1*2^0$\newline
 \end{frame}
 
 
@@ -90,16 +83,10 @@ $  = 10000111b$\centering
 \end{frame}
 
 \subsection{Steuerwerk}
-\begin{fram\begin{figure}[!htb]
-\centering
-\includegraphics[scale=0.30]{flipflop}
-\caption{Schaltnetz D-Flip-Flop}
-\centering
-\small Quelle: Eigene Darstellung
-\label{fig:flipflop}
-\end{figure}e}{Steuerwerk}
+\begin{frame}{Steuerwerk}
 
 \end{frame}
+
 
 
 \subsection{Rechenwerk}
@@ -110,16 +97,9 @@ $  = 10000111b$\centering
 
 \subsection{Registerwerk}
 \begin{frame}{Registerwerk}
-
+user/new
 \end{frame}
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=0.30]{flipflop}
-\caption{Schaltnetz D-Flip-Flop}
-\centering
-\small Quelle: Eigene Darstellung
-\label{fig:flipflop}
-\end{figure}
+
 \subsection{Bussystem}
 \begin{frame}{Bussystem}
 
@@ -139,7 +119,15 @@ $  = 10000111b$\centering
 \section{Logisim}
 \begin{frame}[t]{Logisim}
 Open-Source Tool zum Simulieren von Schaltkreisen
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.30]{flipflop}
+\end{figure}
 \end{frame}
 
 
+\section{Praxis}
+\begin{frame}{Logisim}
+Aufbau eines Prozessors in Logisim
+\end{frame}
 \end{document}
