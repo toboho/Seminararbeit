@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
  
 \usetheme{metropolis}
 \setbeamertemplate{frame numbering}[fraction]
@@ -27,21 +27,17 @@
 \titlepage
 \end{frame}
 
-\begin{frame}{Gliederung}
-\begin{enumerate}
-\item{Bin\"are Zahlendarstellung}
-\item{Komponenten eines Prozessors}
-\item{Befehlsverarbeitung}
-\item{Logisim}
-\item{Beispiel}
-\end{enumerate}
-\end{frame}
-
 \begin{frame}
 \frametitle{Inhaltsverzeichnis}
 \tableofcontents
 \end{frame}
 
+
+
+
+
+%-------------------------------------------------------------------------------
+\iffalse
 \section{Bin\"are Zahlendarstellung}
 \begin{frame}[t]{Bin\"are Zahlendarstellung}
 Beispiel: 135d = $\sum\limits_{i=0}^{n-1} a_i * 10^i$
@@ -62,6 +58,12 @@ $Z=1*10^2+3*10^1+5*10^0 = 100+30+5 = 135$
 Dezimal zu Bin\"ar:\centering\\ $135d = \textbf{1}*2^7+\textbf{0}*2^6+\textbf{0}*2^5+\textbf{0}*2^4+\textbf{0}*2^3+\textbf{1}*2^2+\textbf{1}*2^1+\textbf{1}*2^0$\newline \par\smallskip\pause
 $  = 10000111b$\centering
 \end{frame}
+
+\fi
+%-------------------------------------------------------------------------------
+
+
+
 
 \section{Komponenten eines Prozessors}
 \begin{frame}{Komponenten eines Prozessors}
@@ -88,7 +90,6 @@ $  = 10000111b$\centering
 
 \subsection{Registerwerk}
 \begin{frame}{Registerwerk}
-user/new
 \end{frame}
 
 \subsection{Bussystem}
@@ -107,18 +108,54 @@ user/new
 \end{enumerate}
 \end{frame}
 
-\section{Logisim}
-\begin{frame}[t]{Logisim}
-Open-Source Tool zum Simulieren von Schaltkreisen
-\begin{figure}[!htb]
+\section{Planung eines Prozessors}
+
+\begin{frame}[t]{Planung eines Prozessors}
+\begin{enumerate}
+\item{Bestimmung der zu verwendenden Wortl\"ange}
+\end{enumerate}
+32 Bit : 00000000000000000000000000000000
+\centering 
+\pause
+\begin{table}[]
 \centering
-\includegraphics[scale=0.30]{flipflop}
-\end{figure}
+\begin{tabular}{|c|c|c|}
+\hline
+00000000 & 00000000 & 0000000000000000 \\ \hline
+Opcode   & Argument & Value            \\ \hline
+\end{tabular}
+\end{table}
+\smallskip
+\pause
+\centering
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+00000000 & 00000000 & 00000000 & 00000000 \\ \hline
+Opcode   & Argument & Ziel     & Quelle   \\ \hline
+\end{tabular}
+\end{table}
 \end{frame}
 
+\begin{frame}[t]{2. Befehlssatz erstellen}\pause
+Befehlsarten:
+\bigskip
+\center
+\begin{enumerate}
+\item{Transferbefehle  (MOV,XCHG)}
+\item{ALU-Befehle \ \ \ (ADD,AND)}
+\item{Sprungbefehle  \  (JUMP,CALL)}
+\item{Stack-Befehle \ (PUSH,POP)}
+\end{enumerate}
+\end{frame}
 
 \section{Praxis}
 \begin{frame}{Logisim}
 Aufbau eines Prozessors in Logisim
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.30]{flipflop}
+\end{figure}
 \end{frame}
 \end{document}
