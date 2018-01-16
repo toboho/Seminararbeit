@@ -38,7 +38,6 @@
 
 %-------------------------------------------------------------------------------
 \iffalse
-\section{Bin\"are Zahlendarstellung}
 \begin{frame}[t]{Bin\"are Zahlendarstellung}
 Beispiel: 135d = $\sum\limits_{i=0}^{n-1} a_i * 10^i$
 \newline
@@ -90,7 +89,7 @@ $  = 10000111b$\centering
 \begin{frame}[t]{Rechenwerk}
 - H\"aufig ALU genannt : Arithmetisch Logische Einheit \par \bigskip
 Arithmetische Operationen: ADD, SUB, CMP, ...\newline
-Logische Operationen: \ \ \ \ \ \ OR, AND, LSL, LSR, ...
+Logische Operationen: \ \ \ \ \ \ OR, AND, LSL, LSR, ROR, ROL, ...
 Beispiel: AND 
 \pause
 \begin{table}[]
@@ -107,12 +106,28 @@ Ergebnis   & 0000\textbf{1}0\textbf{1}0 \\ \hline
 
 
 \subsection{Registerwerk}
-\begin{frame}{Registerwerk}
+\begin{frame}[t]{Registerwerk}
+Register: Schnellste Speichereinheit eines Computers.
+\par\smallskip
+Arten:
+\begin{itemize}
+\item Universalregister
+\begin{itemize}
+\item Inhalt ver\"anderbar
+\item Sehr geringe Speicherkapazit\"at
+\smallskip
+\end{itemize}
+\item Spezialregister
+\begin{itemize}
+\item Interne Verwendung
+\item Stackpointer, Instructionpointer, Flags, uvm.
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 \subsection{Bussystem}
-\begin{frame}{Bussystem}
-
+\begin{frame}[t]{Bussystem}
+Verbindet alle Komponenten 
 \end{frame}
 
 \section{Befehlsverarbeitung}
