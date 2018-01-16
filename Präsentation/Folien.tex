@@ -77,14 +77,32 @@ $  = 10000111b$\centering
 
 \subsection{Steuerwerk}
 \begin{frame}{Steuerwerk}
-
+\begin{enumerate}
+\item{Steuert die Abl\"aufe in einem Prozessor}
+\item{Dekodiert die Befehle aus dem Speicher}
+\item{Ist an alle internen Kommunikationsbusse angeschlossen}
+\end{enumerate}
 \end{frame}
 
 
 
 \subsection{Rechenwerk}
-\begin{frame}{Rechenwerk}
-
+\begin{frame}[t]{Rechenwerk}
+- H\"aufig ALU genannt : Arithmetisch Logische Einheit \par \bigskip
+Arithmetische Operationen: ADD, SUB, CMP, ...\newline
+Logische Operationen: \ \ \ \ \ \ OR, AND, LSL, LSR, ...
+Beispiel: AND 
+\pause
+\begin{table}[]
+\begin{tabular}{|c|c|}
+\hline
+1. Operand & 0101\textbf{1}0\textbf{1}0 \\ \hline
+2. Operand & 1000\textbf{1}0\textbf{1}0 \\ \hline\hline
+Ergebnis   & 0000\textbf{1}0\textbf{1}0 \\ \hline
+\end{tabular}
+\centering
+\caption{Beispiel AND-Verkn\"upfung}
+\end{table}
 \end{frame}
 
 
