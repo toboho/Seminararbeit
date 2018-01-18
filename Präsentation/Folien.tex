@@ -76,11 +76,15 @@ $  = 10000111b$\centering
 
 \subsection{Steuerwerk}
 \begin{frame}{Steuerwerk}
-\begin{enumerate}
+\begin{itemize}
+
+
 \item{Steuert die Abl\"aufe in einem Prozessor}
+\bigskip
 \item{Dekodiert die Befehle aus dem Speicher}
+\bigskip
 \item{Ist an alle internen Kommunikationsbusse angeschlossen}
-\end{enumerate}
+\end{itemize}
 \end{frame}
 
 
@@ -88,10 +92,10 @@ $  = 10000111b$\centering
 \subsection{Rechenwerk}
 \begin{frame}[t]{Rechenwerk}
 - H\"aufig ALU genannt : Arithmetisch Logische Einheit \par \bigskip
-Arithmetische Operationen: ADD, SUB, CMP, ...\newline
-Logische Operationen: \ \ \ \ \ \ OR, AND, LSL, LSR, ROR, ROL, ...
+Arithmetische Operationen: ADD, SUB, CMP\newline\par
+Logische Operationen: \ \ \ \ \ OR, AND, LSL, LSR, ROR, ROL \par
+\pause\bigskip
 Beispiel: AND 
-\pause
 \begin{table}[]
 \begin{tabular}{|c|c|}
 \hline
@@ -126,26 +130,22 @@ Arten:
 \end{frame}
 
 \subsection{Bussystem}
-\begin{frame}[t]{Bussystem}
-Verbindet alle Komponenten 
+\begin{frame}{Bussystem}
+\centering
+\begin{itemize}
+\item Adressbus
+\bigskip
+\item Datenbus
+\bigskip
+\item Steuerbus
+\end{itemize}
 \end{frame}
-
-\section{Befehlsverarbeitung}
-\begin{frame}{Von-Neumann-Zyklus}
-\begin{enumerate}\pause
-\item{Befehlsabruf}\pause
-\item{Dekodierung}\pause
-\item{Operandenabruf}\pause
-\item{Befehlsausf\"uhrung}\pause
-\item{Zur\"uckschreiben des Ergebnisses}
-\end{enumerate}
-\end{frame}
-
+\iffalse
 \section{Planung eines Prozessors}
 
 \begin{frame}[t]{Planung eines Prozessors}
 \begin{enumerate}
-\item{Bestimmung der zu verwendenden Wortl\"ange}
+\item{Bestimmung der Wortl\"ange}
 \end{enumerate}
 32 Bit : 00000000000000000000000000000000
 \centering 
@@ -171,9 +171,13 @@ Opcode   & Argument & Ziel     & Quelle   \\ \hline
 \end{table}
 \end{frame}
 
-\begin{frame}[t]{2. Befehlssatz erstellen}\pause
+
+\fi
+
+\section{Befehlssatz}
+\begin{frame}[t]{Befehlssatz}
+- Liste aller ausf\"uhrbaren Befehle\newline\par
 Befehlsarten:
-\bigskip
 \center
 \begin{enumerate}
 \item{Transferbefehle  (MOV,XCHG)}
@@ -183,7 +187,9 @@ Befehlsarten:
 \end{enumerate}
 \end{frame}
 
-\section{Praxis}
+
+
+\section{Beispiel}
 \begin{frame}{Logisim}
 Aufbau eines Prozessors in Logisim
 \begin{figure}[!htb]
