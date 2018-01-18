@@ -1,12 +1,3 @@
-% Dieser Text ist urheberrechtlich geschützt
-% Er stellt einen Auszug eines von mir erstellten Referates dar
-% und darf nicht gewerblich genutzt werden
-% die private bzw. Studiums bezogen Nutzung ist frei
-% Mai 2005 
-% Autor: Sascha Frank 
-% Universität Freiburg 
-% www.informatik.uni-freiburg.de/~frank/
-
 \documentclass{beamer}
  
 \usetheme{metropolis}
@@ -36,22 +27,17 @@
 \titlepage
 \end{frame}
 
-\begin{frame}{Gliederung}
-\begin{enumerate}
-\item{Bin\"are Zahlendarstellung}
-\item{Komponenten eines Prozessors}
-\item{Befehlsverarbeitung}
-\item{Logisim}
-\item{Beispiel}
-\end{enumerate}
-\end{frame}
-
 \begin{frame}
 \frametitle{Inhaltsverzeichnis}
 \tableofcontents
 \end{frame}
 
-\section{Bin\"are Zahlendarstellung}
+
+
+
+
+%-------------------------------------------------------------------------------
+\iffalse
 \begin{frame}[t]{Bin\"are Zahlendarstellung}
 Beispiel: 135d = $\sum\limits_{i=0}^{n-1} a_i * 10^i$
 \newline
@@ -72,6 +58,12 @@ Dezimal zu Bin\"ar:\centering\\ $135d = \textbf{1}*2^7+\textbf{0}*2^6+\textbf{0}
 $  = 10000111b$\centering
 \end{frame}
 
+\fi
+%-------------------------------------------------------------------------------
+
+
+
+
 \section{Komponenten eines Prozessors}
 \begin{frame}{Komponenten eines Prozessors}
 \begin{enumerate}
@@ -84,25 +76,58 @@ $  = 10000111b$\centering
 
 \subsection{Steuerwerk}
 \begin{frame}{Steuerwerk}
-
+\begin{enumerate}
+\item{Steuert die Abl\"aufe in einem Prozessor}
+\item{Dekodiert die Befehle aus dem Speicher}
+\item{Ist an alle internen Kommunikationsbusse angeschlossen}
+\end{enumerate}
 \end{frame}
 
 
 
 \subsection{Rechenwerk}
-\begin{frame}{Rechenwerk}
-
+\begin{frame}[t]{Rechenwerk}
+- H\"aufig ALU genannt : Arithmetisch Logische Einheit \par \bigskip
+Arithmetische Operationen: ADD, SUB, CMP, ...\newline
+Logische Operationen: \ \ \ \ \ \ OR, AND, LSL, LSR, ROR, ROL, ...
+Beispiel: AND 
+\pause
+\begin{table}[]
+\begin{tabular}{|c|c|}
+\hline
+1. Operand & 0101\textbf{1}0\textbf{1}0 \\ \hline
+2. Operand & 1000\textbf{1}0\textbf{1}0 \\ \hline\hline
+Ergebnis   & 0000\textbf{1}0\textbf{1}0 \\ \hline
+\end{tabular}
+\centering
+\caption{Beispiel AND-Verkn\"upfung}
+\end{table}
 \end{frame}
 
 
 \subsection{Registerwerk}
-\begin{frame}{Registerwerk}
-user/new
+\begin{frame}[t]{Registerwerk}
+Register: Schnellste Speichereinheit eines Computers.
+\par\smallskip
+Arten:
+\begin{itemize}
+\item Universalregister
+\begin{itemize}
+\item Inhalt ver\"anderbar
+\item Sehr geringe Speicherkapazit\"at
+\smallskip
+\end{itemize}
+\item Spezialregister
+\begin{itemize}
+\item Interne Verwendung
+\item Stackpointer, Instructionpointer, Flags, uvm.
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 \subsection{Bussystem}
-\begin{frame}{Bussystem}
-
+\begin{frame}[t]{Bussystem}
+Verbindet alle Komponenten 
 \end{frame}
 
 \section{Befehlsverarbeitung}
@@ -116,18 +141,54 @@ user/new
 \end{enumerate}
 \end{frame}
 
-\section{Logisim}
-\begin{frame}[t]{Logisim}
-Open-Source Tool zum Simulieren von Schaltkreisen
-\begin{figure}[!htb]
+\section{Planung eines Prozessors}
+
+\begin{frame}[t]{Planung eines Prozessors}
+\begin{enumerate}
+\item{Bestimmung der zu verwendenden Wortl\"ange}
+\end{enumerate}
+32 Bit : 00000000000000000000000000000000
+\centering 
+\pause
+\begin{table}[]
 \centering
-\includegraphics[scale=0.30]{flipflop}
-\end{figure}
+\begin{tabular}{|c|c|c|}
+\hline
+00000000 & 00000000 & 0000000000000000 \\ \hline
+Opcode   & Argument & Value            \\ \hline
+\end{tabular}
+\end{table}
+\smallskip
+\pause
+\centering
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+00000000 & 00000000 & 00000000 & 00000000 \\ \hline
+Opcode   & Argument & Ziel     & Quelle   \\ \hline
+\end{tabular}
+\end{table}
 \end{frame}
 
+\begin{frame}[t]{2. Befehlssatz erstellen}\pause
+Befehlsarten:
+\bigskip
+\center
+\begin{enumerate}
+\item{Transferbefehle  (MOV,XCHG)}
+\item{ALU-Befehle \ \ \ (ADD,AND)}
+\item{Sprungbefehle  \  (JUMP,CALL)}
+\item{Stack-Befehle \ (PUSH,POP)}
+\end{enumerate}
+\end{frame}
 
 \section{Praxis}
 \begin{frame}{Logisim}
 Aufbau eines Prozessors in Logisim
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.30]{flipflop}
+\end{figure}
 \end{frame}
 \end{document}
